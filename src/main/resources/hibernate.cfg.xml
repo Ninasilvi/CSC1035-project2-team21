@@ -16,6 +16,8 @@
 
         <mapping class="csc1035.project2.Module" /> <!--- Add a new mapping class for a new table in the database -->
         <mapping class="csc1035.project2.Student" />
+        <mapping class="csc1035.project2.Staff" />
 
     </session-factory>
+
 </hibernate-configuration>
