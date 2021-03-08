@@ -27,8 +27,8 @@ public class Staff {
         return staffID;
     }
 
-    public void setStaffID(int studentID) {
-        this.staffID = studentID;
+    public void setStaffID(int staffID) {
+        this.staffID = staffID;
     }
 
     public String getFirstName() {
