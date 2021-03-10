@@ -9,40 +9,40 @@ public class Rooms {
 
     @Id
     @Column(updatable = false, nullable = false)
-    private String roomNo;
+    private String roomNumber;
 
     @Column
-    private String roomType;
+    private String type;
 
     @Column
     private int maxCapacity;
 
     @Column
-    private int socialDistancingCapacity;
+    private int socialDistCapacity;
 
-    public Rooms(String roomNo, String roomType, int maxCapacity, int socialDistancingCapacity) {
-        this.roomNo = roomNo;
-        this.roomType = roomType;
+    public Rooms(String roomNumber, String type, int maxCapacity, int socialDistCapacity) {
+        this.roomNumber = roomNumber;
+        this.type = type;
         this.maxCapacity = maxCapacity;
-        this.socialDistancingCapacity = socialDistancingCapacity;
+        this.socialDistCapacity = socialDistCapacity;
     }
 
     public Rooms() {}
 
-    public String getRoomNo() {
-        return roomNo;
+    public String getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setRoomNo(String roomNo) {
-        this.roomNo = roomNo;
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
-    public String getRoomType() {
-        return roomType;
+    public String getType() {
+        return type;
     }
 
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getMaxCapacity() {
@@ -53,11 +53,11 @@ public class Rooms {
         this.maxCapacity = maxCapacity;
     }
 
-    public int getSocialDistancingCapacity() {
-        return socialDistancingCapacity;
+    public int getSocialDistCapacity() {
+        return socialDistCapacity;
     }
 
-    public void setSocialDistancingCapacity(int socialDistancingCapacity) {
-        this.socialDistancingCapacity = socialDistancingCapacity;
+    public void setSocialDistCapacity(int socialDistCapacity) {
+        this.socialDistCapacity = socialDistCapacity;
     }
 }
