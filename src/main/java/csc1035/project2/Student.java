@@ -1,7 +1,10 @@
 package csc1035.project2;
+import net.bytebuddy.build.ToStringPlugin;
+
 import javax.persistence.*;
 
 @Table(name = "Student")
+@javax.persistence.Entity(name = "Student")
 public class Student {
 
     @Id
@@ -45,5 +48,10 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return studentID + " " + firstName + " " + lastName;
     }
 }
