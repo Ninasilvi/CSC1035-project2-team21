@@ -117,7 +117,16 @@ public class Timetable {
 
     // It has a list of module requirements
     public void listOfModuleReq() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
 
+        List<ModuleRequirements> modulesReq = se.createQuery("FROM ModuleRequirements").list();
+
+        se.getTransaction().commit();
+
+        for (ModuleRequirements item : modulesReq) {
+            System.out.println(item.toString());
+        }
     }
 
     // Allows the admin to create a timetable (and book relevant rooms) for the school
