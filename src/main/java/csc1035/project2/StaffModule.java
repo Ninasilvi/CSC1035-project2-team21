@@ -2,8 +2,7 @@ package csc1035.project2;
 
 import javax.persistence.*;
 
-@Table(name = "StaffModule")
-@javax.persistence.Entity(name = "StaffModule")
+@Entity(name = "StaffModule")
 public class StaffModule {
 
     @Id

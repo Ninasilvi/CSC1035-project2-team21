@@ -1,11 +1,8 @@
 package csc1035.project2;
+    
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Table(name = "Rooms")
-@javax.persistence.Entity(name = "Rooms")
+@Entity(name = "Rooms")
 public class Rooms {
 
     @Id

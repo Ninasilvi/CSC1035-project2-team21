@@ -2,8 +2,7 @@ package csc1035.project2;
 
 import javax.persistence.*;
 
-@Table(name = "ModuleRequirements")
-@javax.persistence.Entity(name = "ModuleRequirements")
+@Entity(name = "ModuleRequirements")
 public class ModuleRequirements {
 
     @Id
