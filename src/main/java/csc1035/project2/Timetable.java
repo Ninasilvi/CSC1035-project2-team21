@@ -127,6 +127,7 @@ public class Timetable {
         for (ModuleRequirements item : modulesReq) {
             System.out.println(item.toString());
         }
+        se.close();
     }
 
     // Allows the admin to create a timetable (and book relevant rooms) for the school
