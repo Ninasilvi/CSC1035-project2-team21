@@ -41,7 +41,6 @@ public class Timetable {
 
     // It has a list of Students that take a Module
     public void listOfStudents() {
-
         Scanner s = new Scanner(System.in);
         Session se = HibernateUtil.getSessionFactory().openSession();
 
@@ -80,7 +79,40 @@ public class Timetable {
 
     // It has a list of staff that teach a module
     public void listOfStaff() {
+        Scanner s = new Scanner(System.in);
+        Session se = HibernateUtil.getSessionFactory().openSession();
 
+        se.beginTransaction();
+
+        List<Module> modules = se.createQuery("FROM Module").list();
+
+        se.getTransaction().commit();
+
+        // Print results
+        System.out.println("Select one Module:");
+        int i = 1;
+        for (Module item : modules) {
+            System.out.println(i + " - " + item);
+            i += 1;
+        }
+
+        int choice = s.nextInt();
+
+        String ModuleID = "'" + modules.get(choice-1).getModuleID() + "'";
+
+        se.beginTransaction();
+
+        String hql = "FROM Staff S " +
+                "WHERE S.staffID IN (SELECT SM.staffID FROM StaffModule SM WHERE SM.moduleID = " + ModuleID + ")";
+        List<Staff> staff = se.createQuery(hql).list();
+        se.getTransaction().commit();
+
+        // Print results
+        for(i = 0; i < staff.size(); i++) {
+            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " + staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
+        }
+        System.out.println("");
+        se.close();
     }
 
     // It has a list of module requirements
