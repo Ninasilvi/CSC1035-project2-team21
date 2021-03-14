@@ -16,5 +16,6 @@ public class RoomBooking {
         for (Rooms item : rooms) {
             System.out.println(item.toString());
         }
+        se.close();
     }
 }
