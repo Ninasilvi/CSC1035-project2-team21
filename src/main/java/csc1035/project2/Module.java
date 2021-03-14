@@ -2,6 +2,7 @@ package csc1035.project2;
 import javax.persistence.*;
 
 @Table(name = "Module")
+@javax.persistence.Entity(name = "Module")
 public class Module {
 
     @Id
@@ -57,5 +58,10 @@ public class Module {
 
     public void setWeeks(int weeks) {
         this.weeks = weeks;
+    }
+
+    @Override
+    public String toString() {
+        return moduleID + " " + moduleName  + " " + credits + " " + weeks;
     }
 }
