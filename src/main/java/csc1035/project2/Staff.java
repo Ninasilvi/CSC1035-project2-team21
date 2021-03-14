@@ -2,11 +2,12 @@ package csc1035.project2;
 import javax.persistence.*;
 
 @Table(name = "Staff")
+@javax.persistence.Entity(name = "Staff")
 public class Staff {
 
     @Id
     @Column(updatable = false, nullable = false)
-    private int staffID;
+    private String staffID;
 
     @Column
     private String firstName;
@@ -15,7 +16,7 @@ public class Staff {
     private String lastName;
 
 
-    public Staff(int staffID, String firstName, String lastName) {
+    public Staff(String staffID, String firstName, String lastName) {
         this.staffID = staffID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,11 +24,11 @@ public class Staff {
 
     public Staff() {}
 
-    public int getStaffID() {
+    public String getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(int staffID) {
+    public void setStaffID(String staffID) {
         this.staffID = staffID;
     }
 
