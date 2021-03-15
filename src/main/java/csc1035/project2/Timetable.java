@@ -10,33 +10,7 @@ import java.util.Scanner;
 public class Timetable {
     public static void main(String[] args) {
 
-        Scanner s = new Scanner(System.in);
-        Timetable t = new Timetable();
 
-        while(true) {
-            t.printMenu();
-            int choice = s.nextInt();
-
-            switch (choice) {
-                case 1:
-                    t.listOfStudents();
-                    break;
-                case 2:
-                    t.listOfStaff();
-                    break;
-                case 3:
-                    t.listOfModuleReq();
-                    break;
-                case 4:
-                    t.allowCreateTimetable();
-                    break;
-                case 5:
-                    t.producingTimetable();
-                    break;
-                case 6:
-                    return;
-            }
-        }
     }
 
     // It has a list of Students that take a Module
@@ -140,14 +114,4 @@ public class Timetable {
 
     }
 
-    // Print Menu
-    public void printMenu() {
-        System.out.println("\n Enter an Option [1-6]");
-        System.out.println("1 - List Of Students");
-        System.out.println("2 - List of Staff");
-        System.out.println("3 - List of Module Requirements");
-        System.out.println("4 - Allow Create Timetable");
-        System.out.println("5 - Producing Timetable");
-        System.out.println("6 - Exit \n");
-    }
 }
