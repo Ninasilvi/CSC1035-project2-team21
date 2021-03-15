@@ -4,17 +4,18 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SetUpDatabase {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         SetUpRooms();
         SetUpModules();
         SetUpStudents();
         SetUpStaff();
+        SetUpModReq();
     }
 
     public static void SetUpRooms(){
@@ -139,6 +140,48 @@ public class SetUpDatabase {
 
             for (Staff s: staff) {
                 se.persist(s);
+            }
+
+            se.getTransaction().commit();
+
+        } catch (HibernateException e) {
+            if (se != null) se.getTransaction().rollback();
+            e.printStackTrace();
+
+        } finally {
+            assert se != null;
+            se.close();
+        }
+    }
+
+    public static void SetUpModReq() throws ParseException {
+        Session se = null;
+
+        List<ModuleRequirements> moduleRequirements = new ArrayList<>();
+        InputStream stream = SetUpDatabase.class.getClassLoader().getResourceAsStream("module_requirements.csv");
+        Scanner sc = new Scanner(stream);
+
+        sc.nextLine();
+        while (sc.hasNextLine()) {
+
+            String[] line = sc.nextLine().split(",");
+
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+
+            String dateInString = line[1];
+
+            Date date = format.parse(dateInString);
+
+            moduleRequirements.add(new ModuleRequirements(line[0], date, Integer.parseInt(line[2]),
+                    Integer.parseInt(line[3]), Integer.parseInt(line[4]), Integer.parseInt(line[5])));
+        }
+
+        try {
+            se = HibernateUtil.getSessionFactory().openSession();
+            se.beginTransaction();
+
+            for (ModuleRequirements m: moduleRequirements) {
+                se.persist(m);
             }
 
             se.getTransaction().commit();
