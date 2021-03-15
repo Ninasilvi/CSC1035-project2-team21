@@ -13,6 +13,7 @@ public class SetUpDatabase {
     public static void main(String[] args) {
         SetUpRooms();
         SetUpModules();
+        SetUpStudents();
     }
 
     public static void SetUpRooms(){
@@ -69,6 +70,40 @@ public class SetUpDatabase {
 
             for (Module m: modules) {
                 se.persist(m);
+            }
+
+            se.getTransaction().commit();
+
+        } catch (HibernateException e) {
+            if (se != null) se.getTransaction().rollback();
+            e.printStackTrace();
+
+        } finally {
+            assert se != null;
+            se.close();
+        }
+    }
+
+    public static void SetUpStudents(){
+        Session se = null;
+
+        List<Student> students = new ArrayList<>();
+        InputStream stream = SetUpDatabase.class.getClassLoader().getResourceAsStream("students.csv");
+        Scanner sc = new Scanner(stream);
+
+        sc.nextLine();
+        while (sc.hasNextLine()) {
+
+            String[] line = sc.nextLine().split(",");
+            students.add(new Student(Integer.parseInt(line[0]), line[1], line[2]));
+        }
+
+        try {
+            se = HibernateUtil.getSessionFactory().openSession();
+            se.beginTransaction();
+
+            for (Student s: students) {
+                se.persist(s);
             }
 
             se.getTransaction().commit();
