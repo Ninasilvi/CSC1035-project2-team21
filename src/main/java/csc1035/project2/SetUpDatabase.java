@@ -14,6 +14,7 @@ public class SetUpDatabase {
         SetUpRooms();
         SetUpModules();
         SetUpStudents();
+        SetUpStaff();
     }
 
     public static void SetUpRooms(){
@@ -103,6 +104,40 @@ public class SetUpDatabase {
             se.beginTransaction();
 
             for (Student s: students) {
+                se.persist(s);
+            }
+
+            se.getTransaction().commit();
+
+        } catch (HibernateException e) {
+            if (se != null) se.getTransaction().rollback();
+            e.printStackTrace();
+
+        } finally {
+            assert se != null;
+            se.close();
+        }
+    }
+
+    public static void SetUpStaff(){
+        Session se = null;
+
+        List<Staff> staff = new ArrayList<>();
+        InputStream stream = SetUpDatabase.class.getClassLoader().getResourceAsStream("staff.csv");
+        Scanner sc = new Scanner(stream);
+
+        sc.nextLine();
+        while (sc.hasNextLine()) {
+
+            String[] line = sc.nextLine().split(",");
+            staff.add(new Staff(line[0], line[1], line[2]));
+        }
+
+        try {
+            se = HibernateUtil.getSessionFactory().openSession();
+            se.beginTransaction();
+
+            for (Staff s: staff) {
                 se.persist(s);
             }
 
