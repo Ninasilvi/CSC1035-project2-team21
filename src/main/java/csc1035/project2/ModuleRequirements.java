@@ -1,6 +1,7 @@
 package csc1035.project2;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name = "ModuleRequirements")
 public class ModuleRequirements {
@@ -10,7 +11,7 @@ public class ModuleRequirements {
     private String moduleID;
 
     @Column
-    private String weekCommencing;
+    private Date weekCommencing;
 
     @Column
     private int lecturesPerWeek;
@@ -27,7 +28,7 @@ public class ModuleRequirements {
     public ModuleRequirements() {}
 
 
-    public ModuleRequirements(String moduleID, String weekCommencing, int lecturesPerWeek, int practicalsPerWeek, int lectureLength, int practicalLength){
+    public ModuleRequirements(String moduleID, Date weekCommencing, int lecturesPerWeek, int practicalsPerWeek, int lectureLength, int practicalLength){
         this.moduleID = moduleID;
         this.weekCommencing = weekCommencing;
         this.lecturesPerWeek = lecturesPerWeek;
@@ -44,10 +45,10 @@ public class ModuleRequirements {
     public void setModuleID(String moduleID){
         this.moduleID = moduleID;
     }
-    public String getWeekCommencing(){
+    public Date getWeekCommencing(){
         return weekCommencing;
     }
-    public void setWeekCommencing(String weekCommencing){
+    public void setWeekCommencing(Date weekCommencing){
         this.weekCommencing = weekCommencing;
     }
     public int getLecturesPerWeek(){
