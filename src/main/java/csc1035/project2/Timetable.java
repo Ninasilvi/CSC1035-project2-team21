@@ -14,40 +14,20 @@ public class Timetable {
     }
 
     // It has a list of Students that take a Module
-    public void listOfStudents() {
-        Scanner s = new Scanner(System.in);
-        Session se = HibernateUtil.getSessionFactory().openSession();
-
-        se.beginTransaction();
-
-        List<Module> modules = se.createQuery("FROM Module").list();
-
-        se.getTransaction().commit();
-
-        // Print results
-        System.out.println("Select one Module:");
-        int i = 1;
-        for (Module item : modules) {
-            System.out.println(i + " - " + item);
-            i += 1;
-        }
-
-        int choice = s.nextInt();
-
-        String ModuleID = "'" + modules.get(choice-1).getModuleID() + "'";
-
+    public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
 
         String hql = "FROM Student S " +
-                "WHERE S.studentID IN (SELECT SM.studentID FROM StudentModule SM WHERE SM.moduleID = " + ModuleID + ")";
+                "WHERE S.studentID IN (SELECT SM.studentID FROM StudentModule SM WHERE SM.moduleID = " + moduleID + ")";
         List<Student> students = se.createQuery(hql).list();
         se.getTransaction().commit();
 
-        // Print results
-        for(i = 0; i < students.size(); i++) {
-            System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " + students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
+        // Print results#
+        for(int i = 0; i < students.size(); i++) {
+            System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " +
+                    students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
         }
-        System.out.println("");
+        System.out.println("\n");
         se.close();
     }
 
@@ -83,7 +63,8 @@ public class Timetable {
 
         // Print results
         for(i = 0; i < staff.size(); i++) {
-            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " + staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
+            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " +
+                    staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
         }
         System.out.println("");
         se.close();
