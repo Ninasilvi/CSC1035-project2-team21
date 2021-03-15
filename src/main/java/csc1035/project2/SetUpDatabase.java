@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class SetUpDatabase {
 
     public static void main(String[] args) {
         SetUpRooms();
+        SetUpModules();
     }
 
     public static void SetUpRooms(){
@@ -35,6 +35,40 @@ public class SetUpDatabase {
 
             for (Rooms r: rooms) {
                 se.persist(r);
+            }
+
+            se.getTransaction().commit();
+
+        } catch (HibernateException e) {
+            if (se != null) se.getTransaction().rollback();
+            e.printStackTrace();
+
+        } finally {
+            assert se != null;
+            se.close();
+        }
+    }
+
+    public static void SetUpModules(){
+        Session se = null;
+
+        List<Module> modules = new ArrayList<>();
+        InputStream stream = SetUpDatabase.class.getClassLoader().getResourceAsStream("modules.csv");
+        Scanner sc = new Scanner(stream);
+
+        sc.nextLine();
+        while (sc.hasNextLine()) {
+
+            String[] line = sc.nextLine().split(",");
+            modules.add(new Module(line[0], line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+        }
+
+        try {
+            se = HibernateUtil.getSessionFactory().openSession();
+            se.beginTransaction();
+
+            for (Module m: modules) {
+                se.persist(m);
             }
 
             se.getTransaction().commit();
