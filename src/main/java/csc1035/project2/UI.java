@@ -9,6 +9,8 @@ public class UI {
 
     static Scanner s = new Scanner(System.in);
     static Timetable t = new Timetable();
+    static RoomBooking r = new RoomBooking();
+    static InputCheck ic = new InputCheck();
 
     public static void main(String[] args) {
 
@@ -20,30 +22,26 @@ public class UI {
 
         System.out.println("\nPlease enter an option [1-6]:");
         System.out.println("1 - List Of Students Taking a Specific Module");
-        System.out.println("2 - List of Staff");
+        System.out.println("2 - List of Staff Teaching a Specific Module");
         System.out.println("3 - List of Module Requirements");
-        System.out.println("4 - Allow Create Timetable");
-        System.out.println("5 - Producing Timetable");
-        System.out.println("6 - Exit \n");
+        System.out.println("4 - List of Rooms");
+        System.out.println("5 - List of Booked Rooms");
+        System.out.println("6 - Create a Timetable");
+        System.out.println("7 - Produce a Timetable for a Room");
+        System.out.println("8 - Exit \n");
 
-        if (s.hasNextInt()) {
-            int choice = s.nextInt();
+        int choice = ic.get_int_input(1, 9);
 
-            switch (choice) {
-                case 1 -> listOfStudentsChoice();
-                case 2 -> t.listOfStaff();
-                case 3 -> t.listOfModuleReq();
-                case 4 -> t.allowCreateTimetable();
-                case 5 -> t.producingTimetable();
-                case 6 -> System.exit(420);
-                default -> {
-                    System.out.println("\nPlease enter one of the choices.");
-                    printMenu();
-                }
-            }
-        } else {
-            System.out.println("\nPlease enter an integer.");
-            printMenu();
+        switch (choice) {
+            case 1 -> listOfStudentsChoice();
+            case 2 -> t.listOfStaff();
+            case 3 -> t.listOfModuleReq();
+            case 4 -> r.listOfRooms();
+            case 6 -> t.allowCreateTimetable();
+            case 7 -> t.producingTimetable();
+            case 8 -> System.exit(420);
+            //Testing room booking
+            case 9 -> r.bookRooms();
         }
     }
 
@@ -61,27 +59,35 @@ public class UI {
             System.out.println(i + 1 + " - " + modules.get(i));
         }
 
-        int choice = 0;
-
-        // Checks for input validity
-        do{
-            if (s.hasNextInt()) {
-                choice = s.nextInt();
-
-                if (choice < modules.size() && choice > 0) {
-                    String ModuleID = "'" + modules.get(choice - 1).getModuleID() + "'";
-                    //Calls listOfStudents in timetable, passing the session and ModuleID as parameters
-                    //Doesn't work yet
-                    t.listOfStudents(ModuleID, se);
-                } else if (choice > modules.size() || choice < 0) {
-                    System.out.println("\nPlease select one of the choices.");
-                    se.close();
-                }
-            } else {
-                System.out.println("\nPlease enter an integer.");
-                s.next();
-            }
-
-        } while (choice > modules.size() || choice < 1);
+        int choice = ic.get_int_input(1, modules.size());
+        String moduleID = "'" + modules.get(choice - 1).getModuleID() + "'";
+        t.listOfStudents(moduleID, se);
     }
+
+    public static void bookRoomsUI() {
+        System.out.println("\nWhich room would you like to book?");
+    }
+
+    public static void roomAlreadyBooked() {
+        System.out.println("\nThis room is already booked.");
+        roomBookingNext();
+    }
+
+    public static void roomBookingConfirmation(Rooms room) {
+        System.out.println("\n" + room + " has been successfully booked.");
+        roomBookingNext();
+    }
+
+    public static void roomBookingNext() {
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("1 - Book another room");
+        System.out.println("2 - Return to main menu");
+        int choice = ic.get_int_input(1,2);
+
+        switch (choice) {
+            case 1 -> r.bookRooms();
+            case 2 -> printMenu();
+        }
+    }
+
 }

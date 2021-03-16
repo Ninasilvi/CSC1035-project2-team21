@@ -58,4 +58,25 @@ public class Rooms {
     public void setSocialDistCapacity(int socialDistCapacity) {
         this.socialDistCapacity = socialDistCapacity;
     }
+
+    @Override
+    public String toString() {
+        return "Rooms{" +
+                "roomNumber='" + roomNumber + '\'' +
+                ", type='" + type + '\'' +
+                ", maxCapacity=" + maxCapacity +
+                ", socialDistCapacity=" + socialDistCapacity +
+                '}';
+    }
+
+    // Checks for logical equivalence
+    public boolean compare(Rooms room) {
+        if (this == room) {
+            return true;
+        }
+        if (this.roomNumber.equals(room.roomNumber)) {
+            return true;
+        }
+        return this.equals(room);
+    }
 }
