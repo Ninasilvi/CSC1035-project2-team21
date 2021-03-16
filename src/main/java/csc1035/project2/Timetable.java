@@ -8,7 +8,11 @@ import java.util.Scanner;
 
 
 public class Timetable {
-    // It has a list of Students that take a Module
+    /***
+     * List of Students that take a specific Module (moduleID)
+     * @param moduleID Which Module Students should be printed
+     * @param se Session variable
+     */
     public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
 
@@ -29,7 +33,9 @@ public class Timetable {
         se.close();
     }
 
-    // It has a list of staff that teach a module
+    /**
+     * List of Staff that teach a specific Module
+     */
     public void listOfStaff() {
         Scanner s = new Scanner(System.in);
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -71,7 +77,9 @@ public class Timetable {
         se.close();
     }
 
-    // It has a list of module requirements
+    /**
+     * List of Module Requirements
+     */
     public void listOfModuleReq() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
