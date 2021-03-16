@@ -36,7 +36,8 @@ public class UI {
             case 1 -> listOfStudentsChoice();
             case 2 -> t.listOfStaff();
             case 3 -> t.listOfModuleReq();
-            case 4 -> r.listOfRooms();
+            case 4 -> listOfRooms();
+            case 5 -> bookedRoomsList();
             case 6 -> t.allowCreateTimetable();
             case 7 -> t.producingTimetable();
             case 8 -> System.exit(420);
@@ -64,7 +65,15 @@ public class UI {
         t.listOfStudents(moduleID, se);
     }
 
-    public static void bookRoomsUI() {
+    public static void listOfRooms() {
+        r.listOfRooms();
+
+        for (int i = 0; i < r.rooms.size(); i++) {
+            System.out.println(i + 1 + " - " + r.rooms.get(i));
+        }
+    }
+
+    public static void bookRoomsText() {
         System.out.println("\nWhich room would you like to book?");
     }
 
@@ -88,6 +97,17 @@ public class UI {
             case 1 -> r.bookRooms();
             case 2 -> printMenu();
         }
+    }
+
+    public static void bookedRoomsList() {
+        r.listOfRooms();
+        r.bookedRoomsFile();
+
+        System.out.println("\nBooked rooms:\n");
+        for (int i = 0; i < r.bookedRooms.size(); i++) {
+            System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
+        }
+        printMenu();
     }
 
 }

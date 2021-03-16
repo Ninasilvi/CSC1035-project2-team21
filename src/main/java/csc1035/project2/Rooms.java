@@ -7,7 +7,7 @@ public class Rooms {
 
     @Id
     @Column(updatable = false, nullable = false)
-    private String roomNumber;
+    private float roomNumber;
 
     @Column
     private String type;
@@ -18,7 +18,7 @@ public class Rooms {
     @Column
     private int socialDistCapacity;
 
-    public Rooms(String roomNumber, String type, int maxCapacity, int socialDistCapacity) {
+    public Rooms(float roomNumber, String type, int maxCapacity, int socialDistCapacity) {
         this.roomNumber = roomNumber;
         this.type = type;
         this.maxCapacity = maxCapacity;
@@ -27,11 +27,11 @@ public class Rooms {
 
     public Rooms() {}
 
-    public String getRoomNumber() {
+    public float getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(String roomNumber) {
+    public void setRoomNumber(float roomNumber) {
         this.roomNumber = roomNumber;
     }
 
@@ -74,7 +74,7 @@ public class Rooms {
         if (this == room) {
             return true;
         }
-        if (this.roomNumber.equals(room.roomNumber)) {
+        if (this.roomNumber == room.roomNumber) {
             return true;
         }
         return this.equals(room);
