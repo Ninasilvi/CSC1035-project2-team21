@@ -8,11 +8,6 @@ import java.util.Scanner;
 
 
 public class Timetable {
-    public static void main(String[] args) {
-
-
-    }
-
     // It has a list of Students that take a Module
     public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
@@ -26,6 +21,9 @@ public class Timetable {
         for(int i = 0; i < students.size(); i++) {
             System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " +
                     students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
+        }
+        if(students.size() == 0) {
+            System.out.println("No Students were found in this Module");
         }
         System.out.println("\n");
         se.close();
@@ -66,7 +64,10 @@ public class Timetable {
             System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " +
                     staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
         }
-        System.out.println("");
+        if(staff.size() == 0) {
+            System.out.println("No Staff were found in this Module");
+        }
+        System.out.println("\n");
         se.close();
     }
 
