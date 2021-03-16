@@ -35,7 +35,7 @@ public class UI {
 
         switch (choice) {
             case 1 -> listOfStudentsChoice();
-            case 2 -> t.listOfStaff();
+            case 2 -> listOfStaffChoice();
             case 3 -> t.listOfModuleReq();
             case 4 -> listOfRooms();
             case 5 -> bookedRoomsList();
@@ -48,23 +48,14 @@ public class UI {
         }
     }
 
-    // Gets user's input for module choice for list of students in timetable
+
+    // Gets user's input for module choice for list of students in timetable by calling moduleOptions method
     public static void listOfStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
+        String moduleID = moduleOptions(se);
 
-        se.beginTransaction();
-        List<Module> modules = se.createQuery("FROM Module").list();
-        se.getTransaction().commit();
-
-        System.out.println("Please select a module:\n");
-
-        for (int i = 0; i < modules.size(); i++) {
-            System.out.println(i + 1 + " - " + modules.get(i));
-        }
-
-        int choice = ic.get_int_input(1, modules.size());
-        String moduleID = "'" + modules.get(choice - 1).getModuleID() + "'";
         t.listOfStudents(moduleID, se);
+
     }
 
     // Prints the list of students from timetable list of students
@@ -79,8 +70,45 @@ public class UI {
         printMenu();
     }
 
+    // Gets module choice for list of staff by calling moduleOptions method
+    public static void listOfStaffChoice() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        String moduleID = moduleOptions(se);
 
-    // Space for list of Staff
+        t.listOfStaff(moduleID, se);
+
+        se.close();
+    }
+
+    // Prints all the staff for a particular module
+    public static void listOfStaffResult(List<Staff> staff) {
+        for(int i = 0; i < staff.size(); i++) {
+            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " +
+                    staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
+        }
+        if(staff.size() == 0) {
+            System.out.println("\nNo staff were found in this module");
+        }
+        printMenu();
+    }
+
+    // Prints module options and takes user input
+    public static String moduleOptions(Session se) {
+
+        se.beginTransaction();
+        List<Module> modules = se.createQuery("FROM Module").list();
+        se.getTransaction().commit();
+
+        System.out.println("Please select a module:\n");
+
+        for (int i = 0; i < modules.size(); i++) {
+            System.out.println(i + 1 + " - " + modules.get(i));
+        }
+
+        int choice = ic.get_int_input(1, modules.size());
+        String moduleID = "'" + modules.get(choice - 1).getModuleID() + "'";
+        return moduleID;
+    }
 
 
     // Prints out a list of all rooms

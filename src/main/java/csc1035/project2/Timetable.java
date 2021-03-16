@@ -27,45 +27,15 @@ public class Timetable {
     /**
      * List of Staff that teach a specific Module
      */
-    public void listOfStaff() {
-        Scanner s = new Scanner(System.in);
-        Session se = HibernateUtil.getSessionFactory().openSession();
-
-        se.beginTransaction();
-
-        List<Module> modules = se.createQuery("FROM Module").list();
-
-        se.getTransaction().commit();
-
-        // Print results
-        System.out.println("Select one Module:");
-        int i = 1;
-        for (Module item : modules) {
-            System.out.println(i + " - " + item);
-            i += 1;
-        }
-
-        int choice = s.nextInt();
-
-        String ModuleID = "'" + modules.get(choice-1).getModuleID() + "'";
-
+    public void listOfStaff(String moduleID, Session se) {
         se.beginTransaction();
 
         String hql = "FROM Staff S " +
-                "WHERE S.staffID IN (SELECT SM.staffID FROM StaffModule SM WHERE SM.moduleID = " + ModuleID + ")";
+                "WHERE S.staffID IN (SELECT SM.staffID FROM StaffModule SM WHERE SM.moduleID = " + moduleID + ")";
         List<Staff> staff = se.createQuery(hql).list();
         se.getTransaction().commit();
-
-        // Print results
-        for(i = 0; i < staff.size(); i++) {
-            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " +
-                    staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
-        }
-        if(staff.size() == 0) {
-            System.out.println("No Staff were found in this Module");
-        }
-        System.out.println("\n");
         se.close();
+        UI.listOfStaffResult(staff);
     }
 
     /**
