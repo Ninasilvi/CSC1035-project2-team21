@@ -14,6 +14,7 @@ public class RoomBooking {
 
     List<Rooms> rooms;
     List<Rooms> bookedRooms = new ArrayList<>();
+    List<Rooms> availableRooms = new ArrayList<>();
     static InputCheck ic = new InputCheck();
     File roomFile = new File("src\\main\\resources\\bookedRooms.cvs");
 
@@ -83,6 +84,18 @@ public class RoomBooking {
             roomFileReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
+        }
+    }
+
+    // Puts all available rooms into a list
+    public void availableRooms() {
+        listOfRooms();
+        bookedRoomsFile();
+
+        for (Rooms room : rooms) {
+            if (!bookedRooms.contains(room)) {
+                availableRooms.add(room);
+            }
         }
     }
 

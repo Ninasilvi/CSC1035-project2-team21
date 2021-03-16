@@ -26,11 +26,12 @@ public class UI {
         System.out.println("3 - List of Module Requirements");
         System.out.println("4 - List of Rooms");
         System.out.println("5 - List of Booked Rooms");
-        System.out.println("6 - Create a Timetable");
-        System.out.println("7 - Produce a Timetable for a Room");
-        System.out.println("8 - Exit \n");
+        System.out.println("6 - List of Available Rooms");
+        System.out.println("7 - Create a Timetable");
+        System.out.println("8 - Produce a Timetable for a Room");
+        System.out.println("9 - Exit \n");
 
-        int choice = ic.get_int_input(1, 9);
+        int choice = ic.get_int_input(1, 10);
 
         switch (choice) {
             case 1 -> listOfStudentsChoice();
@@ -38,11 +39,12 @@ public class UI {
             case 3 -> t.listOfModuleReq();
             case 4 -> listOfRooms();
             case 5 -> bookedRoomsList();
-            case 6 -> t.allowCreateTimetable();
-            case 7 -> t.producingTimetable();
-            case 8 -> System.exit(420);
+            case 6 -> availableRoomsList();
+            case 7 -> t.allowCreateTimetable();
+            case 8 -> t.producingTimetable();
+            case 9 -> System.exit(420);
             //Testing room booking
-            case 9 -> r.bookRooms();
+            case 10 -> r.bookRooms();
         }
     }
 
@@ -121,13 +123,30 @@ public class UI {
     }
 
     // Prints a list of rooms that are already booked
+    // Does not work when rooms are booked during the same code execution
     public static void bookedRoomsList() {
         r.listOfRooms();
         r.bookedRoomsFile();
 
-        System.out.println("\nBooked rooms:\n");
-        for (int i = 0; i < r.bookedRooms.size(); i++) {
-            System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
+        if (r.bookedRooms.size() == 0) {
+            System.out.println("\nThere are no rooms currently booked.");
+        } else {
+            System.out.println("\nBooked rooms:\n");
+            for (int i = 0; i < r.bookedRooms.size(); i++) {
+                System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
+            }
+        }
+        printMenu();
+    }
+
+    // Prints out a list of available rooms
+    // Does not work when rooms are booked during the same code execution
+    public static void availableRoomsList() {
+        r.availableRooms();
+
+        System.out.println("\nAvailable Rooms:\n");
+        for (int i = 0; i < r.availableRooms.size(); i++) {
+            System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
         printMenu();
     }
