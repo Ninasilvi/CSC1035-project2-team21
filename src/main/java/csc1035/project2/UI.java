@@ -3,20 +3,18 @@ package csc1035.project2;
 import org.hibernate.Session;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class UI {
 
-    static Scanner s = new Scanner(System.in);
     static Timetable t = new Timetable();
     static RoomBooking r = new RoomBooking();
     static InputCheck ic = new InputCheck();
 
     public static void main(String[] args) {
-        new UI().run();
+        runMenu();
     }
 
-    public static void run() {
+    public static void runMenu() {
         boolean quit = false;
         while (!quit) {
 
@@ -83,8 +81,6 @@ public class UI {
         String moduleID = moduleOptions(se);
 
         t.listOfStaff(moduleID, se);
-
-        se.close();
     }
 
     // Prints all the staff for a particular module
@@ -94,7 +90,7 @@ public class UI {
                     staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
         }
         if(staff.size() == 0) {
-            System.out.println("\nNo staff were found in this module");
+            System.out.println("\nNo staff were found for this module");
         }
     }
 
@@ -112,8 +108,7 @@ public class UI {
         }
 
         int choice = ic.get_int_input(1, modules.size());
-        String moduleID = "'" + modules.get(choice - 1).getModuleID() + "'";
-        return moduleID;
+        return "'" + modules.get(choice - 1).getModuleID() + "'";
     }
 
 
@@ -152,7 +147,7 @@ public class UI {
 
         switch (choice) {
             case 1 -> r.bookRooms();
-            case 2 -> run();
+            case 2 -> runMenu();
         }
     }
 
