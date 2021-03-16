@@ -13,13 +13,37 @@ public class UI {
     static InputCheck ic = new InputCheck();
 
     public static void main(String[] args) {
+        new UI().run();
+    }
 
-        printMenu();
+    public static void run() {
+        boolean quit = false;
+        while (!quit) {
+
+            printMenu();
+            int choice = ic.get_int_input(1, 10);
+
+            switch (choice) {
+                case 1 -> listOfStudentsChoice();
+                case 2 -> listOfStaffChoice();
+                case 3 -> t.listOfModuleReq();
+                case 4 -> listOfRooms();
+                case 5 -> bookedRoomsList();
+                case 6 -> availableRoomsList();
+                case 7 -> t.allowCreateTimetable();
+                case 8 -> t.producingTimetable();
+                case 9 -> {
+                    System.out.println("Quitting...");
+                    quit = true;
+                }
+                //Testing room booking
+                case 10 -> r.bookRooms();
+            }
+        }
     }
 
     // Print Menu
-    public static void printMenu () {
-
+    private static void printMenu() {
         System.out.println("\nPlease enter an option [1-6]:");
         System.out.println("1 - List Of Students Taking a Specific Module");
         System.out.println("2 - List of Staff Teaching a Specific Module");
@@ -30,22 +54,6 @@ public class UI {
         System.out.println("7 - Create a Timetable");
         System.out.println("8 - Produce a Timetable for a Room");
         System.out.println("9 - Exit \n");
-
-        int choice = ic.get_int_input(1, 10);
-
-        switch (choice) {
-            case 1 -> listOfStudentsChoice();
-            case 2 -> listOfStaffChoice();
-            case 3 -> t.listOfModuleReq();
-            case 4 -> listOfRooms();
-            case 5 -> bookedRoomsList();
-            case 6 -> availableRoomsList();
-            case 7 -> t.allowCreateTimetable();
-            case 8 -> t.producingTimetable();
-            case 9 -> System.exit(420);
-            //Testing room booking
-            case 10 -> r.bookRooms();
-        }
     }
 
 
@@ -67,7 +75,6 @@ public class UI {
         if(students.size() == 0) {
             System.out.println("\nNo Students were found in this Module");
         }
-        printMenu();
     }
 
     // Gets module choice for list of staff by calling moduleOptions method
@@ -89,7 +96,6 @@ public class UI {
         if(staff.size() == 0) {
             System.out.println("\nNo staff were found in this module");
         }
-        printMenu();
     }
 
     // Prints module options and takes user input
@@ -146,7 +152,7 @@ public class UI {
 
         switch (choice) {
             case 1 -> r.bookRooms();
-            case 2 -> printMenu();
+            case 2 -> run();
         }
     }
 
@@ -164,7 +170,6 @@ public class UI {
                 System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
             }
         }
-        printMenu();
     }
 
     // Prints out a list of available rooms
@@ -176,7 +181,6 @@ public class UI {
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
-        printMenu();
     }
 
 }
