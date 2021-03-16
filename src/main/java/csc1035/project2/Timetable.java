@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 public class Timetable {
     /***
-     * List of Students that take a specific Module (moduleID)
+     * Creates a List of Students that take a specific Module (determined by moduleID)
      * @param moduleID Which Module Students should be printed
-     * @param se Session variable
+     * @param se Session created in UI.listOfStudentsChoice
      */
     public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
@@ -20,17 +20,8 @@ public class Timetable {
                 "WHERE S.studentID IN (SELECT SM.studentID FROM StudentModule SM WHERE SM.moduleID = " + moduleID + ")";
         List<Student> students = se.createQuery(hql).list();
         se.getTransaction().commit();
-
-        // Print results#
-        for(int i = 0; i < students.size(); i++) {
-            System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " +
-                    students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
-        }
-        if(students.size() == 0) {
-            System.out.println("No Students were found in this Module");
-        }
-        System.out.println("\n");
         se.close();
+        UI.listOfStudentsResult(students);
     }
 
     /**

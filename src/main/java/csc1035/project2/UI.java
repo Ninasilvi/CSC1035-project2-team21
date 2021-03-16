@@ -46,6 +46,7 @@ public class UI {
         }
     }
 
+    // Gets user's input for module choice for list of students in timetable
     public static void listOfStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
 
@@ -53,7 +54,6 @@ public class UI {
         List<Module> modules = se.createQuery("FROM Module").list();
         se.getTransaction().commit();
 
-        // Print results
         System.out.println("Please select a module:\n");
 
         for (int i = 0; i < modules.size(); i++) {
@@ -65,6 +65,23 @@ public class UI {
         t.listOfStudents(moduleID, se);
     }
 
+    // Prints the list of students from timetable list of students
+    public static void listOfStudentsResult(List<Student> students) {
+        for(int i = 0; i < students.size(); i++) {
+            System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " +
+                    students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
+        }
+        if(students.size() == 0) {
+            System.out.println("\nNo Students were found in this Module");
+        }
+        printMenu();
+    }
+
+
+    // Space for list of Staff
+
+
+    // Prints out a list of all rooms
     public static void listOfRooms() {
         r.listOfRooms();
 
@@ -73,20 +90,24 @@ public class UI {
         }
     }
 
+    // Asks the user which room they would like to book
     public static void bookRoomsText() {
         System.out.println("\nWhich room would you like to book?");
     }
 
+    // Informs the user that the room is already booked
     public static void roomAlreadyBooked() {
         System.out.println("\nThis room is already booked.");
         roomBookingNext();
     }
 
+    // Informs the user that the room has been booked successfully
     public static void roomBookingConfirmation(Rooms room) {
         System.out.println("\n" + room + " has been successfully booked.");
         roomBookingNext();
     }
 
+    // Asks the user what would they like to do after booking a room, redirecting to r.bookRooms or printMenu
     public static void roomBookingNext() {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - Book another room");
@@ -99,6 +120,7 @@ public class UI {
         }
     }
 
+    // Prints a list of rooms that are already booked
     public static void bookedRoomsList() {
         r.listOfRooms();
         r.bookedRoomsFile();
