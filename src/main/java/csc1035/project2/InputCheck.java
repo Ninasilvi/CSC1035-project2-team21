@@ -15,16 +15,16 @@ public class InputCheck {
         int input = -1;
 
         while (true) {
-            System.out.print("> ");
+            System.out.print("\n> ");
             try {
                 input = s.nextInt();
                 if(input >= min_val && input <= max_val){
                     break;
                 } else {
-                    System.out.println("Try again: Input should be an integer between [" + min_val + "-" + max_val + "]");
+                    System.out.println("\nTry again: Input should be an integer between [" + min_val + "-" + max_val + "]");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Try again: Input should be an integer between [" + min_val + "-" + max_val + "]");
+                System.out.println("\nTry again: Input should be an integer between [" + min_val + "-" + max_val + "]");
                 s.nextLine();
             }
         }
@@ -40,12 +40,12 @@ public class InputCheck {
         double input;
 
         while (true) {
-            System.out.print("> ");
+            System.out.print("\n> ");
             try {
                 input = s.nextDouble();
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Try again: Bad input!");
+                System.out.println("\nTry again: Bad input!");
                 s.nextDouble();
             }
         }
@@ -63,8 +63,8 @@ public class InputCheck {
         while (true) {
             input = s.nextLine();
             if(input.isEmpty() ) {
-                System.out.println("Try again: Input cannot be empty!");
-                System.out.print("> ");
+                System.out.println("\nTry again: Input cannot be empty!");
+                System.out.print("\n> ");
             } else {
                 break;
             }
