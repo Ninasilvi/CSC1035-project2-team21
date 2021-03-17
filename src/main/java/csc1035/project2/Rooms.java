@@ -60,16 +60,6 @@ public class Rooms {
         this.socialDistCapacity = socialDistCapacity;
     }
 
-    @Override
-    public String toString() {
-        return "Rooms{" +
-                "roomNumber='" + roomNumber + '\'' +
-                ", type='" + type + '\'' +
-                ", maxCapacity=" + maxCapacity +
-                ", socialDistCapacity=" + socialDistCapacity +
-                '}';
-    }
-
     // Checks for logical equivalence
     public boolean compare(Rooms room) {
         if (this == room) {
