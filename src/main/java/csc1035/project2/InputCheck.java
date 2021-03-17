@@ -15,7 +15,7 @@ public class InputCheck {
         int input = -1;
 
         while (true) {
-            System.out.print("\n> ");
+            System.out.print("> ");
             try {
                 input = s.nextInt();
                 if(input >= min_val && input <= max_val){
@@ -40,7 +40,7 @@ public class InputCheck {
         double input;
 
         while (true) {
-            System.out.print("\n> ");
+            System.out.print("> ");
             try {
                 input = s.nextDouble();
                 break;
@@ -64,7 +64,7 @@ public class InputCheck {
             input = s.nextLine();
             if(input.isEmpty() ) {
                 System.out.println("\nTry again: Input cannot be empty!");
-                System.out.print("\n> ");
+                System.out.print("> ");
             } else {
                 break;
             }
