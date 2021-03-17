@@ -13,7 +13,7 @@ public class InputCheck {
      */
     public int get_int_input(int min_val, int max_val) {
         Scanner s = new Scanner(System.in);
-        int input = -1;
+        int input;
 
         while (true) {
             System.out.print("> ");
@@ -84,7 +84,7 @@ public class InputCheck {
 
         while (true) {
 
-            Boolean pass = true;
+            boolean pass = true;
             input = s.nextLine();
 
             if (input.length() == 4 )
@@ -100,8 +100,8 @@ public class InputCheck {
                 pass = false;
             }
 
-            if(input.isEmpty()==true || pass == false) {
-                System.out.println("Try again: Time should be hours:minutes (e.g 09:30)");
+            if(input.isEmpty() || !pass) {
+                System.out.println("\nTry again: Time should be hours:minutes (e.g 09:30)");
                 System.out.print("> ");
             } else {
                 break;
