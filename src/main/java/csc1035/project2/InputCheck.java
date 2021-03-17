@@ -2,6 +2,7 @@ package csc1035.project2;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.*;
 
 public class InputCheck {
     /**
@@ -64,6 +65,43 @@ public class InputCheck {
             input = s.nextLine();
             if(input.isEmpty() ) {
                 System.out.println("Try again: Input cannot be empty!");
+                System.out.print("> ");
+            } else {
+                break;
+            }
+        }
+        return input;
+    }
+
+    /**
+     * Check if 'String' is actual Time and is Valid
+     * @return User input (Time hh-mm |String|)
+     */
+    public String get_time_input() {
+        Scanner s = new Scanner(System.in);
+        String input;
+        Pattern p = Pattern.compile("(?:[01]?[0-9]|2[0-3]):[0-5][0-9]");
+
+        while (true) {
+
+            Boolean pass = true;
+            input = s.nextLine();
+
+            if (input.length() == 4 )
+                input = "0" + input;
+
+            if (input.length() == 5) {
+                Matcher m = p.matcher(input);
+
+                if(!m.matches())
+                    pass = false;
+
+            } else {
+                pass = false;
+            }
+
+            if(input.isEmpty()==true || pass == false) {
+                System.out.println("Try again: Time should be hours:minutes (e.g 09:30)");
                 System.out.print("> ");
             } else {
                 break;
