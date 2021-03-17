@@ -39,7 +39,6 @@ public class RoomBooking {
         availableRooms.remove(room);
         writeToBookedRooms(room);
         UI.roomBookingConfirmation(room);
-
     }
 
     // Saves a booked room to bookedRooms.cvs file
@@ -75,11 +74,51 @@ public class RoomBooking {
         }
     }
 
+    // Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
+    public void cancelRooms() {
+        int choice = ic.get_int_input(1, bookedRooms.size());
+        Rooms room = bookedRooms.get(choice - 1);
+
+        bookedRooms.remove(room);
+        availableRooms.add(room);
+        cancelRoomsFile(room);
+        UI.roomCancelConfirmation(room);
+    }
+
+    // Reads the contents of bookedRooms.cvs file and matches the selected room to
+    // a booked room, overriding the file without that room.
+    public void cancelRoomsFile(Rooms room) {
+        try {
+            Scanner roomFileReader = new Scanner(roomFile);
+            StringBuilder file = new StringBuilder();
+
+            while (roomFileReader.hasNextLine()) {
+                String line = roomFileReader.nextLine();
+                String[] items = line.split("'");
+                float roomNumber = Float.parseFloat(items[1]);
+
+                if (!(room.getRoomNumber() == roomNumber)) {
+                    file.append(line);
+                    file.append("\n");
+                }
+            }
+            roomFileReader.close();
+            System.out.println(file);
+            FileWriter roomFileWriter = new FileWriter(roomFile);
+            roomFileWriter.write(String.valueOf(file));
+            roomFileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+        }
+    }
+
     // Determines available rooms
     public void availableRooms() {
         listOfRooms();
-        bookedRoomsFile();
+
+        if (bookedRooms.size() == 0) {
+            bookedRoomsFile();
+        }
         availableRooms.removeIf(room -> room.isIn(bookedRooms));
     }
-
 }

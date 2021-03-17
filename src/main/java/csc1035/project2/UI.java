@@ -17,7 +17,7 @@ public class UI {
     public static void runMenu() {
         while (true) {
             printMenu();
-            int choice = ic.get_int_input(1, 10);
+            int choice = ic.get_int_input(1, 11);
 
             switch (choice) {
                 case 1 -> listOfStudentsChoice();
@@ -34,6 +34,8 @@ public class UI {
                 }
                 //Testing room booking
                 case 10 -> r.bookRooms();
+                //Testing room cancelling
+                case 11 -> roomCancel();
             }
         }
     }
@@ -146,7 +148,10 @@ public class UI {
     // Prints a list of rooms that are already booked
     public static void bookedRoomsList() {
         r.listOfRooms();
-        r.bookedRoomsFile();
+
+        if (r.bookedRooms.size() == 0) {
+            r.bookedRoomsFile();
+        }
 
         if (r.bookedRooms.size() == 0) {
             System.out.println("\nThere are no rooms currently booked.");
@@ -155,6 +160,38 @@ public class UI {
             for (int i = 0; i < r.bookedRooms.size(); i++) {
                 System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
             }
+        }
+    }
+
+    // Asks the user which room booking they would like to cancel
+    public static void roomCancel() {
+        bookedRoomsList();
+
+        if (r.bookedRooms.size() == 0) {
+            System.out.println("\nYou cannot cancel room bookings without any rooms booked.");
+            runMenu();
+        } else {
+            System.out.println("\nWhich room booking would you like to cancel?\n");
+        }
+        r.cancelRooms();
+    }
+
+    // Informs the user that their room booking was cancelled.
+    public static void roomCancelConfirmation(Rooms room) {
+        System.out.println("\n" + room + " booking has been successfully cancelled");
+        roomCancelNext();
+    }
+
+    // Asks the user what they would like to do after cancelling a room
+    public static void roomCancelNext() {
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("1 - Cancel another room booking");
+        System.out.println("2 - Return to main menu");
+        int choice = ic.get_int_input(1,2);
+
+        switch (choice) {
+            case 1 -> roomCancel();
+            case 2 -> runMenu();
         }
     }
 
@@ -167,4 +204,7 @@ public class UI {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
     }
+
+
+
 }
