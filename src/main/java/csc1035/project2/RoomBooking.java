@@ -103,8 +103,8 @@ public class RoomBooking {
                 }
             }
             roomFileReader.close();
-            System.out.println(file);
             FileWriter roomFileWriter = new FileWriter(roomFile);
+
             roomFileWriter.write(String.valueOf(file));
             roomFileWriter.close();
         } catch (IOException e) {
