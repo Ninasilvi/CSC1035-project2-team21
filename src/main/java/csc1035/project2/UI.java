@@ -98,19 +98,18 @@ public class UI {
             System.out.println("\nNo staff were found for this module");
         }
     }
-
-    public void listOfModuleReq() {
+    public static void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
         if (moduleRequirements.size() == 0) {
             System.out.println("\nNo ModuleRequirements were found in this Module");
         } else {
-            String printPeopleFormat = "| %-10s | %-10s | %-1s | %-1s | %-1s | %-1s | %n";
-            System.out.println("+-----+-----------+------------------+-------------------+----------------+-------------------+-------------------+");
-            System.out.println("| Row | ModuleID  | Week Commencing  | Lectures / week   | Lecture Length | Practicals / week |  Practical Length |");
-            System.out.println("+-----+-----------+------------------+-------------------+----------------+-------------------+-------------------+");
+            String printPeopleFormat = "| %-3s | %-10s | %-15s | %-13s | %-16s | %-19s | %-18s | %n";
+            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
+            System.out.println("| Row | ModuleID   | Week Commencing | Lectures/week | Lecture Length | Practicals / week | Practical Length |");
+            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
             for (int i = 0; i < moduleRequirements.size(); i++) {
                 System.out.format(printPeopleFormat, i + 1, moduleRequirements.get(i).getModuleID(), moduleRequirements.get(i).getWeekCommencing(), moduleRequirements.get(i).getLecturesPerWeek(), moduleRequirements.get(i).getLectureLength(), moduleRequirements.get(i).getPracticalsPerWeek(), moduleRequirements.get(i).getPracticalLength());
             }
-            System.out.println("+-----+-----------+------------------+-------------------+----------------+-------------------+-------------------+");
+            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
         }
     }
 
