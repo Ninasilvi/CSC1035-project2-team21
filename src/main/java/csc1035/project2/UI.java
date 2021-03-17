@@ -53,7 +53,7 @@ public class UI {
         System.out.println("6 - List of Available Rooms");
         System.out.println("7 - Create a Timetable");
         System.out.println("8 - Produce a Timetable for a Room");
-        System.out.println("9 - Exit \n");
+        System.out.println("9 - Exit");
     }
 
 
