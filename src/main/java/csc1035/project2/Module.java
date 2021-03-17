@@ -23,6 +23,9 @@ public class Module {
     @ManyToMany(mappedBy = "modules")
     private Set<Student> students = new HashSet<>();
 
+    @ManyToMany(mappedBy = "modules")
+    private Set<Staff> staff = new HashSet<>();
+
     public Module() {}
 
     public Module(String moduleID, String moduleName, int credits, int weeks) {
