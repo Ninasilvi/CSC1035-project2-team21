@@ -1,7 +1,10 @@
 package csc1035.project2;
 
 import org.hibernate.Session;
-
+import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class UI {
@@ -102,14 +105,18 @@ public class UI {
         if (moduleRequirements.size() == 0) {
             System.out.println("\nNo ModuleRequirements were found in this Module");
         } else {
-            String printPeopleFormat = "| %-3s | %-10s | %-15s | %-13s | %-16s | %-19s | %-18s | %n";
-            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
+            String printPeopleFormat = "| %-3s | %-10s | %-15s | %-13s | %-14s | %-17s | %-16s | %n";
+            System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
             System.out.println("| Row | ModuleID   | Week Commencing | Lectures/week | Lecture Length | Practicals / week | Practical Length |");
-            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
+            System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
             for (int i = 0; i < moduleRequirements.size(); i++) {
-                System.out.format(printPeopleFormat, i + 1, moduleRequirements.get(i).getModuleID(), moduleRequirements.get(i).getWeekCommencing(), moduleRequirements.get(i).getLecturesPerWeek(), moduleRequirements.get(i).getLectureLength(), moduleRequirements.get(i).getPracticalsPerWeek(), moduleRequirements.get(i).getPracticalLength());
+                //Convert Date with Time to String without Time
+                Date date = moduleRequirements.get(i).getWeekCommencing();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                String strDate = dateFormat.format(date);
+                System.out.format(printPeopleFormat, i + 1, moduleRequirements.get(i).getModuleID(), strDate, moduleRequirements.get(i).getLecturesPerWeek(), moduleRequirements.get(i).getLectureLength(), moduleRequirements.get(i).getPracticalsPerWeek(), moduleRequirements.get(i).getPracticalLength());
             }
-            System.out.println("+-----+------------+-----------------+-----------------+----------------+-------------------+------------------+");
+            System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
         }
     }
 
