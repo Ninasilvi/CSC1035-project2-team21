@@ -15,9 +15,7 @@ public class UI {
     }
 
     public static void runMenu() {
-        boolean quit = false;
-        while (!quit) {
-
+        while (true) {
             printMenu();
             int choice = ic.get_int_input(1, 10);
 
@@ -31,8 +29,8 @@ public class UI {
                 case 7 -> t.allowCreateTimetable();
                 case 8 -> t.producingTimetable();
                 case 9 -> {
-                    System.out.println("Quitting...");
-                    quit = true;
+                    System.out.println("\nQuitting...");
+                    System.exit(420);
                 }
                 //Testing room booking
                 case 10 -> r.bookRooms();
@@ -152,7 +150,6 @@ public class UI {
     }
 
     // Prints a list of rooms that are already booked
-    // Does not work when rooms are booked during the same code execution
     public static void bookedRoomsList() {
         r.listOfRooms();
         r.bookedRoomsFile();
@@ -168,7 +165,6 @@ public class UI {
     }
 
     // Prints out a list of available rooms
-    // Does not work when rooms are booked during the same code execution
     public static void availableRoomsList() {
         r.availableRooms();
 
@@ -177,5 +173,4 @@ public class UI {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
     }
-
 }

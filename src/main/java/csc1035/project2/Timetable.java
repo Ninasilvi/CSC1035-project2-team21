@@ -3,9 +3,6 @@ import org.hibernate.Session;
 
 import javax.persistence.Query;
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 
 public class Timetable {
     /***

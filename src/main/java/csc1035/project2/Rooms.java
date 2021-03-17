@@ -1,6 +1,7 @@
 package csc1035.project2;
     
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Rooms")
 public class Rooms {
@@ -79,4 +80,14 @@ public class Rooms {
         }
         return this.equals(room);
     }
+
+    public boolean isIn(List<Rooms> rooms) {
+        for (Rooms room : rooms) {
+            if (this.compare(room)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
