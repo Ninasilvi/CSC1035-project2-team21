@@ -66,12 +66,17 @@ public class UI {
 
     // Prints the list of students from timetable list of students
     public static void listOfStudentsResult(List<Student> students) {
-        for(int i = 0; i < students.size(); i++) {
-            System.out.println(i+1 + " - ID: " + students.get(i).getStudentID() + " | First Name: " +
-                    students.get(i).getFirstName() + " | Last Name: " + students.get(i).getLastName());
-        }
-        if(students.size() == 0) {
+        if (students.size() == 0) {
             System.out.println("\nNo Students were found in this Module");
+        } else {
+            String printPeopleFormat = "| %-3s | %-10s | %-20s | %-25s |%n";
+            System.out.println("+-----+------------+----------------------+---------------------------+");
+            System.out.println("| Row | StudentID  | First Name           | Last Name                 |");
+            System.out.println("+-----+------------+----------------------+---------------------------+");
+            for (int i = 0; i < students.size(); i++) {
+                System.out.format(printPeopleFormat, i + 1, students.get(i).getStudentID(), students.get(i).getFirstName(), students.get(i).getLastName());
+            }
+            System.out.println("+-----+------------+----------------------+---------------------------+");
         }
     }
 
