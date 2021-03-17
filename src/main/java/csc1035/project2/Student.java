@@ -1,6 +1,8 @@
 package csc1035.project2;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Student")
 public class Student {
@@ -15,14 +17,20 @@ public class Student {
     @Column
     private String lastName;
 
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+            name = "StudentModule",
+            joinColumns = {@JoinColumn(name = "studentID")},
+            inverseJoinColumns = {@JoinColumn(name = "moduleID")})
+    private Set<Module> modules = new HashSet<>();
+
+    public Student() {}
 
     public Student(int studentID, String firstName, String lastName) {
         this.studentID = studentID;
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
-    public Student() {}
 
     public int getStudentID() {
         return studentID;
@@ -46,5 +54,13 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
     }
 }
