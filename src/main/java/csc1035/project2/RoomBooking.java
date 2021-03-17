@@ -28,20 +28,18 @@ public class RoomBooking {
 
     // Books a room by adding it to bookedRooms list and recording it in bookedRooms.cvs file
     public void bookRooms() {
-        UI.listOfRooms();
+        UI.availableRoomsList();
         UI.bookRoomsText();
         bookedRoomsFile();
 
-        int choice = ic.get_int_input(1, rooms.size());
-        Rooms room = rooms.get(choice - 1);
+        int choice = ic.get_int_input(1, availableRooms.size());
+        Rooms room = availableRooms.get(choice - 1);
 
-        if (room.isIn(bookedRooms)) {
-            UI.roomAlreadyBooked();
-        } else {
-            bookedRooms.add(room);
-            writeToBookedRooms(room);
-            UI.roomBookingConfirmation(room);
-        }
+        bookedRooms.add(room);
+        availableRooms.remove(room);
+        writeToBookedRooms(room);
+        UI.roomBookingConfirmation(room);
+
     }
 
     // Saves a booked room to bookedRooms.cvs file

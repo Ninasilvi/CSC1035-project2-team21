@@ -124,12 +124,6 @@ public class UI {
         System.out.println("\nWhich room would you like to book?");
     }
 
-    // Informs the user that the room is already booked
-    public static void roomAlreadyBooked() {
-        System.out.println("\nThis room is already booked.");
-        roomBookingNext();
-    }
-
     // Informs the user that the room has been booked successfully
     public static void roomBookingConfirmation(Rooms room) {
         System.out.println("\n" + room + " has been successfully booked.");
