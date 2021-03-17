@@ -97,7 +97,7 @@ public class UI {
         } else {
             String printPeopleFormat = "| %-3s | %-10s | %-20s | %-25s |%n";
             System.out.println("+-----+------------+----------------------+---------------------------+");
-            System.out.println("| Row | StaffID  | First Name           | Last Name                 |");
+            System.out.println("| Row | StaffID    | First Name           | Last Name                 |");
             System.out.println("+-----+------------+----------------------+---------------------------+");
             for (int i = 0; i < staff.size(); i++) {
                 System.out.format(printPeopleFormat, i + 1, staff.get(i).getStaffID(), staff.get(i).getFirstName(), staff.get(i).getLastName());
