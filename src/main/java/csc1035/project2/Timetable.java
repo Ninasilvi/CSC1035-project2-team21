@@ -43,13 +43,9 @@ public class Timetable {
         se.beginTransaction();
 
         List<ModuleRequirements> modulesReq = se.createQuery("FROM ModuleRequirements").list();
-
         se.getTransaction().commit();
-
-        for (ModuleRequirements item : modulesReq) {
-            System.out.println(item.toString());
-        }
         se.close();
+        UI.listOfModuleReqResult(modulesReq);
     }
 
     // Allows the admin to create a timetable (and book relevant rooms) for the school

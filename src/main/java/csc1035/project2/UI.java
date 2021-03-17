@@ -5,7 +5,6 @@ import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class UI {
 
@@ -93,12 +92,17 @@ public class UI {
 
     // Prints all the staff for a particular module
     public static void listOfStaffResult(List<Staff> staff) {
-        for(int i = 0; i < staff.size(); i++) {
-            System.out.println(i+1 + " - ID: " + staff.get(i).getStaffID() + " | First Name: " +
-                    staff.get(i).getFirstName() + " | Last Name: " + staff.get(i).getLastName());
-        }
-        if(staff.size() == 0) {
-            System.out.println("\nNo staff were found for this module");
+        if (staff.size() == 0) {
+            System.out.println("\nNo Staff were found in this Module");
+        } else {
+            String printPeopleFormat = "| %-3s | %-10s | %-20s | %-25s |%n";
+            System.out.println("+-----+------------+----------------------+---------------------------+");
+            System.out.println("| Row | StaffID    | First Name           | Last Name                 |");
+            System.out.println("+-----+------------+----------------------+---------------------------+");
+            for (int i = 0; i < staff.size(); i++) {
+                System.out.format(printPeopleFormat, i + 1, staff.get(i).getStaffID(), staff.get(i).getFirstName(), staff.get(i).getLastName());
+            }
+            System.out.println("+-----+------------+----------------------+---------------------------+");
         }
     }
     public static void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
@@ -112,7 +116,7 @@ public class UI {
             for (int i = 0; i < moduleRequirements.size(); i++) {
                 //Convert Date with Time to String without Time
                 Date date = moduleRequirements.get(i).getWeekCommencing();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String strDate = dateFormat.format(date);
                 System.out.format(printPeopleFormat, i + 1, moduleRequirements.get(i).getModuleID(), strDate, moduleRequirements.get(i).getLecturesPerWeek(), moduleRequirements.get(i).getLectureLength(), moduleRequirements.get(i).getPracticalsPerWeek(), moduleRequirements.get(i).getPracticalLength());
             }
