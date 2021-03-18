@@ -5,6 +5,10 @@ import javax.persistence.*;
 @Entity(name = "Time")
 public class Time {
 
+    @Id
+    @Column
+    private String timetableName;
+
     @Column
     private String timeStart;
 

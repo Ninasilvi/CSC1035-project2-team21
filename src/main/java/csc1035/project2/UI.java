@@ -29,7 +29,7 @@ public class UI {
                 case 5 -> bookedRoomsList();
                 case 6 -> availableRoomsList();
                 case 7 -> t.allowCreateTimetable();
-                case 8 -> t.producingTimetable();
+                case 8 -> timetableChoice();
                 case 9 -> {
                     System.out.println("\nQuitting...");
                     System.exit(420);
@@ -38,8 +38,6 @@ public class UI {
                 case 10 -> r.bookRooms();
                 //Testing room cancelling
                 case 11 -> roomCancel();
-                // Testing Producing Timetable
-                case 12 -> t.producingTimetable();
             }
         }
     }
@@ -235,5 +233,51 @@ public class UI {
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
+    }
+
+    public static void timetableChoice () {
+        System.out.println("\nSelect one of the options:");
+        System.out.println("1 - Timetable for Students");
+        System.out.println("2 - Timetable for Staff Members");
+        System.out.println("3 - Go back");
+
+        int choice = ic.get_int_input(1,3);
+        switch (choice) {
+            case 1 -> timetableStudentsChoice();
+            //case 2 -> Staff
+            case 3 -> runMenu();
+        }
+    }
+
+    public static void timetableStudentsChoice() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+        List<Student> students = se.createQuery("FROM Student").list();
+
+        System.out.println("\nPlease pick a student whose timetable you want to produce:");
+        for(int i = 0; i < students.size(); i++) {
+            System.out.println(i+1 + " - " + students.get(i).getStudentID() + " " +
+                    students.get(i).getFirstName() + " " + students.get(i).getLastName());
+        }
+
+        int choice = ic.get_int_input(1, students.size());
+
+        t.producingStudentTimetable(choice, se, students);
+    }
+
+    public static void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
+        System.out.println("\nTimetable for " + students.get(choice-1).getFirstName() + " " +
+                students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")");
+        String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+        System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+
+        for(int i = 0; i < time.size(); i++) {
+            System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getDay(),
+                    time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
+                    time.get(i).getRoomNumber());
+        }
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
     }
 }

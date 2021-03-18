@@ -18,6 +18,7 @@
         <mapping class="csc1035.project2.Staff" />
         <mapping class="csc1035.project2.Rooms" />
         <mapping class="csc1035.project2.ModuleRequirements" />
+        <mapping class="csc1035.project2.Time" />
 
     </session-factory>
 </hibernate-configuration>
