@@ -6,6 +6,10 @@ import javax.persistence.*;
 public class Time {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
+    private int id;
+
     @Column
     private String timetableName;
 
@@ -26,13 +30,22 @@ public class Time {
 
     public Time() {}
 
-    public Time(String timetableName, String timeStart, String timeEnd, String day, String moduleID, float roomNumber) {
+    public Time(int id, String timetableName, String timeStart, String timeEnd, String day, String moduleID, float roomNumber) {
+        this.id = id;
         this.timetableName = timetableName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.day = day;
         this.moduleID = moduleID;
         this.roomNumber = roomNumber;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTimetableName() {
