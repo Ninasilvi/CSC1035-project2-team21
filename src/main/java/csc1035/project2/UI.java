@@ -13,9 +13,14 @@ public class UI {
     static RoomBooking r = new RoomBooking();
     static InputCheck ic = new InputCheck();
 
-    public static void main(String[] args) {
-        runMenu();
-    }
+
+        public static void main (String[] args) {
+            UI.runMenu();
+        }
+
+
+
+
 
     public static void runMenu() {
         while (true) {
@@ -27,7 +32,7 @@ public class UI {
                 case 1 -> listOfStudentsChoice();
                 case 2 -> listOfStaffChoice();
                 case 3 -> t.listOfModuleReq();
-                case 4 -> listOfRooms();
+                case 4 -> listOfRoom();
                 case 5 -> bookedRoomsList();
                 case 6 -> availableRoomsList();
                 case 7 -> t.allowCreateTimetable();
@@ -148,11 +153,11 @@ public class UI {
 
 
     // Prints out a list of all rooms
-    public static void listOfRooms() {
+    public static void listOfRoom() {
         r.listOfRooms();
 
-        for (int i = 0; i < r.rooms.size(); i++) {
-            System.out.println(i + 1 + " - " + r.rooms.get(i));
+        for (int i = 0; i < r.room.size(); i++) {
+            System.out.println(i + 1 + " - " + r.room.get(i));
         }
     }
 
@@ -162,7 +167,7 @@ public class UI {
     }
 
     // Informs the user that the room has been booked successfully
-    public static void roomBookingConfirmation(Rooms room) {
+    public static void roomBookingConfirmation(Room room) {
         System.out.println("\n" + room + " has been successfully booked.");
         roomBookingNext();
     }
@@ -212,7 +217,7 @@ public class UI {
     }
 
     // Informs the user that their room booking was cancelled.
-    public static void roomCancelConfirmation(Rooms room) {
+    public static void roomCancelConfirmation(Room room) {
         System.out.println("\n" + room + " booking has been successfully cancelled");
         roomCancelNext();
     }
@@ -314,15 +319,15 @@ public class UI {
 
     // Takes user input for a room choice
     public static void timetableRoomsChoice() {
-        listOfRooms();
+        listOfRoom();
         System.out.println("\nPlease pick a room whose timetable you want to produce:");
-        int choice = ic.get_int_input(1, r.rooms.size());
+        int choice = ic.get_int_input(1, r.room.size());
 
         r.producingRoomTimetable(choice);
     }
 
     // Prints out the results
-    public static void timetableRoomsResult(Rooms room, List<Time> time) {
+    public static void timetableRoomsResult(Room room, List<Time> time) {
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + room);
         }

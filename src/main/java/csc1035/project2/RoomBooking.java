@@ -7,9 +7,9 @@ import java.util.*;
 
 public class RoomBooking {
 
-    List<Rooms> rooms;
-    List<Rooms> bookedRooms = new ArrayList<>();
-    List<Rooms> availableRooms = new ArrayList<>();
+    List<Room> room;
+    List<Room> bookedRooms = new ArrayList<>();
+    List<Room> availableRooms = new ArrayList<>();
     static InputCheck ic = new InputCheck();
     File roomFile = new File("src\\main\\resources\\bookedRooms.cvs");
 
@@ -17,9 +17,9 @@ public class RoomBooking {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
 
-        rooms = se.createQuery("FROM Rooms").list();
+        room = se.createQuery("FROM Room").list();
         if (availableRooms.size() == 0) {
-            availableRooms = rooms;
+            availableRooms = room;
         }
 
         se.getTransaction().commit();
@@ -33,7 +33,7 @@ public class RoomBooking {
         bookedRoomsFile();
 
         int choice = ic.get_int_input(1, availableRooms.size());
-        Rooms room = availableRooms.get(choice - 1);
+        Room room = availableRooms.get(choice - 1);
 
         bookedRooms.add(room);
         availableRooms.remove(room);
@@ -42,7 +42,7 @@ public class RoomBooking {
     }
 
     // Saves a booked room to bookedRooms.cvs file
-    public void writeToBookedRooms(Rooms room) {
+    public void writeToBookedRooms(Room room) {
         try {
             FileWriter bookedRoomWriter = new FileWriter(roomFile, true);
             bookedRoomWriter.write(room + "\n");
@@ -61,7 +61,7 @@ public class RoomBooking {
                 String line = roomFileReader.nextLine();
                 String[] items = line.split("'");
                 float roomNumber = Float.parseFloat(items[1]);
-                for (Rooms room : rooms) {
+                for (Room room : room) {
                     if (room.getRoomNumber() == roomNumber && !room.isIn(bookedRooms)) {
                         bookedRooms.add(room);
                         break;
@@ -77,7 +77,7 @@ public class RoomBooking {
     // Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
     public void cancelRooms() {
         int choice = ic.get_int_input(1, bookedRooms.size());
-        Rooms room = bookedRooms.get(choice - 1);
+        Room room = bookedRooms.get(choice - 1);
 
         bookedRooms.remove(room);
         availableRooms.add(room);
@@ -87,7 +87,7 @@ public class RoomBooking {
 
     // Reads the contents of bookedRooms.cvs file and matches the selected room to
     // a booked room, overriding the file without that room.
-    public void cancelRoomsFile(Rooms room) {
+    public void cancelRoomsFile(Room room) {
         try {
             Scanner roomFileReader = new Scanner(roomFile);
             StringBuilder file = new StringBuilder();
@@ -125,7 +125,7 @@ public class RoomBooking {
     // Creates a timetable list for the chosen room
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
-        Rooms room = rooms.get(choice - 1);
+        Room room = room.get(choice - 1);
         float roomNumberLower = (float) (room.getRoomNumber() - 0.0001);
         float roomNumberHigher = (float) (room.getRoomNumber() + 0.0001);
 
