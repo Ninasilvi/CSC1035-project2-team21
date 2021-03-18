@@ -240,13 +240,15 @@ public class UI {
         System.out.println("\nSelect one of the options:");
         System.out.println("1 - Timetable for Students");
         System.out.println("2 - Timetable for Staff Members");
-        System.out.println("3 - Go back");
+        System.out.println("3 - Timetable for Rooms");
+        System.out.println("4 - Go back");
 
         int choice = ic.get_int_input(1,3);
         switch (choice) {
             case 1 -> timetableStudentsChoice();
             case 2 -> timetableStaffChoice();
-            case 3 -> runMenu();
+            case 3 -> timetableRoomsChoice();
+            case 4 -> runMenu();
         }
     }
 
@@ -297,9 +299,39 @@ public class UI {
 
         t.producingStaffTimetable(choice, se, staff);
     }
+
     public static void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
         System.out.println("\nTimetable for " + staff.get(choice-1).getFirstName() + " " +
                 staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")");
+        String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+        System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+
+        for(int i = 0; i < time.size(); i++) {
+            System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getDay(),
+                    time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
+                    time.get(i).getRoomNumber());
+        }
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+    }
+
+    // Takes user input for a room choice
+    public static void timetableRoomsChoice() {
+        listOfRooms();
+        System.out.println("\nPlease pick a room whose timetable you want to produce:");
+        int choice = ic.get_int_input(1, r.rooms.size());
+
+        r.producingRoomTimetable(choice);
+    }
+
+    // Prints out the results
+    public static void timetableRoomsResult(Rooms room, List<Time> time) {
+        System.out.println("\nTimetable for " + room);
+        timetableFormat(time);
+    }
+
+    public static void timetableFormat(List<Time> time) {
         String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
         System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
         System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");

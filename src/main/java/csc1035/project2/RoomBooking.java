@@ -121,4 +121,20 @@ public class RoomBooking {
         }
         availableRooms.removeIf(room -> room.isIn(bookedRooms));
     }
+
+    // Creates a timetable list for the chosen room
+    public void producingRoomTimetable(int choice) {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        Rooms room = rooms.get(choice - 1);
+        float roomNumberLower = (float) (room.getRoomNumber() - 0.0001);
+        float roomNumberHigher = (float) (room.getRoomNumber() + 0.0001);
+
+        se.beginTransaction();
+        String hql = "FROM Time t WHERE t.roomNumber BETWEEN " + roomNumberLower + " AND " + roomNumberHigher;
+        List<Time> timetables = se.createQuery(hql).list();
+        se.close();
+
+        UI.timetableRoomsResult(room, timetables);
+    }
+
 }
