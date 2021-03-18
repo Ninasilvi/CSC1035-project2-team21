@@ -2,8 +2,7 @@ package csc1035.project2;
 
 import org.hibernate.Session;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Timetable {
     /***
@@ -65,8 +64,10 @@ public class Timetable {
             time.addAll(temp);
         }
 
+        List<Time> sortedTime = sortByDateTime(time);
+
         se.close();
-        UI.timetableStudentsResult(students, choice, time);
+        UI.timetableStudentsResult(students, choice, sortedTime);
     }
 
     public void producingStaffTimetable(int choice, Session se, List<Staff> staff) {
@@ -79,7 +80,31 @@ public class Timetable {
             time.addAll(temp);
         }
 
+        List<Time> sortedTime = sortByDateTime(time);
+
         se.close();
-        UI.timetableStaffResult(staff, choice, time);
+        UI.timetableStaffResult(staff, choice, sortedTime);
+
     }
+
+    public List<Time> sortByDateTime(List<Time> time){
+        List<Time> sortedTime = new ArrayList<>();
+
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+        for (String day: days) {
+            List<Time> temp = new ArrayList<>();
+            for (Time t : time) {
+                if (t.getDay().equals(day)) {
+                    temp.add(t);
+                }
+            }
+            temp.sort(Comparator.comparing(Time::getTimeStart));
+            for (Time t: temp) {
+                sortedTime.add(t);
+            }
+        }
+        return sortedTime;
+    }
+
 }
