@@ -334,17 +334,17 @@ public class UI {
         if (time.size() == 0) {
             System.out.println("\nThe timetable for " + info + " is empty.");
         } else {
-            String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
-            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
-            System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
-            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+            String printTimeFormat = "| %-3s | %-14s | %-9s | %-11s | %-8s | %-11s |%n";
+            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
+            System.out.println("| Row | Timetable Name | Day       | Time        | ModuleID | Room Number |");
+            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
 
             for (int i = 0; i < time.size(); i++) {
                 System.out.format(printTimeFormat, i + 1, time.get(i).getTimetableName(), time.get(i).getDay(),
                         time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
                         time.get(i).getRoomNumber());
             }
-            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
         }
     }
 
