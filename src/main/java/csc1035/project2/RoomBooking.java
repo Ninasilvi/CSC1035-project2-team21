@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import java.io.*;
 import java.util.*;
 
-public class RoomBooking {
+public class RoomBooking implements RoomBookingInterface{
 
     List<Room> rooms;
     List<Room> bookedRooms = new ArrayList<>();
@@ -136,5 +136,4 @@ public class RoomBooking {
 
         UI.timetableRoomsResult(room, timetables);
     }
-
 }
