@@ -2,6 +2,8 @@ package csc1035.project2;
 
 import org.hibernate.Session;
 
+import javax.persistence.Query;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +15,27 @@ public class Timetable {
      */
     public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
+        List<Student> result = new ArrayList<Student>();
 
-        String hql = "FROM Student S " +
-                "WHERE S.studentID IN (SELECT SM.studentID FROM StudentModule SM WHERE SM.moduleID = " + moduleID + ")";
-        List<Student> students = se.createQuery(hql).list();
+        String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
+        List<Module> ModuleName = se.createQuery(hql).list();
+
+        List<Student> students = se.createQuery("FROM Student").list();
+
+        System.out.println('\n' + "Students taking '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
+        for(int i = 0; i < students.size(); i++) {
+            List<Module> temp = new ArrayList<>(students.get(i).getModules());
+
+            for(int j = 0; j < temp.size(); j++)
+                if(temp.get(j).getModuleID() == moduleID)
+                {
+                    result.add(students.get(i));
+                }
+        }
+
         se.getTransaction().commit();
         se.close();
-        UI.listOfStudentsResult(students);
+        UI.listOfStudentsResult(result);
     }
 
     /**
