@@ -20,6 +20,7 @@ public class UI {
     public static void runMenu() {
         while (true) {
             printMenu();
+
             int choice = ic.get_int_input(1, 12);
 
             switch (choice) {
@@ -76,6 +77,7 @@ public class UI {
             System.out.println("+-----+------------+----------------------+---------------------------+");
             System.out.println("| Row | StudentID  | First Name           | Last Name                 |");
             System.out.println("+-----+------------+----------------------+---------------------------+");
+
             for (int i = 0; i < students.size(); i++) {
                 System.out.format(printPeopleFormat, i + 1, students.get(i).getStudentID(), students.get(i).getFirstName(), students.get(i).getLastName());
             }
@@ -100,12 +102,14 @@ public class UI {
             System.out.println("+-----+------------+----------------------+---------------------------+");
             System.out.println("| Row | StaffID    | First Name           | Last Name                 |");
             System.out.println("+-----+------------+----------------------+---------------------------+");
+
             for (int i = 0; i < staff.size(); i++) {
                 System.out.format(printPeopleFormat, i + 1, staff.get(i).getStaffID(), staff.get(i).getFirstName(), staff.get(i).getLastName());
             }
             System.out.println("+-----+------------+----------------------+---------------------------+");
         }
     }
+
     public static void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
         if (moduleRequirements.size() == 0) {
             System.out.println("\nNo ModuleRequirements were found in this Module");
@@ -114,6 +118,7 @@ public class UI {
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
             System.out.println("| Row | ModuleID   | Week Commencing | Lectures/week | Lecture Length | Practicals / week | Practical Length |");
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
+
             for (int i = 0; i < moduleRequirements.size(); i++) {
                 //Convert Date with Time to String without Time
                 Date date = moduleRequirements.get(i).getWeekCommencing();
@@ -127,7 +132,6 @@ public class UI {
 
     // Prints module options and takes user input
     public static String moduleOptions(Session se) {
-
         se.beginTransaction();
         List<Module> modules = se.createQuery("FROM Module").list();
         se.getTransaction().commit();
@@ -183,11 +187,11 @@ public class UI {
         if (r.bookedRooms.size() == 0) {
             r.bookedRoomsFile();
         }
-
         if (r.bookedRooms.size() == 0) {
             System.out.println("\nThere are no rooms currently booked.");
         } else {
             System.out.println("\nBooked rooms:\n");
+
             for (int i = 0; i < r.bookedRooms.size(); i++) {
                 System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
             }
@@ -229,8 +233,8 @@ public class UI {
     // Prints out a list of available rooms
     public static void availableRoomsList() {
         r.availableRooms();
-
         System.out.println("\nAvailable Rooms:\n");
+
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
@@ -244,6 +248,7 @@ public class UI {
         System.out.println("4 - Go back");
 
         int choice = ic.get_int_input(1,3);
+
         switch (choice) {
             case 1 -> timetableStudentsChoice();
             case 2 -> timetableStaffChoice();
@@ -258,7 +263,8 @@ public class UI {
         List<Student> students = se.createQuery("FROM Student").list();
 
         System.out.println("\nPlease pick a student whose timetable you want to produce:\n");
-        for(int i = 0; i < students.size(); i++) {
+
+        for (int i = 0; i < students.size(); i++) {
             System.out.println(i+1 + " - " + students.get(i).getStudentID() + " " +
                     students.get(i).getFirstName() + " " + students.get(i).getLastName());
         }
@@ -271,6 +277,7 @@ public class UI {
     public static void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
         String name = students.get(choice-1).getFirstName() + " " +
                 students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")";
+
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + name);
         }
@@ -284,11 +291,11 @@ public class UI {
         List<Staff> staff = se.createQuery("FROM Staff").list();
 
         System.out.println("\nPlease pick a staff member whose timetable you want to produce:\n");
-        for(int i = 0; i < staff.size(); i++) {
+
+        for (int i = 0; i < staff.size(); i++) {
             System.out.println(i+1 + " - " + staff.get(i).getStaffID() + " " +
                     staff.get(i).getFirstName() + " " + staff.get(i).getLastName());
         }
-
         int choice = ic.get_int_input(1, staff.size());
 
         t.producingStaffTimetable(choice, se, staff);
@@ -297,6 +304,7 @@ public class UI {
     public static void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
         String name = staff.get(choice-1).getFirstName() + " " +
                 staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")";
+
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + name);
         }
@@ -323,7 +331,6 @@ public class UI {
     }
 
     public static void timetableFormat(List<Time> time, String info) {
-
         if (time.size() == 0) {
             System.out.println("\nThe timetable for " + info + " is empty.");
         } else {
