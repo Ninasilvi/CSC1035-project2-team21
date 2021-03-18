@@ -21,7 +21,7 @@ public class SetUpDatabase {
     public static void SetUpRooms(){
         Session se = null;
 
-        List<Rooms> rooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<>();
         InputStream stream = SetUpDatabase.class.getClassLoader().getResourceAsStream("rooms.csv");
         Scanner sc = new Scanner(stream);
 
@@ -29,14 +29,14 @@ public class SetUpDatabase {
         while (sc.hasNextLine()) {
 
             String[] line = sc.nextLine().split(",");
-            rooms.add(new Rooms(Float.parseFloat(line[0]), line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+            rooms.add(new Room(Float.parseFloat(line[0]), line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3])));
         }
 
         try {
             se = HibernateUtil.getSessionFactory().openSession();
             se.beginTransaction();
 
-            for (Rooms r: rooms) {
+            for (Room r: rooms) {
                 se.persist(r);
             }
 

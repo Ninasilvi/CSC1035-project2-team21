@@ -16,7 +16,7 @@
         <mapping class="csc1035.project2.Student" /> <!--- Add a new mapping class for a new table in the database -->
         <mapping class="csc1035.project2.Module" />
         <mapping class="csc1035.project2.Staff" />
-        <mapping class="csc1035.project2.Rooms" />
+        <mapping class="csc1035.project2.Room" />
         <mapping class="csc1035.project2.ModuleRequirements" />
         <mapping class="csc1035.project2.Time" />
 

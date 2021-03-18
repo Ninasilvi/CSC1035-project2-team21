@@ -143,7 +143,7 @@ public class UI {
         }
 
         int choice = ic.get_int_input(1, modules.size());
-        return "'" + modules.get(choice - 1).getModuleID() + "'";
+        return modules.get(choice - 1).getModuleID();
     }
 
 
