@@ -2,10 +2,7 @@ package csc1035.project2;
 
 import org.hibernate.Session;
 
-import javax.persistence.Query;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Timetable {
     /***
