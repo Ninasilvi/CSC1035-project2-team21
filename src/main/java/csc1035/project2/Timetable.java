@@ -1,7 +1,9 @@
 package csc1035.project2;
+
 import org.hibernate.Session;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Timetable {
     /***
@@ -65,5 +67,19 @@ public class Timetable {
 
         se.close();
         UI.timetableStudentsResult(students, choice, time);
+    }
+
+    public void producingStaffTimetable(int choice, Session se, List<Staff> staff) {
+        List<Module> modules = new ArrayList<>(staff.get(choice-1).getModules());
+        List<Time> time = new ArrayList<>();
+
+        for (Module module : modules) {
+            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
+            List<Time> temp = se.createQuery(hql).list();
+            time.addAll(temp);
+        }
+
+        se.close();
+        UI.timetableStaffResult(staff, choice, time);
     }
 }

@@ -1,10 +1,11 @@
 package csc1035.project2;
 
 import org.hibernate.Session;
-import java.util.List;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class UI {
 
@@ -244,7 +245,7 @@ public class UI {
         int choice = ic.get_int_input(1,3);
         switch (choice) {
             case 1 -> timetableStudentsChoice();
-            //case 2 -> Staff
+            case 2 -> timetableStaffChoice();
             case 3 -> runMenu();
         }
     }
@@ -268,6 +269,37 @@ public class UI {
     public static void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
         System.out.println("\nTimetable for " + students.get(choice-1).getFirstName() + " " +
                 students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")");
+        String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+        System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+
+        for(int i = 0; i < time.size(); i++) {
+            System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getDay(),
+                    time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
+                    time.get(i).getRoomNumber());
+        }
+        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+    }
+
+    public static void timetableStaffChoice() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+        List<Staff> staff = se.createQuery("FROM Staff").list();
+
+        System.out.println("\n Please pick a staff member whose timetable you want to produce:");
+        for(int i = 0; i < staff.size(); i++) {
+            System.out.println(i+1 + " - " + staff.get(i).getStaffID() + " " +
+                    staff.get(i).getFirstName() + " " + staff.get(i).getLastName());
+        }
+
+        int choice = ic.get_int_input(1, staff.size());
+
+        t.producingStaffTimetable(choice, se, staff);
+    }
+    public static void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
+        System.out.println("\nTimetable for " + staff.get(choice-1).getFirstName() + " " +
+                staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")");
         String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
         System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
         System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
