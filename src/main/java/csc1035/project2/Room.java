@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "Rooms")
-public class Rooms {
+public class Room {
 
     @Id
     @Column(updatable = false, nullable = false)
@@ -19,14 +19,14 @@ public class Rooms {
     @Column
     private int socialDistCapacity;
 
-    public Rooms(float roomNumber, String type, int maxCapacity, int socialDistCapacity) {
+    public Room(float roomNumber, String type, int maxCapacity, int socialDistCapacity) {
         this.roomNumber = roomNumber;
         this.type = type;
         this.maxCapacity = maxCapacity;
         this.socialDistCapacity = socialDistCapacity;
     }
 
-    public Rooms() {}
+    public Room() {}
 
     public float getRoomNumber() {
         return roomNumber;
@@ -71,7 +71,7 @@ public class Rooms {
     }
 
     // Checks for logical equivalence
-    public boolean compare(Rooms room) {
+    public boolean compare(Room room) {
         if (this == room) {
             return true;
         }
@@ -81,8 +81,8 @@ public class Rooms {
         return this.equals(room);
     }
 
-    public boolean isIn(List<Rooms> rooms) {
-        for (Rooms room : rooms) {
+    public boolean isIn(List<Room> rooms) {
+        for (Room room : rooms) {
             if (this.compare(room)) {
                 return true;
             }

@@ -147,8 +147,8 @@ public class UI {
     public static void listOfRooms() {
         r.listOfRooms();
 
-        for (int i = 0; i < r.rooms.size(); i++) {
-            System.out.println(i + 1 + " - " + r.rooms.get(i));
+        for (int i = 0; i < r.room.size(); i++) {
+            System.out.println(i + 1 + " - " + r.room.get(i));
         }
     }
 
@@ -158,7 +158,7 @@ public class UI {
     }
 
     // Informs the user that the room has been booked successfully
-    public static void roomBookingConfirmation(Rooms room) {
+    public static void roomBookingConfirmation(Room room) {
         System.out.println("\n" + room + " has been successfully booked.");
         roomBookingNext();
     }
@@ -208,7 +208,7 @@ public class UI {
     }
 
     // Informs the user that their room booking was cancelled.
-    public static void roomCancelConfirmation(Rooms room) {
+    public static void roomCancelConfirmation(Room room) {
         System.out.println("\n" + room + " booking has been successfully cancelled");
         roomCancelNext();
     }
