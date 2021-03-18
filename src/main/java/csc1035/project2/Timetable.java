@@ -84,14 +84,14 @@ public class Timetable {
 
                 System.out.println('\n' + "Timetable for " + students.get(choice-1).getFirstName() + " " + students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")");
                 String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
-                System.out.println("+-----+----------------+-------------+-------------+----------+-------------+");
-                System.out.println("| Row | Timetable Name | Day         | Time        | ModuleID | Room Number |");
-                System.out.println("+-----+----------------+-------------+-------------+----------+-------------+");
+                System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+                System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
+                System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
 
                 for(int i = 0; i < time.size(); i++) {
-                    System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getDay(), time.get(i).getModuleID(), time.get(i).getRoomNumber());
+                    System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getDay(), time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(), time.get(i).getRoomNumber());
                 }
-                System.out.println("+-----+----------------+-------------+-------------+----------+-------------+");
+                System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
 
             case 2:
                 // Get Staff Timetable
