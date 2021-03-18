@@ -7,7 +7,7 @@ import java.util.*;
 
 public class RoomBooking {
 
-    List<Room> room;
+    List<Room> rooms;
     List<Room> bookedRooms = new ArrayList<>();
     List<Room> availableRooms = new ArrayList<>();
     static InputCheck ic = new InputCheck();
@@ -17,9 +17,9 @@ public class RoomBooking {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
 
-        room = se.createQuery("FROM Room").list();
+        rooms = se.createQuery("FROM Rooms").list();
         if (availableRooms.size() == 0) {
-            availableRooms = room;
+            availableRooms = rooms;
         }
 
         se.getTransaction().commit();
@@ -61,12 +61,12 @@ public class RoomBooking {
                 String line = roomFileReader.nextLine();
                 String[] items = line.split("'");
                 float roomNumber = Float.parseFloat(items[1]);
-                for (Room room : room) {
+                for (Room room : rooms) {
                     if (room.getRoomNumber() == roomNumber && !room.isIn(bookedRooms)) {
                         bookedRooms.add(room);
                         break;
-                        }
                     }
+                }
             }
             roomFileReader.close();
         } catch (FileNotFoundException e) {
@@ -125,7 +125,7 @@ public class RoomBooking {
     // Creates a timetable list for the chosen room
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
-        Room room = room.get(choice - 1);
+        Room room = rooms.get(choice - 1);
         float roomNumberLower = (float) (room.getRoomNumber() - 0.0001);
         float roomNumberHigher = (float) (room.getRoomNumber() + 0.0001);
 

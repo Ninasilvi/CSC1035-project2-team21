@@ -1,5 +1,5 @@
 package csc1035.project2;
-    
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -89,5 +89,4 @@ public class Room {
         }
         return false;
     }
-
 }
