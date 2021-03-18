@@ -53,7 +53,7 @@ public class UI {
         System.out.println("5 - List of Booked Rooms");
         System.out.println("6 - List of Available Rooms");
         System.out.println("7 - Create a Timetable");
-        System.out.println("8 - Produce a Timetable for a Room");
+        System.out.println("8 - Produce a Timetable");
         System.out.println("9 - Exit");
     }
 
@@ -257,7 +257,7 @@ public class UI {
         se.beginTransaction();
         List<Student> students = se.createQuery("FROM Student").list();
 
-        System.out.println("\nPlease pick a student whose timetable you want to produce:");
+        System.out.println("\nPlease pick a student whose timetable you want to produce:\n");
         for(int i = 0; i < students.size(); i++) {
             System.out.println(i+1 + " - " + students.get(i).getStudentID() + " " +
                     students.get(i).getFirstName() + " " + students.get(i).getLastName());
@@ -269,9 +269,12 @@ public class UI {
     }
 
     public static void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
-        System.out.println("\nTimetable for " + students.get(choice-1).getFirstName() + " " +
-                students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")");
-        timetableFormat(time);
+        String name = students.get(choice-1).getFirstName() + " " +
+                students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")";
+        if (!(time.size() == 0)) {
+            System.out.println("\nTimetable for " + name);
+        }
+        timetableFormat(time, name);
         timetableNext();
     }
 
@@ -280,7 +283,7 @@ public class UI {
         se.beginTransaction();
         List<Staff> staff = se.createQuery("FROM Staff").list();
 
-        System.out.println("\n Please pick a staff member whose timetable you want to produce:");
+        System.out.println("\nPlease pick a staff member whose timetable you want to produce:\n");
         for(int i = 0; i < staff.size(); i++) {
             System.out.println(i+1 + " - " + staff.get(i).getStaffID() + " " +
                     staff.get(i).getFirstName() + " " + staff.get(i).getLastName());
@@ -292,9 +295,12 @@ public class UI {
     }
 
     public static void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
-        System.out.println("\nTimetable for " + staff.get(choice-1).getFirstName() + " " +
-                staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")");
-        timetableFormat(time);
+        String name = staff.get(choice-1).getFirstName() + " " +
+                staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")";
+        if (!(time.size() == 0)) {
+            System.out.println("\nTimetable for " + name);
+        }
+        timetableFormat(time, name);
         timetableNext();
     }
 
@@ -309,23 +315,30 @@ public class UI {
 
     // Prints out the results
     public static void timetableRoomsResult(Rooms room, List<Time> time) {
-        System.out.println("\nTimetable for " + room);
-        timetableFormat(time);
+        if (!(time.size() == 0)) {
+            System.out.println("\nTimetable for " + room);
+        }
+        timetableFormat(time, String.valueOf(room));
         timetableNext();
     }
 
-    public static void timetableFormat(List<Time> time) {
-        String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
-        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
-        System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
-        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+    public static void timetableFormat(List<Time> time, String info) {
 
-        for(int i = 0; i < time.size(); i++) {
-            System.out.format(printTimeFormat, i+1, time.get(i).getTimetableName(), time.get(i).getDay(),
-                    time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
-                    time.get(i).getRoomNumber());
+        if (time.size() == 0) {
+            System.out.println("\nThe timetable for " + info + " is empty.");
+        } else {
+            String printTimeFormat = "| %-3s | %-14s | %-8s | %-11s | %-8s | %-11s |%n";
+            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+            System.out.println("| Row | Timetable Name | Day      | Time        | ModuleID | Room Number |");
+            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
+
+            for (int i = 0; i < time.size(); i++) {
+                System.out.format(printTimeFormat, i + 1, time.get(i).getTimetableName(), time.get(i).getDay(),
+                        time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
+                        time.get(i).getRoomNumber());
+            }
+            System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
         }
-        System.out.println("+-----+----------------+----------+-------------+----------+-------------+");
     }
 
     public static void timetableNext() {
