@@ -19,7 +19,7 @@ public class UI {
     public static void runMenu() {
         while (true) {
             printMenu();
-            int choice = ic.get_int_input(1, 11);
+            int choice = ic.get_int_input(1, 12);
 
             switch (choice) {
                 case 1 -> listOfStudentsChoice();
@@ -38,6 +38,8 @@ public class UI {
                 case 10 -> r.bookRooms();
                 //Testing room cancelling
                 case 11 -> roomCancel();
+                // Testing Producing Timetable
+                case 12 -> t.producingTimetable();
             }
         }
     }
@@ -234,7 +236,4 @@ public class UI {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
     }
-
-
-
 }

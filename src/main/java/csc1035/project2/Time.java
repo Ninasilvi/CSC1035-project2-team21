@@ -1,19 +1,18 @@
 package csc1035.project2;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity(name = "Time")
 public class Time {
 
     @Column
-    private Time timeStart;
+    private String timeStart;
 
     @Column
-    private Time timeEnd;
+    private String timeEnd;
 
     @Column
-    private Date day;
+    private String day;
 
     @Column
     private String moduleID;
@@ -21,7 +20,10 @@ public class Time {
     @Column
     private float roomNumber;
 
-    public Time(Time timeStart, Time timeEnd, Date day, String moduleID, float roomNumber) {
+    public Time() {}
+
+    public Time(String timetableName, String timeStart, String timeEnd, String day, String moduleID, float roomNumber) {
+        this.timetableName = timetableName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.day = day;
@@ -29,27 +31,35 @@ public class Time {
         this.roomNumber = roomNumber;
     }
 
-    public Time getTimeStart() {
+    public String getTimetableName() {
+        return timetableName;
+    }
+
+    public void setTimetableName(String timetableName) {
+        this.timetableName = timetableName;
+    }
+
+    public String getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Time timeStart) {
+    public void setTimeStart(String timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Time getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Time timeEnd) {
+    public void setTimeEnd(String timeEnd) {
         this.timeEnd = timeEnd;
     }
 
-    public Date getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
@@ -68,4 +78,5 @@ public class Time {
     public void setRoomNumber(float roomNumber) {
         this.roomNumber = roomNumber;
     }
+
 }
