@@ -71,11 +71,11 @@ public class Timetable implements TimetableInterface {
         se.beginTransaction();
         InputCheck ic = new InputCheck();
 
-        System.out.print("Enter a Day: "); // Monday
+        System.out.print("\nEnter a Day: "); // Monday
         String day = ic.get_day_input();
 
-        System.out.print("Enter a Room Number: "); // 0.365
-        Double roomNumber = ic.get_double_input();
+        System.out.print("\nEnter a Room Number: "); // 0.365
+        double roomNumber = ic.get_double_input();
 
         //Get Table with a day and roomNumber that are taken
         String hql = "FROM Time T WHERE T.day LIKE '" + day + "' AND T.roomNumber LIKE " + roomNumber;
@@ -86,7 +86,7 @@ public class Timetable implements TimetableInterface {
         if (freeTime.size() != 0)
             empty = false;
 
-        System.out.println("Reserved Time:");
+        System.out.println("\nReserved Time:");
         if (!empty) {
             String printTimeFormat = "| %-3s | %-14s | %-9s | %-11s | %-8s | %-11s |%n";
             System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
@@ -100,7 +100,7 @@ public class Timetable implements TimetableInterface {
             System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
             se.getTransaction().commit();
         } else {
-            System.out.println("There are NO booked rooms!");
+            System.out.println("\nThere are NO booked rooms!");
         }
 
         String timeStart = "";
@@ -108,10 +108,25 @@ public class Timetable implements TimetableInterface {
 
         while (true) {
             boolean end = true;
-            System.out.println("Enter Module Start Time:");
+            System.out.println("\nEnter Module Start Time:");
             timeStart = ic.get_time_input();
-            System.out.println("Enter Module End Time:");
-            timeEnd = ic.get_time_input();
+            int sHour = Integer.parseInt(timeStart.substring(0,2));
+            int sMinute = Integer.parseInt(timeStart.substring(3));
+            boolean validTime = false;
+
+            while (!validTime) {
+                System.out.println("\nEnter Module End Time:");
+                timeEnd = ic.get_time_input();
+                int eHour = Integer.parseInt(timeEnd.substring(0,2));
+                int eMinute = Integer.parseInt(timeEnd.substring(3));
+
+                if (sHour > eHour || (sHour == eHour && sMinute > eMinute)) {
+                    validTime = true;
+                } else {
+                    System.out.println("\nIt cannot end before it started.\n");
+                }
+            }
+
             if (!empty) {
                 for (int i = 0; i < freeTime.size(); i++)
                     if (timeOverlap(timeStart, timeEnd, freeTime.get(i).getTimeStart(), freeTime.get(i).getTimeStart()))
