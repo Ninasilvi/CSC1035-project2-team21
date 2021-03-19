@@ -77,14 +77,13 @@ public class InputCheck implements InputCheckInterface {
 
     /**
      * Check if 'String' is actual Time and is Valid
-     * @return User input (Time hh-mm |String|)
+     * @return User input (Time (HH-mm) |String|)
      */
     public String get_time_input() {
         String input;
         Pattern p = Pattern.compile("(?:[01]?[0-9]|2[0-3]):[0-5][0-9]");
 
         while (true) {
-
             boolean pass = true;
             input = s.nextLine();
 
@@ -108,6 +107,38 @@ public class InputCheck implements InputCheckInterface {
                 break;
             }
         }
+        return input;
+    }
+
+    public String get_day_input() {
+        Scanner s = new Scanner(System.in);
+        String input;
+        Boolean pass = false;
+
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+        while (true) {
+
+            input = s.nextLine();
+
+            for(String day : days)
+                if(input.equals(day))
+                    pass = true;
+
+            if(pass) {
+                break;
+            } else {
+                System.out.println("Try again: Your input was incorrect.");
+                System.out.print("It should be: ");
+                for(int i = 0; i < 7; i++)
+                    if(i != 6) {
+                        System.out.print(days[i] + ", ");
+                    } else {
+                        System.out.println(days[i]);
+                    }
+                }
+        }
+
         return input;
     }
 }
