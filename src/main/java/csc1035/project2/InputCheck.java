@@ -3,6 +3,7 @@ package csc1035.project2;
 import csc1035.project2.interfaces.InputCheckInterface;
 
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -113,23 +114,37 @@ public class InputCheck implements InputCheckInterface {
     public String get_day_input() {
         Scanner s = new Scanner(System.in);
         String input;
-        Boolean pass = false;
+        boolean pass = false;
 
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        String[] smallDays = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
 
         while (true) {
-
             input = s.nextLine();
 
-            for(String day : days)
-                if(input.equals(day))
+            for (String day : days) {
+                if (input.equals(day)) {
                     pass = true;
+                    break;
+                }
+            }
 
-            if(pass) {
+            if (!pass) {
+                for (String day : smallDays) {
+                    if (input.equals(day)) {
+                        pass = true;
+                        String s1 = input.substring(0, 1).toUpperCase();
+                        input = s1 + input.substring(1);
+                        break;
+                    }
+                }
+            }
+
+            if (pass) {
                 break;
             } else {
-                System.out.println("Try again: Your input was incorrect.");
-                System.out.print("It should be: ");
+                System.out.println("\nTry again: Your input was incorrect.");
+                System.out.print("\nIt should be: ");
                 for(int i = 0; i < 7; i++)
                     if(i != 6) {
                         System.out.print(days[i] + ", ");
