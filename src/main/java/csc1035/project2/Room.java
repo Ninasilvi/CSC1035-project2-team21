@@ -8,7 +8,7 @@ public class Room {
 
     @Id
     @Column(updatable = false, nullable = false)
-    private float roomNumber;
+    private double roomNumber;
 
     @Column
     private String type;
@@ -28,11 +28,11 @@ public class Room {
 
     public Room() {}
 
-    public float getRoomNumber() {
+    public double getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(float roomNumber) {
+    public void setRoomNumber(double roomNumber) {
         this.roomNumber = roomNumber;
     }
 

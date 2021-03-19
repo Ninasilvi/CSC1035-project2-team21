@@ -23,4 +23,10 @@ public interface RoomBookingInterface {
     void availableRooms();
 
     void producingRoomTimetable(int choice);
+
+    void changeRoomType(Room room, String newType);
+
+    void changeRoomCapacity(Room room, int newCapacity);
+
+    void changeRoomSocDistCapacity(Room room, int newCapacity);
 }

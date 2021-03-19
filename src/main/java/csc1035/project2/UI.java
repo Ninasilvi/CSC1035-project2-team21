@@ -32,14 +32,15 @@ public class UI {
                 case 6 -> availableRoomsList();
                 case 7 -> t.allowCreateTimetable();
                 case 8 -> timetableChoice();
-                case 9 -> {
+                case 9 -> changeRoomMenu();
+                case 10 -> {
                     System.out.println("\nQuitting...");
                     System.exit(420);
                 }
                 //Testing room booking
-                case 10 -> r.bookRooms();
+                case 11 -> r.bookRooms();
                 //Testing room cancelling
-                case 11 -> roomCancel();
+                case 12 -> roomCancel();
             }
         }
     }
@@ -55,7 +56,8 @@ public class UI {
         System.out.println("6 - List of Available Rooms");
         System.out.println("7 - Create a Timetable");
         System.out.println("8 - Produce a Timetable");
-        System.out.println("9 - Exit");
+        System.out.println("9 - Change Room Details");
+        System.out.println("10 - Exit");
     }
 
 
@@ -358,6 +360,80 @@ public class UI {
         switch (choice) {
             case 1 -> timetableChoice();
             case 2 -> runMenu();
+        }
+    }
+
+    public static void changeRoomMenu() {
+        System.out.println("\nWhich room detail would you like to change?");
+        System.out.println("1 - Room Type");
+        System.out.println("2 - Maximum Room Capacity");
+        System.out.println("3 - Social Distancing Capacity");
+        System.out.println("4 - Go back");
+
+        int choice = ic.get_int_input(1, 4);
+        String detail = "";
+
+        switch (choice) {
+            case 1 -> detail = "type";
+            case 2 -> detail = "maximum capacity";
+            case 3 -> detail = "social distancing capacity";
+            case 4 -> runMenu();
+        }
+        changeRoomChoice(detail);
+    }
+
+    public static void changeRoomChoice(String detail) {
+        listOfRooms();
+
+        System.out.println("\nWhich room's " + detail + " would you like to change?");
+
+        int choice = ic.get_int_input(1, r.rooms.size());
+        Room room = r.rooms.get(choice - 1);
+
+        switch (detail) {
+            case "type" -> changeRoomTypeChoice(room);
+            case "maximum capacity" -> changeRoomCapacityChoice(room);
+            case "social distancing capacity" -> changeRoomSocDistCapacityChoice(room);
+        }
+    }
+
+    public static void changeRoomTypeChoice(Room room) {
+        System.out.println("\nPlease enter a new Room Type for " + room.toString());
+
+        String newType = ic.get_string_input();
+
+        r.changeRoomType(room, newType);
+    }
+
+    public static void changeRoomCapacityChoice(Room room) {
+        System.out.println("\nPlease enter a new Room Maximum Capacity for " + room.toString());
+
+        int newCapacity = ic.get_int_input(1, 300);
+
+        r.changeRoomCapacity(room, newCapacity);
+    }
+
+    public static void changeRoomSocDistCapacityChoice(Room room) {
+        System.out.println("\nPlease enter a new Room Social Distancing Capacity for " + room.toString());
+
+        int newCapacity = ic.get_int_input(1,50);
+
+        r.changeRoomSocDistCapacity(room, newCapacity);
+    }
+
+    public static void changeRoomResult(Room room) {
+        System.out.println("\nSuccessfully changed. New room:\n" + room);
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("1 - Change another room detail");
+        System.out.println("2 - Print a list of all rooms and go back to main menu");
+        System.out.println("2 - Go back to main menu");
+
+        int choice = ic.get_int_input(1, 2);
+
+        switch (choice) {
+            case 1 -> changeRoomMenu();
+            case 2 -> listOfRooms();
+            case 3 -> runMenu();
         }
     }
 }
