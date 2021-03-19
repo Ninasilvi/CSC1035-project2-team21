@@ -5,6 +5,9 @@ import org.hibernate.Session;
 import java.util.*;
 
 public class Timetable implements TimetableInterface{
+
+    static UI UI = new UI();
+
     /***
      * Creates a List of Students that take a specific Module (determined by moduleID)
      * @param moduleID Which Module Students should be printed
@@ -19,13 +22,12 @@ public class Timetable implements TimetableInterface{
 
         System.out.println('\n' + "Students taking '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
 
-        for (int i = 0; i < students.size(); i++) {
-            List<Module> temp = new ArrayList<>(students.get(i).getModules());
+        for (Student student : students) {
+            List<Module> temp = new ArrayList<>(student.getModules());
 
             for (int j = 0; j < temp.size(); j++)
-                if (temp.get(j).getModuleID().equals(moduleID))
-                {
-                    result.add(students.get(i));
+                if (temp.get(j).getModuleID().equals(moduleID)) {
+                    result.add(student);
                 }
         }
 

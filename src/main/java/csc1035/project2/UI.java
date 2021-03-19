@@ -7,17 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class UI {
+public class UI implements UInterface{
 
-    static Timetable t = new Timetable();
-    static RoomBooking r = new RoomBooking();
-    static InputCheck ic = new InputCheck();
+    Timetable t = new Timetable();
+    RoomBooking r = new RoomBooking();
+    InputCheck ic = new InputCheck();
 
-    public static void main(String[] args) {
-        runMenu();
-    }
-
-    public static void runMenu() {
+    public void runMenu() {
         while (true) {
             printMenu();
 
@@ -46,7 +42,7 @@ public class UI {
     }
 
     // Print Menu
-    private static void printMenu() {
+    public void printMenu() {
         System.out.println("\nPlease enter an option [1-6]:");
         System.out.println("1 - List Of Students Taking a Specific Module");
         System.out.println("2 - List of Staff Teaching a Specific Module");
@@ -60,18 +56,16 @@ public class UI {
         System.out.println("10 - Exit");
     }
 
-
     // Gets user's input for module choice for list of students in timetable by calling moduleOptions method
-    public static void listOfStudentsChoice() {
+    public void listOfStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         String moduleID = moduleOptions(se);
 
         t.listOfStudents(moduleID, se);
-
     }
 
     // Prints the list of students from timetable list of students
-    public static void listOfStudentsResult(List<Student> students) {
+    public void listOfStudentsResult(List<Student> students) {
         if (students.size() == 0) {
             System.out.println("\nNo Students were found in this Module");
         } else {
@@ -88,7 +82,7 @@ public class UI {
     }
 
     // Gets module choice for list of staff by calling moduleOptions method
-    public static void listOfStaffChoice() {
+    public void listOfStaffChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         String moduleID = moduleOptions(se);
 
@@ -96,7 +90,7 @@ public class UI {
     }
 
     // Prints all the staff for a particular module
-    public static void listOfStaffResult(List<Staff> staff) {
+    public void listOfStaffResult(List<Staff> staff) {
         if (staff.size() == 0) {
             System.out.println("\nNo Staff were found in this Module");
         } else {
@@ -112,7 +106,7 @@ public class UI {
         }
     }
 
-    public static void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
+    public void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
         if (moduleRequirements.size() == 0) {
             System.out.println("\nNo ModuleRequirements were found in this Module");
         } else {
@@ -133,7 +127,7 @@ public class UI {
     }
 
     // Prints module options and takes user input
-    public static String moduleOptions(Session se) {
+    public String moduleOptions(Session se) {
         se.beginTransaction();
         List<Module> modules = se.createQuery("FROM Module").list();
         se.getTransaction().commit();
@@ -148,10 +142,9 @@ public class UI {
         return modules.get(choice - 1).getModuleID();
     }
 
-
     // Prints out a list of all rooms
-    public static void listOfRooms() {
-        r.listOfRooms();
+    public void listOfRooms() {
+       r.listOfRooms();
 
         for (int i = 0; i < r.rooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.rooms.get(i));
@@ -159,18 +152,18 @@ public class UI {
     }
 
     // Asks the user which room they would like to book
-    public static void bookRoomsText() {
+    public void bookRoomsText() {
         System.out.println("\nWhich room would you like to book?");
     }
 
     // Informs the user that the room has been booked successfully
-    public static void roomBookingConfirmation(Room room) {
+    public void roomBookingConfirmation(Room room) {
         System.out.println("\n" + room + " has been successfully booked.");
         roomBookingNext();
     }
 
     // Asks the user what would they like to do after booking a room, redirecting to r.bookRooms or printMenu
-    public static void roomBookingNext() {
+    public void roomBookingNext() {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - Book another room");
         System.out.println("2 - Return to main menu");
@@ -183,7 +176,7 @@ public class UI {
     }
 
     // Prints a list of rooms that are already booked
-    public static void bookedRoomsList() {
+    public void bookedRoomsList() {
         r.listOfRooms();
 
         if (r.bookedRooms.size() == 0) {
@@ -201,7 +194,7 @@ public class UI {
     }
 
     // Asks the user which room booking they would like to cancel
-    public static void roomCancel() {
+    public void roomCancel() {
         bookedRoomsList();
 
         if (r.bookedRooms.size() == 0) {
@@ -214,13 +207,13 @@ public class UI {
     }
 
     // Informs the user that their room booking was cancelled.
-    public static void roomCancelConfirmation(Room room) {
+    public void roomCancelConfirmation(Room room) {
         System.out.println("\n" + room + " booking has been successfully cancelled");
         roomCancelNext();
     }
 
     // Asks the user what they would like to do after cancelling a room
-    public static void roomCancelNext() {
+    public void roomCancelNext() {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - Cancel another room booking");
         System.out.println("2 - Return to main menu");
@@ -233,7 +226,7 @@ public class UI {
     }
 
     // Prints out a list of available rooms
-    public static void availableRoomsList() {
+    public void availableRoomsList() {
         r.availableRooms();
         System.out.println("\nAvailable Rooms:\n");
 
@@ -242,7 +235,7 @@ public class UI {
         }
     }
 
-    public static void timetableChoice () {
+    public void timetableChoice () {
         System.out.println("\nSelect one of the options:");
         System.out.println("1 - Timetable for Students");
         System.out.println("2 - Timetable for Staff Members");
@@ -259,7 +252,7 @@ public class UI {
         }
     }
 
-    public static void timetableStudentsChoice() {
+    public void timetableStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
         List<Student> students = se.createQuery("FROM Student").list();
@@ -276,7 +269,7 @@ public class UI {
         t.producingStudentTimetable(choice, se, students);
     }
 
-    public static void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
+    public void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
         String name = students.get(choice-1).getFirstName() + " " +
                 students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")";
 
@@ -287,7 +280,7 @@ public class UI {
         timetableNext();
     }
 
-    public static void timetableStaffChoice() {
+    public void timetableStaffChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
         List<Staff> staff = se.createQuery("FROM Staff").list();
@@ -303,7 +296,7 @@ public class UI {
         t.producingStaffTimetable(choice, se, staff);
     }
 
-    public static void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
+    public void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
         String name = staff.get(choice-1).getFirstName() + " " +
                 staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")";
 
@@ -315,7 +308,7 @@ public class UI {
     }
 
     // Takes user input for a room choice
-    public static void timetableRoomsChoice() {
+    public void timetableRoomsChoice() {
         listOfRooms();
         System.out.println("\nPlease pick a room whose timetable you want to produce:");
         int choice = ic.get_int_input(1, r.rooms.size());
@@ -324,7 +317,7 @@ public class UI {
     }
 
     // Prints out the results
-    public static void timetableRoomsResult(Room room, List<Time> time) {
+    public void timetableRoomsResult(Room room, List<Time> time) {
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + room);
         }
@@ -332,7 +325,7 @@ public class UI {
         timetableNext();
     }
 
-    public static void timetableFormat(List<Time> time, String info) {
+    public void timetableFormat(List<Time> time, String info) {
         if (time.size() == 0) {
             System.out.println("\nThe timetable for " + info + " is empty.");
         } else {
@@ -350,7 +343,7 @@ public class UI {
         }
     }
 
-    public static void timetableNext() {
+    public void timetableNext() {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - View a different timetable");
         System.out.println("2 - Return to main menu");
@@ -363,7 +356,7 @@ public class UI {
         }
     }
 
-    public static void changeRoomMenu() {
+    public void changeRoomMenu() {
         System.out.println("\nWhich room detail would you like to change?");
         System.out.println("1 - Room Type");
         System.out.println("2 - Maximum Room Capacity");
@@ -382,7 +375,7 @@ public class UI {
         changeRoomChoice(detail);
     }
 
-    public static void changeRoomChoice(String detail) {
+    public void changeRoomChoice(String detail) {
         listOfRooms();
 
         System.out.println("\nWhich room's " + detail + " would you like to change?");
@@ -397,7 +390,7 @@ public class UI {
         }
     }
 
-    public static void changeRoomTypeChoice(Room room) {
+    public void changeRoomTypeChoice(Room room) {
         System.out.println("\nPlease enter a new Room Type for " + room.toString());
 
         String newType = ic.get_string_input();
@@ -405,7 +398,7 @@ public class UI {
         r.changeRoomType(room, newType);
     }
 
-    public static void changeRoomCapacityChoice(Room room) {
+    public void changeRoomCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Maximum Capacity for " + room.toString());
 
         int newCapacity = ic.get_int_input(1, 300);
@@ -413,7 +406,7 @@ public class UI {
         r.changeRoomCapacity(room, newCapacity);
     }
 
-    public static void changeRoomSocDistCapacityChoice(Room room) {
+    public void changeRoomSocDistCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Social Distancing Capacity for " + room.toString());
 
         int newCapacity = ic.get_int_input(1,50);
@@ -421,7 +414,7 @@ public class UI {
         r.changeRoomSocDistCapacity(room, newCapacity);
     }
 
-    public static void changeRoomResult(Room room) {
+    public void changeRoomResult(Room room) {
         System.out.println("\nSuccessfully changed. New room:\n" + room);
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - Change another room detail");

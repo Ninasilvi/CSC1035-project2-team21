@@ -14,6 +14,7 @@ public class RoomBooking implements RoomBookingInterface{
     List<Room> availableRooms = new ArrayList<>();
     static InputCheck ic = new InputCheck();
     File roomFile = new File("src\\main\\resources\\bookedRooms.cvs");
+    static UI UI = new UI();
 
     public void listOfRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
