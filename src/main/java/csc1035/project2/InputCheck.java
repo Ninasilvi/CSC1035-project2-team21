@@ -1,10 +1,12 @@
 package csc1035.project2;
 
+import csc1035.project2.interfaces.InputCheckInterface;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.*;
 
-public class InputCheck implements InputCheckInterface{
+public class InputCheck implements InputCheckInterface {
 
     Scanner s = new Scanner(System.in);
 

@@ -1,5 +1,8 @@
-package csc1035.project2;
+package csc1035.project2.interfaces;
 
+import csc1035.project2.Staff;
+import csc1035.project2.Student;
+import csc1035.project2.Time;
 import org.hibernate.Session;
 
 import java.util.*;

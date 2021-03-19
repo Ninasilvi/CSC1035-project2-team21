@@ -1,4 +1,6 @@
-package csc1035.project2;
+package csc1035.project2.interfaces;
+
+import csc1035.project2.Room;
 
 import java.util.*;
 

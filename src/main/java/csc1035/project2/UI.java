@@ -1,5 +1,6 @@
 package csc1035.project2;
 
+import csc1035.project2.interfaces.UInterface;
 import org.hibernate.Session;
 
 import java.text.DateFormat;
@@ -7,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class UI implements UInterface{
+public class UI implements UInterface {
 
     Timetable t = new Timetable();
     RoomBooking r = new RoomBooking();

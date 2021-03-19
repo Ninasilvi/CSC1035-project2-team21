@@ -1,10 +1,11 @@
 package csc1035.project2;
 
+import csc1035.project2.interfaces.TimetableInterface;
 import org.hibernate.Session;
 
 import java.util.*;
 
-public class Timetable implements TimetableInterface{
+public class Timetable implements TimetableInterface {
 
     static UI UI = new UI();
 

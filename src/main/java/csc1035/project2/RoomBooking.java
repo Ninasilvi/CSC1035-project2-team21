@@ -1,5 +1,6 @@
 package csc1035.project2;
 
+import csc1035.project2.interfaces.RoomBookingInterface;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -7,7 +8,7 @@ import javax.persistence.Query;
 import java.io.*;
 import java.util.*;
 
-public class RoomBooking implements RoomBookingInterface{
+public class RoomBooking implements RoomBookingInterface {
 
     List<Room> rooms;
     List<Room> bookedRooms = new ArrayList<>();
