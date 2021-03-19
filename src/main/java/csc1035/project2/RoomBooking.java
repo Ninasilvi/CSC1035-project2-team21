@@ -130,11 +130,10 @@ public class RoomBooking implements RoomBookingInterface{
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         Room room = rooms.get(choice - 1);
-        double roomNumberLower = room.getRoomNumber() - 0.0001;
-        double roomNumberHigher = room.getRoomNumber() + 0.0001;
+        double roomNumber = room.getRoomNumber();
 
         se.beginTransaction();
-        String hql = "FROM Time t WHERE t.roomNumber BETWEEN " + roomNumberLower + " AND " + roomNumberHigher;
+        String hql = "FROM Time WHERE roomNumber LIKE '" + roomNumber + "'";
         List<Time> timetables = se.createQuery(hql).list();
         se.close();
         UI.timetableRoomsResult(room, timetables);
@@ -142,13 +141,12 @@ public class RoomBooking implements RoomBookingInterface{
 
     public void changeRoomType(Room room, String newType) {
         Session se = HibernateUtil.getSessionFactory().openSession();
-        double roomNumberLower = room.getRoomNumber() - 0.0001;
-        double roomNumberHigher = room.getRoomNumber() + 0.0001;
+        double roomNumber = room.getRoomNumber();
 
         room.setType(newType);
         Transaction t = se.beginTransaction();
         String hql = "UPDATE Rooms SET type = '" + newType +
-                "' WHERE roomNumber BETWEEN " + roomNumberLower + " AND " + roomNumberHigher;
+                "' WHERE roomNumber LIKE '" + roomNumber + "'";
         Query query = se.createQuery(hql);
         query.executeUpdate();
         t.commit();
@@ -158,13 +156,12 @@ public class RoomBooking implements RoomBookingInterface{
 
     public void changeRoomCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
-        double roomNumberLower = room.getRoomNumber() - 0.0001;
-        double roomNumberHigher = room.getRoomNumber() + 0.0001;
+        double roomNumber = room.getRoomNumber();
 
         room.setMaxCapacity(newCapacity);
         Transaction t = se.beginTransaction();
         String hql = "UPDATE Rooms SET maxCapacity = " + newCapacity +
-                " WHERE roomNumber BETWEEN " + roomNumberLower + " AND " + roomNumberHigher;
+                " WHERE roomNumber LIKE '" + roomNumber + "'";
         Query query = se.createQuery(hql);
         query.executeUpdate();
         t.commit();
@@ -174,13 +171,12 @@ public class RoomBooking implements RoomBookingInterface{
 
     public void changeRoomSocDistCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
-        double roomNumberLower = room.getRoomNumber() - 0.0001;
-        double roomNumberHigher = room.getRoomNumber() + 0.0001;
+        double roomNumber = room.getRoomNumber();
 
         room.setSocialDistCapacity(newCapacity);
         Transaction t = se.beginTransaction();
         String hql = "UPDATE Rooms SET socialDistCapacity = " + newCapacity +
-                " WHERE roomNumber BETWEEN " + roomNumberLower + " AND " + roomNumberHigher;
+                " WHERE roomNumber LIKE '" + roomNumber + "'";
         Query query = se.createQuery(hql);
         query.executeUpdate();
         t.commit();
