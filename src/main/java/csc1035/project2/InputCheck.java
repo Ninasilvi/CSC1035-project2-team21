@@ -4,7 +4,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.*;
 
-public class InputCheck {
+public class InputCheck implements InputCheckInterface{
+
+    Scanner s = new Scanner(System.in);
+
     /**
      * Checks if 'integer' input is valid
      * @param min_val Minimum input value
@@ -12,7 +15,6 @@ public class InputCheck {
      * @return User input (Integer)
      */
     public int get_int_input(int min_val, int max_val) {
-        Scanner s = new Scanner(System.in);
         int input;
 
         while (true) {
@@ -37,7 +39,6 @@ public class InputCheck {
      * @return User Input (Real Number)
      */
     public double get_double_input() {
-        Scanner s = new Scanner(System.in);
         double input;
 
         while (true) {
@@ -58,7 +59,6 @@ public class InputCheck {
      * @return User input (String)
      */
     public String get_string_input() {
-        Scanner s = new Scanner(System.in);
         String input;
 
         while (true) {
@@ -78,7 +78,6 @@ public class InputCheck {
      * @return User input (Time hh-mm |String|)
      */
     public String get_time_input() {
-        Scanner s = new Scanner(System.in);
         String input;
         Pattern p = Pattern.compile("(?:[01]?[0-9]|2[0-3]):[0-5][0-9]");
 
