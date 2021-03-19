@@ -12,13 +12,9 @@ public interface RoomBookingInterface {
 
     void bookRooms();
 
-    void writeToBookedRooms(Room room);
-
-    void bookedRoomsFile();
-
     void cancelRooms();
 
-    void cancelRoomsFile(Room room);
+    void bookedRoomsCheck();
 
     void availableRooms();
 

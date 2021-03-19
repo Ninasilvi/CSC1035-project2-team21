@@ -180,7 +180,7 @@ public class UI implements UInterface{
         r.listOfRooms();
 
         if (r.bookedRooms.size() == 0) {
-            r.bookedRoomsFile();
+            r.bookedRoomsCheck();
         }
         if (r.bookedRooms.size() == 0) {
             System.out.println("\nThere are no rooms currently booked.");
