@@ -187,7 +187,7 @@ public class Timetable implements TimetableInterface {
     }
 
     public boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2) {
-        boolean send = false;
+        boolean overlap = false;
 
         int startHour1 = Integer.parseInt(startTime1.substring(0,2));
         int startMinute1 = Integer.parseInt(startTime1.substring(3));
@@ -200,15 +200,19 @@ public class Timetable implements TimetableInterface {
         int endMinute2 = Integer.parseInt(endTime2.substring(3));
 
         if (startHour2 > startHour1 && startHour2 < endHour1) {
-            send = true;
-        } else if (startHour2 == startHour1 && (startMinute2 > startMinute1 && startMinute2 < endMinute1)) {
-            send = true;
+            overlap = true;
         } else if (startHour1 > startHour2 && startHour1 < endHour2) {
-            send = true;
-        } else if (startHour2 == startHour1 && (startMinute1 > startMinute2 && startMinute1 < endMinute2)) {
-            send = true;
+            overlap = true;
+        } else if (startHour2 == endHour1 && (startMinute2 < endMinute1)) {
+            overlap = true;
+        } else if (startHour1 == endHour2 && (startMinute1 < endMinute2)) {
+            overlap = true;
+        } else if (startHour1 == startHour2 && startMinute1 == startMinute2) {
+            overlap = true;
+        } else if (endHour1 == endHour2 && endMinute1 == endMinute2) {
+            overlap = true;
         }
 
-        return send;
+        return overlap;
     }
 }
