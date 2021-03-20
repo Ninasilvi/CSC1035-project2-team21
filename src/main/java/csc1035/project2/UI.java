@@ -112,6 +112,7 @@ public class UI implements UInterface {
             System.out.println("\nNo ModuleRequirements were found in this Module");
         } else {
             String printPeopleFormat = "| %-3s | %-10s | %-15s | %-13s | %-14s | %-17s | %-16s | %n";
+            System.out.println("Module Requirements");
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
             System.out.println("| Row | ModuleID   | Week Commencing | Lectures/week | Lecture Length | Practicals / week | Practical Length |");
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
