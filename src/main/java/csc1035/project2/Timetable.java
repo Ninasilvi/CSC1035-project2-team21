@@ -22,10 +22,8 @@ public class Timetable implements TimetableInterface {
         List<Student> students = se.createQuery("FROM Student").list();
 
         System.out.println('\n' + "Students taking '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
-
         for (Student student : students) {
             List<Module> temp = new ArrayList<>(student.getModules());
-
             for (int j = 0; j < temp.size(); j++)
                 if (temp.get(j).getModuleID().equals(moduleID)) {
                     result.add(student);
@@ -42,15 +40,24 @@ public class Timetable implements TimetableInterface {
      */
     public void listOfStaff(String moduleID, Session se) {
         se.beginTransaction();
+        List<Staff> result = new ArrayList<Staff>();
+        String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
+        List<Module> ModuleName = se.createQuery(hql).list();
+        List<Staff> staff = se.createQuery("FROM Staff").list();
 
-        String hql = "FROM Staff S " +
-                "WHERE S.staffID IN (SELECT SM.staffID FROM StaffModule SM WHERE SM.moduleID = " + moduleID + ")";
-        List<Staff> staff = se.createQuery(hql).list();
-
+        System.out.println('\n' + "Staff members teaching '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
+        for (Staff staffMember : staff) {
+            List<Module> temp = new ArrayList<>(staffMember.getModules());
+            for (int j = 0; j < temp.size(); j++)
+                if (temp.get(j).getModuleID().equals(moduleID)) {
+                    result.add(staffMember);
+                }
+        }
         se.getTransaction().commit();
         se.close();
-        UI.listOfStaffResult(staff);
+        UI.listOfStaffResult(result);
     }
+
 
     /**
      * List of Module Requirements
