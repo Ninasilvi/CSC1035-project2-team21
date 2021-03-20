@@ -22,4 +22,6 @@ public interface TimetableInterface {
     void producingStaffTimetable(int choice, Session se, List<Staff> staff);
 
     List<Time> sortByDateTime(List<Time> time);
+
+    boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2, String day1, String day2);
 }

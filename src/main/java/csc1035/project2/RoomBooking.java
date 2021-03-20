@@ -11,10 +11,8 @@ import java.util.*;
 public class RoomBooking implements RoomBookingInterface {
 
     List<Room> rooms;
-    List<Room> bookedRooms = new ArrayList<>();
     List<Room> availableRooms = new ArrayList<>();
     static InputCheck ic = new InputCheck();
-    File roomFile = new File("src\\main\\resources\\bookedRooms.cvs");
     static UI UI = new UI();
     static Timetable t = new Timetable();
 
@@ -58,21 +56,50 @@ public class RoomBooking implements RoomBookingInterface {
         // TODO: add a method that checks booked rooms based on timetable
     }
 
-    // Determines available rooms
-    public void availableRooms(String timeStart, String timeEnd) {
+    // Determines rooms that have not been booked
+    public void availableRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
 
+        if (availableRooms.size() != 0) {
+            List<Room> temp = availableRooms;
+            availableRooms.removeAll(temp);
+        }
+
+        String hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.roomNumber FROM Time t)";
+        List<Room> temp = se.createQuery(hql).list();
+
+        availableRooms.addAll(temp);
+        se.close();
+    }
+
+    // Determines available rooms for a specific date and time
+    public void availableRoomsDT(String timeStart, String timeEnd, String day) {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        if (availableRooms.size() != 0) {
+            List<Room> temp = availableRooms;
+            availableRooms.removeAll(temp);
+        }
+
         String hql = "FROM Time";
         List<Time> times = se.createQuery(hql).list();
+        List<Room> unavailableRooms = new ArrayList<>();
+
 
         for (Time time : times) {
             String startTime = time.getTimeStart();
             String endTime = time.getTimeEnd();
+            String timeDay = time.getDay();
+            List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoomNumber() + "'").list();
 
-            if (!(t.timeOverlap(timeStart, timeEnd, startTime, endTime))) {
-                List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoomNumber() + "'").list();
-                availableRooms.addAll(temp);
+            if (!(t.timeOverlap(timeStart, timeEnd, startTime, endTime, day, timeDay))) {
+                if (!(temp.get(0).isIn(availableRooms))) {
+                    availableRooms.addAll(temp);
+                }
+            } else {
+                unavailableRooms.addAll(temp);
             }
         }
         hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.roomNumber FROM Time t)";
@@ -81,6 +108,11 @@ public class RoomBooking implements RoomBookingInterface {
         for (Room room : temp) {
             if (!room.isIn(availableRooms)) {
                 availableRooms.add(room);
+            }
+        }
+        for (Room room : unavailableRooms) {
+            if (room.isIn(availableRooms)) {
+                availableRooms.remove(room);
             }
         }
         se.close();

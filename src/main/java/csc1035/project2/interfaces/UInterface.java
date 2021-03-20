@@ -43,7 +43,11 @@ public interface UInterface {
 
     void roomCancelNext();
 
+    void availableRoomsListMenu();
+
     void availableRoomsList();
+
+    void availableRoomsDTList();
 
     void timetableChoice();
 

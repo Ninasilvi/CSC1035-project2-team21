@@ -152,7 +152,7 @@ public class InputCheck implements InputCheckInterface {
         int sMinute = Integer.parseInt(startTime.substring(3));
 
         while (!validTime) {
-            System.out.println("\nEnter Module End Time:");
+            System.out.println("\nEnter End Time:");
             timeEnd = get_time_input();
             int eHour = Integer.parseInt(timeEnd.substring(0, 2));
             int eMinute = Integer.parseInt(timeEnd.substring(3));
@@ -202,7 +202,6 @@ public class InputCheck implements InputCheckInterface {
                 }
             }
         }
-        System.out.println("Day: " + input.substring(0,1).toUpperCase() + input.substring(1));
         return input.substring(0,1).toUpperCase() + input.substring(1);
     }
 }

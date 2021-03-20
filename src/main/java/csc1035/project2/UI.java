@@ -26,7 +26,7 @@ public class UI implements UInterface {
                 case 3 -> t.listOfModuleReq();
                 case 4 -> listOfRooms();
                 case 5 -> bookedRoomsList();
-                case 6 -> availableRoomsList();
+                case 6 -> availableRoomsListMenu();
                 case 7 -> timetableVariables();
                 case 8 -> timetableChoice();
                 case 9 -> changeRoomMenu();
@@ -227,16 +227,61 @@ public class UI implements UInterface {
         }
     }
 
-    // Prints out a list of available rooms
-    public void availableRoomsList() {
+    // A menu for viewing available rooms
+    public void availableRoomsListMenu() {
 
-        System.out.println("\nEnter Module Start Time:");
+        System.out.println("\nPlease pick an option:");
+        System.out.println("1 - View all rooms that have not been booked");
+        System.out.println("2 - View available rooms for a specific time");
+        System.out.println("3 - Go back");
+
+        int choice = ic.get_int_input(1, 3);
+
+        switch (choice) {
+            case 1 -> availableRoomsList();
+            case 2 -> availableRoomsDTList();
+            case 3 -> runMenu();
+        }
+
+        System.out.println("\nWhat would you like to do next?\n");
+        System.out.println("1 - View another available rooms list");
+        System.out.println("2 - Return to main menu");
+
+        choice = ic.get_int_input(1, 2);
+
+        switch (choice) {
+            case 1 -> availableRoomsListMenu();
+            case 2 -> runMenu();
+        }
+    }
+
+    // Prints a list of rooms that have not been booked
+    public void availableRoomsList() {
+        r.availableRooms();
+
+        if (r.availableRooms.size() == 0) {
+            System.out.println("\nAll rooms are booked.\n");
+        } else {
+            System.out.println("\nUnbooked rooms:\n");
+
+            for (int i = 0; i < r.availableRooms.size(); i++) {
+                System.out.println(i + 1 + " - " + r.availableRooms.get(i));
+            }
+        }
+    }
+
+    // Prints a list of rooms that are available for a certain day and time
+    public void availableRoomsDTList() {
+        System.out.println("\nEnter Start Time: ");
         String timeStart = ic.get_time_input();
         String timeEnd = ic.get_end_time_input(timeStart);
 
-        r.availableRooms(timeStart, timeEnd);
+        System.out.println("\nEnter the Day: ");
+        String day = ic.get_day_input();
 
-        System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + ":\n");
+        r.availableRoomsDT(timeStart, timeEnd, day);
+
+        System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + " on " + day + ":\n");
 
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));

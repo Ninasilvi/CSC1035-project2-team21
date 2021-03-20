@@ -209,7 +209,7 @@ public class Timetable implements TimetableInterface {
         return sortedTime;
     }
 
-    public boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2) {
+    public boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2, String day1, String day2) {
         boolean overlap = false;
 
         int startHour1 = Integer.parseInt(startTime1.substring(0,2));
@@ -222,20 +222,21 @@ public class Timetable implements TimetableInterface {
         int endHour2 = Integer.parseInt(endTime2.substring(0,2));
         int endMinute2 = Integer.parseInt(endTime2.substring(3));
 
-        if (startHour2 > startHour1 && startHour2 < endHour1) {
-            overlap = true;
-        } else if (startHour1 > startHour2 && startHour1 < endHour2) {
-            overlap = true;
-        } else if (startHour2 == endHour1 && (startMinute2 < endMinute1)) {
-            overlap = true;
-        } else if (startHour1 == endHour2 && (startMinute1 < endMinute2)) {
-            overlap = true;
-        } else if (startHour1 == startHour2 && startMinute1 == startMinute2) {
-            overlap = true;
-        } else if (endHour1 == endHour2 && endMinute1 == endMinute2) {
-            overlap = true;
+        if (day1.equals(day2)) {
+            if (startHour2 > startHour1 && startHour2 < endHour1) {
+                overlap = true;
+            } else if (startHour1 > startHour2 && startHour1 < endHour2) {
+                overlap = true;
+            } else if (startHour2 == endHour1 && (startMinute2 < endMinute1)) {
+                overlap = true;
+            } else if (startHour1 == endHour2 && (startMinute1 < endMinute2)) {
+                overlap = true;
+            } else if (startHour1 == startHour2 && startMinute1 == startMinute2) {
+                overlap = true;
+            } else if (endHour1 == endHour2 && endMinute1 == endMinute2) {
+                overlap = true;
+            }
         }
-
         return overlap;
     }
 }
