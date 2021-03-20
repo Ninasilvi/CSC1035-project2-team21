@@ -27,7 +27,7 @@ public class UI implements UInterface {
                 case 4 -> listOfRooms();
                 case 5 -> bookedRoomsList();
                 case 6 -> availableRoomsList();
-                case 7 -> t.allowCreateTimetable();
+                case 7 -> timetableVariables();
                 case 8 -> timetableChoice();
                 case 9 -> changeRoomMenu();
                 case 10 -> {
@@ -229,8 +229,14 @@ public class UI implements UInterface {
 
     // Prints out a list of available rooms
     public void availableRoomsList() {
-        r.availableRooms();
-        System.out.println("\nAvailable Rooms:\n");
+
+        System.out.println("\nEnter Module Start Time:");
+        String timeStart = ic.get_time_input();
+        String timeEnd = ic.get_end_time_input(timeStart);
+
+        r.availableRooms(timeStart, timeEnd);
+
+        System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + ":\n");
 
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));

@@ -18,7 +18,7 @@ public interface RoomBookingInterface {
 
     void bookedRoomsCheck();
 
-    void availableRooms();
+    void availableRooms(String timeStart, String timeEnd);
 
     void producingRoomTimetable(int choice);
 

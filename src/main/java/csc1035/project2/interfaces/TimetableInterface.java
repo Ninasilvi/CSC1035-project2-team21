@@ -15,7 +15,7 @@ public interface TimetableInterface {
 
     void listOfModuleReq();
 
-    void allowCreateTimetable();
+    void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Session se);
 
     void producingStudentTimetable(int choice, Session se, List<Student> students);
 

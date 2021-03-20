@@ -10,7 +10,13 @@ public interface InputCheckInterface {
 
     double get_double_input();
 
+    double get_roomNum_input();
+
     String get_string_input();
 
     String get_time_input();
+
+    String get_end_time_input(String startTime);
+
+    String get_day_input();
 }

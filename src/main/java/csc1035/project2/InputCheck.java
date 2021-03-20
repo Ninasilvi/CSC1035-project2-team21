@@ -139,6 +139,27 @@ public class InputCheck implements InputCheckInterface {
         return input;
     }
 
+    public String get_end_time_input(String startTime) {
+        boolean validTime = false;
+        String timeEnd = "";
+        int sHour = Integer.parseInt(startTime.substring(0,2));
+        int sMinute = Integer.parseInt(startTime.substring(3));
+
+        while (!validTime) {
+            System.out.println("\nEnter Module End Time:");
+            timeEnd = get_time_input();
+            int eHour = Integer.parseInt(timeEnd.substring(0, 2));
+            int eMinute = Integer.parseInt(timeEnd.substring(3));
+
+            if (sHour < eHour || (sHour == eHour && sMinute < eMinute)) {
+                validTime = true;
+            } else {
+                System.out.println("\nIt cannot end before it started.");
+            }
+        }
+        return timeEnd;
+    }
+
     public String get_day_input() {
         Scanner s = new Scanner(System.in);
         String input;

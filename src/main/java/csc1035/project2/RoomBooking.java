@@ -16,6 +16,7 @@ public class RoomBooking implements RoomBookingInterface {
     static InputCheck ic = new InputCheck();
     File roomFile = new File("src\\main\\resources\\bookedRooms.cvs");
     static UI UI = new UI();
+    static Timetable t = new Timetable();
 
     public void listOfRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -23,24 +24,21 @@ public class RoomBooking implements RoomBookingInterface {
 
         rooms = se.createQuery("FROM Rooms").list();
 
-        if (availableRooms.size() == 0) {
-            availableRooms = rooms;
-        }
-
         se.getTransaction().commit();
         se.close();
     }
 
     public void bookRooms() {
-        UI.availableRoomsList();
+
+
+
         UI.bookRoomsText();
         bookedRoomsCheck();
 
         int choice = ic.get_int_input(1, availableRooms.size());
         Room room = availableRooms.get(choice - 1);
 
-        bookedRooms.add(room);
-        availableRooms.remove(room);
+
 
         UI.roomBookingConfirmation(room);
     }
@@ -61,12 +59,31 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     // Determines available rooms
-    public void availableRooms() {
-        listOfRooms();
+    public void availableRooms(String timeStart, String timeEnd) {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
 
-        bookedRoomsCheck();
+        String hql = "FROM Time";
+        List<Time> times = se.createQuery(hql).list();
 
-        availableRooms.removeIf(room -> room.isIn(bookedRooms));
+        for (Time time : times) {
+            String startTime = time.getTimeStart();
+            String endTime = time.getTimeEnd();
+
+            if (!(t.timeOverlap(timeStart, timeEnd, startTime, endTime))) {
+                List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoomNumber() + "'").list();
+                availableRooms.addAll(temp);
+            }
+        }
+        hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.roomNumber FROM Time t)";
+        List<Room> temp = se.createQuery(hql).list();
+
+        for (Room room : temp) {
+            if (!room.isIn(availableRooms)) {
+                availableRooms.add(room);
+            }
+        }
+        se.close();
     }
 
     // Creates a timetable list for the chosen room
