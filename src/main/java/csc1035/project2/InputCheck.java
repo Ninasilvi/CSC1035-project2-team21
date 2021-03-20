@@ -3,7 +3,6 @@ package csc1035.project2;
 import csc1035.project2.interfaces.InputCheckInterface;
 
 import java.util.InputMismatchException;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -56,6 +55,35 @@ public class InputCheck implements InputCheckInterface {
         }
         return input;
     }
+
+    /**
+     * Check if 'Double' input has 'Room Number' pattern
+     * @return User Input (Room Number |String|)
+     */
+    public double get_roomNum_input() {
+        double input;
+        String str;
+        Pattern p = Pattern.compile("[0-9].[0-9][0-9][0-9]");
+        while (true) {
+            System.out.print("> ");
+            try {
+                input = s.nextDouble();
+                str = String.valueOf(input);
+                Matcher m = p.matcher(str);
+                if(m.matches()) {
+                    break;
+                } else {
+                    System.out.println("Try again: input should have 3 numbers after decimal. (e.g. '0.365'");
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("\nTry again: Bad input!");
+                s.nextDouble();
+            }
+        }
+        return input;
+    }
+
 
     /**
      * Check if 'String' input is valid
@@ -116,27 +144,15 @@ public class InputCheck implements InputCheckInterface {
         String input;
         boolean pass = false;
 
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-        String[] smallDays = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+        String[] days = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
 
         while (true) {
-            input = s.nextLine();
+            input = s.nextLine().toLowerCase();
 
             for (String day : days) {
                 if (input.equals(day)) {
                     pass = true;
                     break;
-                }
-            }
-
-            if (!pass) {
-                for (String day : smallDays) {
-                    if (input.equals(day)) {
-                        pass = true;
-                        String s1 = input.substring(0, 1).toUpperCase();
-                        input = s1 + input.substring(1);
-                        break;
-                    }
                 }
             }
 
@@ -147,13 +163,13 @@ public class InputCheck implements InputCheckInterface {
                 System.out.print("\nIt should be: ");
                 for(int i = 0; i < 7; i++)
                     if(i != 6) {
-                        System.out.print(days[i] + ", ");
+                        System.out.print(days[i].substring(0,1).toUpperCase() + days[i].substring(1) + ", ");
                     } else {
-                        System.out.println(days[i]);
+                        System.out.println(days[i].substring(0,1).toUpperCase() + days[i].substring(1));
                     }
                 }
         }
-
-        return input;
+        System.out.println("Day: " + input.substring(0,1).toUpperCase() + input.substring(1));
+        return input.substring(0,1).toUpperCase() + input.substring(1);
     }
 }
