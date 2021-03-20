@@ -109,6 +109,7 @@ public class InputCheck implements InputCheckInterface {
      * @return User input (Time (HH-mm) |String|)
      */
     public String get_time_input() {
+        Scanner s = new Scanner(System.in);
         String input;
         Pattern p = Pattern.compile("(?:[01]?[0-9]|2[0-3]):[0-5][0-9]");
 
@@ -139,6 +140,11 @@ public class InputCheck implements InputCheckInterface {
         return input;
     }
 
+    /**
+     * Check if 'String' is actual Time, is Valid and is after 'startTime'
+     * @param startTime compare endTime with startTime so it's not in wrong order
+     * @return User input (Time (HH-mm) |String|)
+     */
     public String get_end_time_input(String startTime) {
         boolean validTime = false;
         String timeEnd = "";
@@ -160,6 +166,10 @@ public class InputCheck implements InputCheckInterface {
         return timeEnd;
     }
 
+    /**
+     * Check if 'String' is Day of the Week.
+     * @return User input (Day of the Week with first letter being uppercase)
+     */
     public String get_day_input() {
         Scanner s = new Scanner(System.in);
         String input;
@@ -182,13 +192,15 @@ public class InputCheck implements InputCheckInterface {
             } else {
                 System.out.println("\nTry again: Your input was incorrect.");
                 System.out.print("\nIt should be: ");
-                for(int i = 0; i < 7; i++)
-                    if(i != 6) {
-                        System.out.print(days[i].substring(0,1).toUpperCase() + days[i].substring(1) + ", ");
+                for(int i = 0; i < 7; i++) {
+                    String printDay = days[i].substring(0, 1).toUpperCase() + days[i].substring(1);
+                    if (i != 6) {
+                        System.out.print(printDay + ", ");
                     } else {
-                        System.out.println(days[i].substring(0,1).toUpperCase() + days[i].substring(1));
+                        System.out.println(printDay);
                     }
                 }
+            }
         }
         System.out.println("Day: " + input.substring(0,1).toUpperCase() + input.substring(1));
         return input.substring(0,1).toUpperCase() + input.substring(1);
