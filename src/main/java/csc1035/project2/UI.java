@@ -437,4 +437,28 @@ public class UI implements UInterface {
             case 3 -> runMenu();
         }
     }
+
+    public void timetableVariables() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        InputCheck ic = new InputCheck();
+
+        System.out.print("Enter a Day: ");
+        String day = ic.get_day_input();
+
+        System.out.println("Enter Class name:");
+        String timetableName = ic.get_string_input();
+
+        String moduleID = moduleOptions(se);
+
+        String timeStart;
+        String timeEnd;
+
+        System.out.println("\nEnter Module Start Time:");
+        timeStart = ic.get_time_input();
+        timeEnd = ic.get_end_time_input(timeStart);
+
+        t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd, se);
+    }
 }

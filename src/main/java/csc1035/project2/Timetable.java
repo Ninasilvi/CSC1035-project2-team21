@@ -16,14 +16,16 @@ public class Timetable implements TimetableInterface {
      */
     public void listOfStudents(String moduleID, Session se) {
         se.beginTransaction();
-        List<Student> result = new ArrayList<Student>();
+        List<Student> result = new ArrayList<>();
         String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
         List<Module> ModuleName = se.createQuery(hql).list();
         List<Student> students = se.createQuery("FROM Student").list();
 
         System.out.println('\n' + "Students taking '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
+
         for (Student student : students) {
             List<Module> temp = new ArrayList<>(student.getModules());
+
             for (int j = 0; j < temp.size(); j++)
                 if (temp.get(j).getModuleID().equals(moduleID)) {
                     result.add(student);
@@ -53,11 +55,11 @@ public class Timetable implements TimetableInterface {
                     result.add(staffMember);
                 }
         }
+
         se.getTransaction().commit();
         se.close();
         UI.listOfStaffResult(result);
     }
-
 
     /**
      * List of Module Requirements
@@ -73,21 +75,23 @@ public class Timetable implements TimetableInterface {
     }
 
     // Allows the admin to create a timetable (and book relevant rooms) for the school
-    public void allowCreateTimetable() {
-        Session se = HibernateUtil.getSessionFactory().openSession();
-        se.beginTransaction();
-        InputCheck ic = new InputCheck();
+    public void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Session se) {
 
-        System.out.print("\nEnter a Day: "); // Monday
-        String day = ic.get_day_input();
+        String hql = "FROM Time T WHERE T.day = '" + day + "' AND T.timetableName = '" + timetableName + "' AND T.moduleID = '" + moduleID + "'";
+        List<Time> time = se.createQuery(hql).list();
 
-        System.out.print("\nEnter a Room Number: "); // 0.365
-        double roomNumber = ic.get_double_input();
+        UI.timetableFormat(time, "Your current timetable creation");
+
+        /*System.out.print("\nEnter a Room Number: "); // 0.365
+        String roomNumber = ic.get_double_input();*/
 
         //Get Table with a day and roomNumber that are taken
+        /*
         String hql = "FROM Time T WHERE T.day LIKE '" + day + "' AND T.roomNumber LIKE " + roomNumber;
-        List<Time> freeTime = se.createQuery(hql).list();
+        List<Time> freeTime = se.createQuery(hql).list();*/
 
+
+        /*
         boolean empty = true;
         //If Timetable is empty, don't show anything
         if (freeTime.size() != 0)
@@ -110,9 +114,10 @@ public class Timetable implements TimetableInterface {
             System.out.println("\nThere are NO booked rooms!");
         }
 
-        String timeStart = "";
-        String timeEnd = "";
+        */
 
+
+        /*
         while (true) {
             boolean end = true;
             System.out.println("\nEnter Module Start Time:");
@@ -144,19 +149,15 @@ public class Timetable implements TimetableInterface {
                 } else {
                     System.out.println("Try again. This Time period is taken!");
                 }
-            }
-        }
-        System.out.println("Enter Class name:");
-        String timetableName = ic.get_string_input();
-        System.out.println("Enter Module ID:");
-        String moduleID = ic.get_string_input();
-
+            }*/
         se.close();
     }
+
 
     // A way of producing a timetable for a staff member or student
     public void producingStudentTimetable(int choice, Session se, List<Student> students) {
         List<Module> modules = new ArrayList<>(students.get(choice-1).getModules());
+
         List<Time> time = new ArrayList<>();
 
         for (Module module : modules) {
