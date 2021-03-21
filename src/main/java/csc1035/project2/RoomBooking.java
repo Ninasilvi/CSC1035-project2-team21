@@ -132,6 +132,10 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
+    /**
+     * Adds to timetable list the elements from Time entity for a particular room
+     * @param choice user's room choice
+     */
     // Creates a timetable list for the chosen room
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -145,6 +149,11 @@ public class RoomBooking implements RoomBookingInterface {
         UI.timetableRoomsResult(room, timetables);
     }
 
+    /**
+     * Changes the type of Room to type from user input
+     * @param room
+     * @param newType
+     */
     public void changeRoomType(Room room, String newType) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         double roomNumber = room.getRoomNumber();
@@ -160,6 +169,11 @@ public class RoomBooking implements RoomBookingInterface {
         UI.changeRoomResult(room);
     }
 
+    /**
+     * Changes the capacity of Room to capacity from user input
+     * @param room
+     * @param newCapacity
+     */
     public void changeRoomCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         double roomNumber = room.getRoomNumber();
@@ -175,6 +189,11 @@ public class RoomBooking implements RoomBookingInterface {
         UI.changeRoomResult(room);
     }
 
+    /**
+     * Changes the socially distant capacity of Room to capacity from user input
+     * @param room
+     * @param newCapacity
+     */
     public void changeRoomSocDistCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         double roomNumber = room.getRoomNumber();
