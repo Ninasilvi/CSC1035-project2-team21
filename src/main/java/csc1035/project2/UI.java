@@ -18,41 +18,49 @@ public class UI implements UInterface {
         while (true) {
             printMenu();
 
-            int choice = ic.get_int_input(1, 11);
+            int choice = ic.get_int_input(1, 6);
 
             switch (choice) {
-                case 1 -> listOfStudentsChoice();
-                case 2 -> listOfStaffChoice();
-                case 3 -> t.listOfModuleReq();
-                case 4 -> listOfRooms();
-                case 5 -> bookedRoomsList();
-                case 6 -> availableRoomsListMenu();
-                case 7 -> timetableVariables();
-                case 8 -> timetableChoice();
-                case 9 -> changeRoomMenu();
-                case 10 -> {
+                case 1 -> listmenu();
+                case 2 -> timetableVariables();
+                case 3 -> timetableChoice();
+                case 4 -> changeRoomMenu();
+                case 5 -> {
                     System.out.println("\nQuitting...");
                     System.exit(420);
                 }
                 //Testing room cancelling
-                case 11 -> roomCancel();
+                case 6 -> roomCancel();
             }
         }
     }
 
     // Print Menu
     public void printMenu() {
-        System.out.println("\nPlease enter an option [1-6]:");
-        System.out.println("1 - List Of Students Taking a Specific Module");
-        System.out.println("2 - List of Staff Teaching a Specific Module");
+        System.out.println("1 - view a list");
+        System.out.println("2 - Create a Timetable");
+        System.out.println("3 - Produce a Timetable");
+        System.out.println("4 - Change Room Details");
+        System.out.println("5 - Exit");
+    }
+    public void listmenu() {
+        System.out.println("\nPlease enter an option [1-6]");
+        System.out.println("1 - List of students taking a particular module");
+        System.out.println("2 - List of staff teaching a particular module");
         System.out.println("3 - List of Module Requirements");
         System.out.println("4 - List of Rooms");
-        System.out.println("5 - List of Booked Rooms");
-        System.out.println("6 - List of Available Rooms");
-        System.out.println("7 - Create a Timetable");
-        System.out.println("8 - Produce a Timetable");
-        System.out.println("9 - Change Room Details");
-        System.out.println("10 - Exit");
+        System.out.println("5 - List of booked rooms");
+        System.out.println("6 - List of available rooms");
+
+        int choice = ic.get_int_input(1, 6);
+        switch (choice) {
+            case 1 -> listOfStudentsChoice();
+            case 2 -> listOfStaffChoice();
+            case 3 -> t.listOfModuleReq();
+            case 4 -> listOfRooms();
+            case 5 -> bookedRoomsList();
+            case 6 -> availableRoomsListMenu();
+        }
     }
 
     // Gets user's input for module choice for list of students in timetable by calling moduleOptions method
