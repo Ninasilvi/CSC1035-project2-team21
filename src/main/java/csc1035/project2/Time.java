@@ -38,7 +38,6 @@ public class Time {
         this.timeEnd = timeEnd;
         this.day = day;
         this.moduleID = moduleID;
-        //this.roomNumber = roomNumber;
         this.room = room;
     }
 

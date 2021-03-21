@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
-import java.io.*;
 import java.util.*;
 
 public class RoomBooking implements RoomBookingInterface {
@@ -92,10 +91,10 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Determines available rooms for a specific date and time
-     * @param timeStart
-     * @param timeEnd
-     * @param day
+     * Determines available rooms for a specific date and time.
+     * @param timeStart Check with this Time Start
+     * @param timeEnd Check with this Time End
+     * @param day Check with this Day
      */
     public void availableRoomsDT(String timeStart, String timeEnd, String day) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -155,7 +154,6 @@ public class RoomBooking implements RoomBookingInterface {
      * Adds to timetable list the elements from Time entity for a particular room
      * @param choice user's room choice
      */
-    // Creates a timetable list for the chosen room
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         Room room = rooms.get(choice - 1);
@@ -170,8 +168,8 @@ public class RoomBooking implements RoomBookingInterface {
 
     /**
      * Changes the type of Room to type from user input
-     * @param room
-     * @param newType
+     * @param room Room information that needs to be changed
+     * @param newType changed Room Type
      */
     public void changeRoomType(Room room, String newType) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -190,8 +188,8 @@ public class RoomBooking implements RoomBookingInterface {
 
     /**
      * Changes the capacity of Room to capacity from user input
-     * @param room
-     * @param newCapacity
+     * @param room Room information that needs to be changed
+     * @param newCapacity Change to this Capacity
      */
     public void changeRoomCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -210,8 +208,8 @@ public class RoomBooking implements RoomBookingInterface {
 
     /**
      * Changes the socially distant capacity of Room to capacity from user input
-     * @param room
-     * @param newCapacity
+     * @param room Room information that needs to be changed
+     * @param newCapacity Change to this Capacity
      */
     public void changeRoomSocDistCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();

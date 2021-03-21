@@ -164,6 +164,26 @@ public class UI implements UInterface {
     }
 
     /**
+     * Producing Timetable for a Specific module and sorts it by Date and Time
+     * @param modules Module information to get ModuleID for all classes
+     * @param se Session passed from calling method
+     * @return Timetable with sorted Time
+     */
+    public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
+        List<Time> time = new ArrayList<>();
+
+        //Creates a Timetable for a specific ModuleID
+        for (Module module : modules) {
+            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
+            List<Time> temp = se.createQuery(hql).list();
+            time.addAll(temp);
+        }
+
+        List<Time> sortedTime = t.sortByDateTime(time);
+        return sortedTime;
+    }
+
+    /**
      * Prints module options and takes User's Input
      * @return Module ID
      */
@@ -641,7 +661,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing
+     * Books a room when creating a timetable
      * @param timeStart Module start time for the Room
      * @param timeEnd Module End time for the Room
      * @param day Module Day for the Room
@@ -759,15 +779,8 @@ public class UI implements UInterface {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
         List<Time> temp = new ArrayList<>();
 
-        //Creates a Timetable for a specific ModuleID
-        for (Module module : modules) {
-            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
-            List<Time> temp = se.createQuery(hql).list();
-            time.addAll(temp);
-        }
-
-        List<Time> sortedTime = t.sortByDateTime(time);
-        return sortedTime;
+        r.bookRooms(room.getRoomNumber(), time);
+        temp.add(time);
+        timetableFormat(temp, "Your current timetable creation");
     }
-
 }
