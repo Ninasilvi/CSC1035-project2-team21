@@ -452,9 +452,10 @@ public class UI implements UInterface {
             System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
 
             for (int i = 0; i < time.size(); i++) {
+
                 System.out.format(printTimeFormat, i + 1, time.get(i).getTimetableName(), time.get(i).getDay(),
                         time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
-                        time.get(i).getRoom().getRoomNumber());
+                        (time.get(i).getRoom() == null) ? null : time.get(i).getRoom().getRoomNumber());
             }
             System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
         }
@@ -598,9 +599,13 @@ public class UI implements UInterface {
 
         int choice = ic.get_int_input(1, 2);
 
-        switch (choice) {
-            case 1 -> timetableRoomChoice(timeStart, timeEnd, day, timetableName, moduleID);
-            case 2 -> t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+        if (choice == 1) {
+            timetableRoomChoice(timeStart, timeEnd, day, timetableName, moduleID);
+        } else if (choice == 2) {
+                Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+                List<Time> temp = new ArrayList<>();
+                temp.add(time);
+                timetableFormat(temp, "Your current timetable creation");
         }
     }
 
@@ -619,7 +624,10 @@ public class UI implements UInterface {
 
         Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
         assert room != null;
-        r.bookRooms(room, time);
+        r.bookRooms(room.getRoomNumber(), time);
+        List<Time> temp = new ArrayList<>();
+        temp.add(time);
+        timetableFormat(temp, "Your current timetable creation");
     }
 
     /**
@@ -641,6 +649,7 @@ public class UI implements UInterface {
             int choice = ic.get_int_input(1, r.availableRooms.size());
             room = r.availableRooms.get(choice - 1);
         } else {
+            System.out.println("\nThere are no available rooms from " + timeStart + " to " + timeEnd + " on " + day + ":\n");
             availableRoomTryAgain();
         }
         return room;
@@ -656,14 +665,14 @@ public class UI implements UInterface {
         if (r.availableRooms.size() != 0) {
             System.out.println("\nPlease pick a room:");
             System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + " on " + day +
-                    " that can fit " + people + "people under social distancing conditions:\n");
+                    " that can fit " + people + " people under social distancing conditions:\n");
             availableRoomsPrint();
 
             int choice = ic.get_int_input(1, r.availableRooms.size());
             room = r.availableRooms.get(choice - 1);
         } else {
             System.out.println("\nThere are no rooms available from " + timeStart + " to " + timeEnd + " on " + day +
-                    "that can fit " + people + " people under social distancing conditions.");
+                    " that can fit " + people + " people under social distancing conditions.");
             availableRoomTryAgain();
         }
         return room;

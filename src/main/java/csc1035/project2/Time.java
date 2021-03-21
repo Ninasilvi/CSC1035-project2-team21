@@ -25,11 +25,8 @@ public class Time {
     @Column
     private String moduleID;
 
-//    @Column
-//    private double roomNumber;
-
     @ManyToOne
-    @JoinColumn(name = "roomNumber")
+    @JoinColumn
     private Room room;
 
     public Time() {}

@@ -13,7 +13,7 @@ public interface RoomBookingInterface {
 
     void listOfRooms();
 
-    void bookRooms(Room room, Time time);
+    void bookRooms(double roomNumber, Time time);
 
     void cancelRooms();
 

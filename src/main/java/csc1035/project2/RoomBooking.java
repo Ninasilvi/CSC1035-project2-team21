@@ -26,8 +26,25 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
-    public void bookRooms(Room room, Time time) {
+    public void bookRooms(double roomNumber, Time time) {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        Room room = se.get(Room.class, roomNumber);
+
         time.setRoom(room);
+
+        if (room.getTimes() == null) {
+            List<Time> temp = new ArrayList<>();
+            temp.add(time);
+            room.setTimes(temp);
+        } else {
+            room.getTimes().add(time);
+        }
+        se.update(time);
+        se.update(room);
+        se.getTransaction().commit();
+        se.close();
         UI.roomBookingConfirmation(room);
     }
 
@@ -56,7 +73,7 @@ public class RoomBooking implements RoomBookingInterface {
             availableRooms.removeAll(temp);
         }
 
-        String hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.room FROM Time t)";
+        String hql = "SELECT r FROM Rooms r WHERE r NOT IN (SELECT t.room FROM Time t)";
         List<Room> temp = se.createQuery(hql).list();
 
         availableRooms.addAll(temp);
@@ -77,6 +94,9 @@ public class RoomBooking implements RoomBookingInterface {
             String startTime = time.getTimeStart();
             String endTime = time.getTimeEnd();
             String timeDay = time.getDay();
+            if (time.getRoom() == null) {
+                break;
+            }
             List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoom().getRoomNumber() + "'").list();
 
             if (!(t.timeOverlap(timeStart, timeEnd, startTime, endTime, day, timeDay))) {
@@ -115,7 +135,7 @@ public class RoomBooking implements RoomBookingInterface {
         double roomNumber = room.getRoomNumber();
 
         se.beginTransaction();
-        String hql = "FROM Time WHERE room LIKE '" + room + "'";
+        String hql = "FROM Time WHERE room LIKE '" + room.getRoomNumber() + "'";
         List<Time> timetables = se.createQuery(hql).list();
         se.close();
         UI.timetableRoomsResult(room, timetables);

@@ -89,7 +89,6 @@ public class Timetable implements TimetableInterface {
      */
     public Time allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd) {
         Time time = new Time();
-        List<Time> temp = new ArrayList<>();
         Session se = HibernateUtil.getSessionFactory().openSession();
 
         se.beginTransaction();
@@ -104,13 +103,8 @@ public class Timetable implements TimetableInterface {
         if (time.getId() > times.size()) {
             time.setId(times.size() + 1);
         }
-
         se.save(time);
         se.getTransaction().commit();
-
-        temp.add(time);
-
-        UI.timetableFormat(temp, "Your current timetable creation");
         se.close();
 
         return time;
@@ -147,8 +141,6 @@ public class Timetable implements TimetableInterface {
         se.close();
         UI.timetableStaffResult(staff, choice, time);
     }
-
-
 
     /**
      * Sorts Timetable by Day of the Week and Time

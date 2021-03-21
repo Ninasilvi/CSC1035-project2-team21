@@ -22,7 +22,7 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Time> times;
 
-    public Room(float roomNumber, String type, int maxCapacity, int socialDistCapacity, List<Time> times) {
+    public Room (float roomNumber, String type, int maxCapacity, int socialDistCapacity, List<Time> times) {
         this.roomNumber = roomNumber;
         this.type = type;
         this.maxCapacity = maxCapacity;
@@ -62,6 +62,14 @@ public class Room {
 
     public void setSocialDistCapacity(int socialDistCapacity) {
         this.socialDistCapacity = socialDistCapacity;
+    }
+
+    public List<Time> getTimes() {
+        return times;
+    }
+
+    public void setTimes(List<Time> times) {
+        this.times = times;
     }
 
     @Override
