@@ -27,7 +27,7 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     public void bookRooms(Room room, Time time) {
-        time.setRoomNumber(room.getRoomNumber());
+        time.setRoom(room);
         UI.roomBookingConfirmation(room);
     }
 
@@ -56,7 +56,7 @@ public class RoomBooking implements RoomBookingInterface {
             availableRooms.removeAll(temp);
         }
 
-        String hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.roomNumber FROM Time t)";
+        String hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.room FROM Time t)";
         List<Room> temp = se.createQuery(hql).list();
 
         availableRooms.addAll(temp);
@@ -77,7 +77,7 @@ public class RoomBooking implements RoomBookingInterface {
             String startTime = time.getTimeStart();
             String endTime = time.getTimeEnd();
             String timeDay = time.getDay();
-            List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoomNumber() + "'").list();
+            List<Room> temp = se.createQuery("FROM Rooms WHERE roomNumber LIKE '" + time.getRoom().getRoomNumber() + "'").list();
 
             if (!(t.timeOverlap(timeStart, timeEnd, startTime, endTime, day, timeDay))) {
                 if (!(temp.get(0).isIn(availableRooms))) {
@@ -115,7 +115,7 @@ public class RoomBooking implements RoomBookingInterface {
         double roomNumber = room.getRoomNumber();
 
         se.beginTransaction();
-        String hql = "FROM Time WHERE roomNumber LIKE '" + roomNumber + "'";
+        String hql = "FROM Time WHERE room LIKE '" + room + "'";
         List<Time> timetables = se.createQuery(hql).list();
         se.close();
         UI.timetableRoomsResult(room, timetables);

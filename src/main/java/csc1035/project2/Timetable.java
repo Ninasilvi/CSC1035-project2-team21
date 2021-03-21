@@ -87,7 +87,7 @@ public class Timetable implements TimetableInterface {
      * @param timeStart Class Starting time that User wants to book a room
      * @param timeEnd Class Ending time that User wants to book a room
      */
-    public void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Room room) {
+    public Time allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd) {
         Time time = new Time();
         List<Time> temp = new ArrayList<>();
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -98,7 +98,6 @@ public class Timetable implements TimetableInterface {
         time.setTimeStart(timeStart);
         time.setTimeEnd(timeEnd);
         time.setModuleID(moduleID);
-        r.bookRooms(room, time);
 
         String hql = "FROM Time";
         List<Time> times = se.createQuery(hql).list();
@@ -113,6 +112,8 @@ public class Timetable implements TimetableInterface {
 
         UI.timetableFormat(temp, "Your current timetable creation");
         se.close();
+
+        return time;
     }
 
     /**

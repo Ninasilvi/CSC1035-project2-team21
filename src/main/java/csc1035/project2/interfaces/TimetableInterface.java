@@ -13,7 +13,7 @@ public interface TimetableInterface {
 
     void listOfModuleReq();
 
-    void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Room room);
+    Time allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd);
 
     void producingStudentTimetable(int choice, Session se, List<Student> students);
 

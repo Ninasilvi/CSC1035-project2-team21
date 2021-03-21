@@ -453,7 +453,7 @@ public class UI implements UInterface {
             for (int i = 0; i < time.size(); i++) {
                 System.out.format(printTimeFormat, i + 1, time.get(i).getTimetableName(), time.get(i).getDay(),
                         time.get(i).getTimeStart() + "-" + time.get(i).getTimeEnd(), time.get(i).getModuleID(),
-                        time.get(i).getRoomNumber());
+                        time.get(i).getRoom().getRoomNumber());
             }
             System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
         }
@@ -591,6 +591,19 @@ public class UI implements UInterface {
         String timeStart = ic.get_time_input();
         String timeEnd = ic.get_end_time_input(timeStart);
 
+        System.out.println("\nWould you like to book a room?");
+        System.out.println("[1] - Yes");
+        System.out.println("[2] - No");
+
+        int choice = ic.get_int_input(1, 2);
+
+        switch (choice) {
+            case 1 -> timetableRoomChoice(timeStart, timeEnd, day, timetableName, moduleID);
+            case 2 -> t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+        }
+    }
+
+    public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
         System.out.println("\nWould you like to book a room with social distancing conditions or without?");
         System.out.println("[1] - With social distancing conditions");
         System.out.println("[2] - Without social distancing conditions");
@@ -603,7 +616,9 @@ public class UI implements UInterface {
             case 2 -> room = timetableAvailableRooms(timeStart, timeEnd, day);
         }
 
-        t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd, room);
+        Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+        assert room != null;
+        r.bookRooms(room, time);
     }
 
     /**
@@ -654,7 +669,7 @@ public class UI implements UInterface {
     }
 
     public void availableRoomTryAgain() {
-        System.out.println("Would you like to try again?");
+        System.out.println("\nWould you like to try again?");
         System.out.println("[1] - Yes");
         System.out.println("[2] - No");
 

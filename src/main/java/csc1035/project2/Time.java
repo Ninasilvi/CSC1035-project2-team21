@@ -25,19 +25,24 @@ public class Time {
     @Column
     private String moduleID;
 
-    @Column
-    private double roomNumber;
+//    @Column
+//    private double roomNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "roomNumber")
+    private Room room;
 
     public Time() {}
 
-    public Time(int id, String timetableName, String timeStart, String timeEnd, String day, String moduleID, double roomNumber) {
+    public Time(int id, String timetableName, String timeStart, String timeEnd, String day, String moduleID, Room room) {
         this.id = id;
         this.timetableName = timetableName;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.day = day;
         this.moduleID = moduleID;
-        this.roomNumber = roomNumber;
+        //this.roomNumber = roomNumber;
+        this.room = room;
     }
 
     public int getId() {
@@ -88,12 +93,19 @@ public class Time {
         this.moduleID = moduleID;
     }
 
-    public double getRoomNumber() {
-        return roomNumber;
+//    public double getRoomNumber() {
+//        return roomNumber;
+//    }
+//
+//    public void setRoomNumber(double roomNumber) {
+//        this.roomNumber = roomNumber;
+//    }
+
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomNumber(double roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoom(Room room) {
+        this.room = room;
     }
-
 }

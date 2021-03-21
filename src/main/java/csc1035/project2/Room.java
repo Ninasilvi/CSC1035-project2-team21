@@ -19,11 +19,15 @@ public class Room {
     @Column
     private int socialDistCapacity;
 
-    public Room(float roomNumber, String type, int maxCapacity, int socialDistCapacity) {
+    @OneToMany(mappedBy = "room")
+    private List<Time> times;
+
+    public Room(float roomNumber, String type, int maxCapacity, int socialDistCapacity, List<Time> times) {
         this.roomNumber = roomNumber;
         this.type = type;
         this.maxCapacity = maxCapacity;
         this.socialDistCapacity = socialDistCapacity;
+        this.times = times;
     }
 
     public Room() {}
