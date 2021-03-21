@@ -1,6 +1,7 @@
 package csc1035.project2.interfaces;
 
 import csc1035.project2.*;
+import csc1035.project2.Module;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public interface UInterface {
     void listOfStaffResult(List<Staff> staff);
 
     void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements);
+
+    List<Time> producingTimetableForModule(List<Module> modules, Session se);
 
     String moduleOptions();
 
@@ -79,9 +82,17 @@ public interface UInterface {
 
     void timetableVariables();
 
+    Room timetableRoomChoiceText(String timeStart, String timeEnd, String day);
+
+    void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID);
+
     Room timetableAvailableRooms(String timeStart, String timeEnd, String day);
 
     Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day);
 
     void availableRoomTryAgain();
+
+    void bookRoom();
+
+    void timetableBookRoomChoice(String timeStart, String timeEnd, String day, Time time);
 }

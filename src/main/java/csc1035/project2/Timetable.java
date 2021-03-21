@@ -208,4 +208,19 @@ public class Timetable implements TimetableInterface {
         }
         return overlap;
     }
+
+    /**
+     * Determines timetables with null rooms
+     * @return List with timetables that don't have booked Rooms
+     */
+    public List<Time> timetableNoRoom() {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        String hql = "FROM Time WHERE room = null";
+        List<Time> emptyRoomTimes = se.createQuery(hql).list();
+        se.close();
+
+        return emptyRoomTimes;
+    }
 }

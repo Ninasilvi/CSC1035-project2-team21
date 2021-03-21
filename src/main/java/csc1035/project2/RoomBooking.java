@@ -31,8 +31,8 @@ public class RoomBooking implements RoomBookingInterface {
 
     /**
      * Books a Room
-     * @param room Room information
-     * @param time Time information
+     * @param roomNumber Room number for the room to be booked
+     * @param time Timetable for which the room will be booked
      */
     public void bookRooms(double roomNumber, Time time) {
         Session se = HibernateUtil.getSessionFactory().openSession();

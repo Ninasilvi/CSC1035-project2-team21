@@ -22,19 +22,19 @@ public class UI implements UInterface {
         while (true) {
             printMenu();
 
-            int choice = ic.get_int_input(1, 6);
+            int choice = ic.get_int_input(1, 7);
 
             switch (choice) {
                 case 1 -> listMenu();
                 case 2 -> timetableVariables();
                 case 3 -> timetableChoice();
                 case 4 -> changeRoomMenu();
-                case 5 -> {
+                case 5 -> bookRoom();
+                //case 6 -> //cancel rooms
+                case 7 -> {
                     System.out.println("\nQuitting...");
                     System.exit(420);
                 }
-                //Testing room cancelling
-                case 6 -> roomCancel();
             }
         }
     }
@@ -48,7 +48,9 @@ public class UI implements UInterface {
         System.out.println("[2] - Create a Timetable");
         System.out.println("[3] - Produce a Timetable");
         System.out.println("[4] - Change Room Details");
-        System.out.println("[5] - Exit");
+        System.out.println("[5] - Book a Room");
+        System.out.println("[6] - Cancel a Room Booking");
+        System.out.println("[7] - Exit");
     }
 
     /**
@@ -528,7 +530,7 @@ public class UI implements UInterface {
 
     /**
      * Change Room Type
-     * @param room Room details that has to be changed
+     * @param room Room whose details have to be changed
      */
     public void changeRoomTypeChoice(Room room) {
         System.out.println("\nPlease enter a new Room Type for " + room.toString());
@@ -540,7 +542,7 @@ public class UI implements UInterface {
 
     /**
      * Change Room Capacity
-     * @param room Room details that has to be changed
+     * @param room Room whose details have to be changed
      */
     public void changeRoomCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Maximum Capacity for " + room.toString());
@@ -552,7 +554,7 @@ public class UI implements UInterface {
 
     /**
      * Change Room Social Distance Capacity
-     * @param room Room details that has to be changed
+     * @param room Room whose details have to be changed
      */
     public void changeRoomSocDistCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Social Distancing Capacity for " + room.toString());
@@ -564,7 +566,7 @@ public class UI implements UInterface {
 
     /**
      * After Room details have changed, gives User options what to do next
-     * @param room Room details that has to be changed
+     * @param room Room whose details have to be changed
      */
     public void changeRoomResult(Room room) {
         System.out.println("\nSuccessfully changed. New room:\n" + room);
@@ -618,14 +620,12 @@ public class UI implements UInterface {
     }
 
     /**
-     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing
+     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing when booking a room
      * @param timeStart Module start time for the Room
      * @param timeEnd Module End time for the Room
      * @param day Module Day for the Room
-     * @param timetableName Module Timetable name for the Room
-     * @param moduleID ModuleID for the Room
      */
-    public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
+    public Room timetableRoomChoiceText(String timeStart, String timeEnd, String day) {
         System.out.println("\nWould you like to book a room with social distancing conditions or without?");
         System.out.println("[1] - With social distancing conditions");
         System.out.println("[2] - Without social distancing conditions");
@@ -637,9 +637,21 @@ public class UI implements UInterface {
             case 1 -> room = timetableAvailableSocDistRooms(timeStart, timeEnd, day);
             case 2 -> room = timetableAvailableRooms(timeStart, timeEnd, day);
         }
+        return room;
+    }
 
+    /**
+     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing
+     * @param timeStart Module start time for the Room
+     * @param timeEnd Module End time for the Room
+     * @param day Module Day for the Room
+     * @param timetableName Module Timetable name for the Room
+     * @param moduleID ModuleID for the Room
+     */
+    public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
+        Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
         Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
-        assert room != null;
+
         r.bookRooms(room.getRoomNumber(), time);
         List<Time> temp = new ArrayList<>();
         temp.add(time);
@@ -718,13 +730,34 @@ public class UI implements UInterface {
     }
 
     /**
-     * Producing Timetable for a Specific module and sorts it by Date and Time
-     * @param modules Module information to get ModuleID for all classes
-     * @param se Session passed from calling method
-     * @return Timetable with sorted Time
+     * Books room outside of timetable creation for a timetable with null room.
      */
-    public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
-        List<Time> time = new ArrayList<>();
+    public void bookRoom() {
+        List<Time> emptyTimes = t.timetableNoRoom();
+
+        if (emptyTimes.size() == 0) {
+            System.out.println("There are no timetables without booked rooms.");
+            runMenu();
+        } else {
+            System.out.println("\nWhich timetable would you like to book a room for?");
+            timetableFormat(emptyTimes, "empty timetables");
+            int choice = ic.get_int_input(1, emptyTimes.size());
+            Time time = emptyTimes.get(choice - 1);
+
+            timetableBookRoomChoice(time.getTimeStart(), time.getTimeEnd(), time.getDay(), time);
+        }
+    }
+
+    /**
+     * Book a Room for an existing Timetable
+     * @param timeStart Module Start Time
+     * @param timeEnd Module End Time
+     * @param day Module Day
+     * @param time Information about Time that needs to be booked
+     */
+    public void timetableBookRoomChoice(String timeStart, String timeEnd, String day, Time time) {
+        Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
+        List<Time> temp = new ArrayList<>();
 
         //Creates a Timetable for a specific ModuleID
         for (Module module : modules) {
