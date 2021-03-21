@@ -191,13 +191,6 @@ public class UI implements UInterface {
     }
 
     /**
-     * Asks the user which room they would like to book
-     */
-    public void bookRoomsText() {
-        System.out.println("\nWhich room would you like to book?");
-    }
-
-    /**
      * Informs the user that the room has been booked successfully
      * @param room Room information
      */
@@ -304,10 +297,7 @@ public class UI implements UInterface {
             System.out.println("\nAll rooms are booked.\n");
         } else {
             System.out.println("\nUnbooked rooms:\n");
-
-            for (int i = 0; i < r.availableRooms.size(); i++) {
-                System.out.println(i + 1 + " - " + r.availableRooms.get(i));
-            }
+            availableRoomsPrint();
         }
     }
 
@@ -325,7 +315,10 @@ public class UI implements UInterface {
         r.availableRoomsDT(timeStart, timeEnd, day);
 
         System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + " on " + day + ":\n");
+        availableRoomsPrint();
+    }
 
+    public void availableRoomsPrint() {
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
         }
@@ -597,43 +590,80 @@ public class UI implements UInterface {
         System.out.println("\nEnter Module Start Time:");
         String timeStart = ic.get_time_input();
         String timeEnd = ic.get_end_time_input(timeStart);
-        Room room = timetableAvailableRooms(timeStart, timeEnd, day);
+
+        System.out.println("\nWould you like to book a room with social distancing conditions or without?");
+        System.out.println("[1] - With social distancing conditions");
+        System.out.println("[2] - Without social distancing conditions");
+
+        Room room = null;
+        int choice = ic.get_int_input(1, 2);
+
+        switch (choice) {
+            case 1 -> room = timetableAvailableSocDistRooms(timeStart, timeEnd, day);
+            case 2 -> room = timetableAvailableRooms(timeStart, timeEnd, day);
+        }
 
         t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd, room);
     }
 
     /**
-     * Shows Available rooms in Timetable
-     * @param timeStart Available room for a specific Time Start
-     * @param timeEnd Available room for a specific Time End
-     * @param day Available room for a specific day
-     * @return Room information
+     * Shows Available rooms for Timetable booking based on day and time information entered in timetableVariables()
+     * @param timeStart The chosen Time Start
+     * @param timeEnd The chosen Time End
+     * @param day The chosen day
+     * @return The room to be booked
      */
     public Room timetableAvailableRooms(String timeStart, String timeEnd, String day) {
         r.availableRoomsDT(timeStart, timeEnd, day);
         Room room = null;
 
         if (r.availableRooms.size() != 0) {
-            System.out.println("\nPlease pick a room:\n");
+            System.out.println("\nPlease pick a room:");
             System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + " on " + day + ":\n");
-            for (int i = 0; i < r.availableRooms.size(); i++) {
-                System.out.println(i + 1 + " - " + r.availableRooms.get(i));
-            }
+            availableRoomsPrint();
+
             int choice = ic.get_int_input(1, r.availableRooms.size());
             room = r.availableRooms.get(choice - 1);
         } else {
-            System.out.println("\nThere are no rooms available from " + timeStart + " to " + timeEnd + " on " + day + ".");
-            System.out.println("Would you like to try again?");
-            System.out.println("[1] - Yes");
-            System.out.println("[2] - No");
-
-            int choice = ic.get_int_input(1, 2);
-
-            switch (choice) {
-                case 1 -> timetableVariables();
-                case 2 -> runMenu();
-            }
+            availableRoomTryAgain();
         }
         return room;
     }
+
+    public Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day) {
+        System.out.println("\nHow many people are going to be in the room?");
+        int people = ic.get_int_input(1, 500);
+        Room room = null;
+
+        r.availableRoomsSocDist(timeStart, timeEnd, day, people);
+
+        if (r.availableRooms.size() != 0) {
+            System.out.println("\nPlease pick a room:");
+            System.out.println("\nAvailable Rooms from " + timeStart + " to " + timeEnd + " on " + day +
+                    " that can fit " + people + "people under social distancing conditions:\n");
+            availableRoomsPrint();
+
+            int choice = ic.get_int_input(1, r.availableRooms.size());
+            room = r.availableRooms.get(choice - 1);
+        } else {
+            System.out.println("\nThere are no rooms available from " + timeStart + " to " + timeEnd + " on " + day +
+                    "that can fit " + people + " people under social distancing conditions.");
+            availableRoomTryAgain();
+        }
+        return room;
+    }
+
+    public void availableRoomTryAgain() {
+        System.out.println("Would you like to try again?");
+        System.out.println("[1] - Yes");
+        System.out.println("[2] - No");
+
+        int choice = ic.get_int_input(1, 2);
+
+        switch (choice) {
+            case 1 -> timetableVariables();
+            case 2 -> runMenu();
+        }
+    }
+
 }

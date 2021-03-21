@@ -67,16 +67,11 @@ public class RoomBooking implements RoomBookingInterface {
     public void availableRoomsDT(String timeStart, String timeEnd, String day) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
-
-        if (availableRooms.size() != 0) {
-            List<Room> temp = availableRooms;
-            availableRooms.removeAll(temp);
-        }
+        availableRooms();
 
         String hql = "FROM Time";
         List<Time> times = se.createQuery(hql).list();
         List<Room> unavailableRooms = new ArrayList<>();
-
 
         for (Time time : times) {
             String startTime = time.getTimeStart();
@@ -92,19 +87,24 @@ public class RoomBooking implements RoomBookingInterface {
                 unavailableRooms.addAll(temp);
             }
         }
-        hql = "SELECT r FROM Rooms r WHERE r.roomNumber NOT IN (SELECT t.roomNumber FROM Time t)";
-        List<Room> temp = se.createQuery(hql).list();
-
-        for (Room room : temp) {
-            if (!room.isIn(availableRooms)) {
-                availableRooms.add(room);
-            }
-        }
         for (Room room : unavailableRooms) {
             if (room.isIn(availableRooms)) {
                 availableRooms.remove(room);
             }
         }
+        se.close();
+    }
+
+    public void availableRoomsSocDist(String timeStart, String timeEnd, String day, int people) {
+        availableRoomsDT(timeStart, timeEnd, day);
+
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        String hql = "FROM Rooms r WHERE socialDistCapacity >= " + people;
+        List<Room> roomsSocDist = se.createQuery(hql).list();
+
+        availableRooms.removeIf(room -> !(room.isIn(roomsSocDist)));
         se.close();
     }
 

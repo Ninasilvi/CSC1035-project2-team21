@@ -29,11 +29,7 @@ public interface UInterface {
 
     void listOfRooms();
 
-    void bookRoomsText();
-
     void roomBookingConfirmation(Room room);
-
-    //void roomBookingNext();
 
     void bookedRoomsList();
 
@@ -48,6 +44,8 @@ public interface UInterface {
     void availableRoomsList();
 
     void availableRoomsDTList();
+
+    void availableRoomsPrint();
 
     void timetableChoice();
 
@@ -82,4 +80,8 @@ public interface UInterface {
     void timetableVariables();
 
     Room timetableAvailableRooms(String timeStart, String timeEnd, String day);
+
+    Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day);
+
+    void availableRoomTryAgain();
 }

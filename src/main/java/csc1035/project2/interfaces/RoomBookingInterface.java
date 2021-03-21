@@ -23,6 +23,8 @@ public interface RoomBookingInterface {
 
     void availableRoomsDT(String timeStart, String timeEnd, String day);
 
+    void availableRoomsSocDist(String timeStart, String timeEnd, String day, int people);
+
     void producingRoomTimetable(int choice);
 
     void changeRoomType(Room room, String newType);
