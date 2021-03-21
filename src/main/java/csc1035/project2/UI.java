@@ -5,6 +5,7 @@ import org.hibernate.Session;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -679,6 +680,20 @@ public class UI implements UInterface {
             case 1 -> timetableVariables();
             case 2 -> runMenu();
         }
+    }
+
+    public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
+        List<Time> time = new ArrayList<>();
+
+        //Creates a Timetable for a specific ModuleID
+        for (Module module : modules) {
+            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
+            List<Time> temp = se.createQuery(hql).list();
+            time.addAll(temp);
+        }
+
+        List<Time> sortedTime = t.sortByDateTime(time);
+        return sortedTime;
     }
 
 }
