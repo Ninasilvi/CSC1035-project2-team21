@@ -16,6 +16,9 @@ public class RoomBooking implements RoomBookingInterface {
     static UI UI = new UI();
     static Timetable t = new Timetable();
 
+    /**
+     * List of All Rooms in Database
+     */
     public void listOfRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
@@ -26,12 +29,19 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
+    /**
+     * Books a Room
+     * @param room Room information
+     * @param time Time information
+     */
     public void bookRooms(Room room, Time time) {
         time.setRoom(room);
         UI.roomBookingConfirmation(room);
     }
 
-    // Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
+    /**
+     * Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
+     */
     public void cancelRooms() {
         int choice = ic.get_int_input(1, bookedRooms.size());
         Room room = bookedRooms.get(choice - 1);
@@ -46,7 +56,9 @@ public class RoomBooking implements RoomBookingInterface {
         // TODO: add a method that checks booked rooms based on timetable
     }
 
-    // Determines rooms that have not been booked
+    /**
+     * Determines rooms that have not been booked
+     */
     public void availableRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
@@ -63,7 +75,12 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
-    // Determines available rooms for a specific date and time
+    /**
+     * Determines available rooms for a specific date and time
+     * @param timeStart
+     * @param timeEnd
+     * @param day
+     */
     public void availableRoomsDT(String timeStart, String timeEnd, String day) {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
@@ -95,6 +112,13 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
+    /**
+     * Shows available Rooms with Social Distancing
+     * @param timeStart Module Start time
+     * @param timeEnd Module End time
+     * @param day Module day
+     * @param people amount of people for the module
+     */
     public void availableRoomsSocDist(String timeStart, String timeEnd, String day, int people) {
         availableRoomsDT(timeStart, timeEnd, day);
 

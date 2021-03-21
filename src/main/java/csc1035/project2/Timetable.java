@@ -148,8 +148,6 @@ public class Timetable implements TimetableInterface {
         UI.timetableStaffResult(staff, choice, time);
     }
 
-
-
     /**
      * Sorts Timetable by Day of the Week and Time
      * @param time Time (Timetable) list that needs to get printed out
