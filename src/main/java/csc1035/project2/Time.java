@@ -26,11 +26,11 @@ public class Time {
     private String moduleID;
 
     @Column
-    private float roomNumber;
+    private double roomNumber;
 
     public Time() {}
 
-    public Time(int id, String timetableName, String timeStart, String timeEnd, String day, String moduleID, float roomNumber) {
+    public Time(int id, String timetableName, String timeStart, String timeEnd, String day, String moduleID, double roomNumber) {
         this.id = id;
         this.timetableName = timetableName;
         this.timeStart = timeStart;
@@ -88,11 +88,11 @@ public class Time {
         this.moduleID = moduleID;
     }
 
-    public float getRoomNumber() {
+    public double getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(float roomNumber) {
+    public void setRoomNumber(double roomNumber) {
         this.roomNumber = roomNumber;
     }
 

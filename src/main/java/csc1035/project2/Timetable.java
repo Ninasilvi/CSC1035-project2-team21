@@ -2,12 +2,14 @@ package csc1035.project2;
 
 import csc1035.project2.interfaces.TimetableInterface;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.*;
 
 public class Timetable implements TimetableInterface {
 
     static UI UI = new UI();
+    static RoomBooking r = new RoomBooking();
 
     /***
      * Creates a List of Students that take a specific Module (determined by moduleID)
@@ -75,81 +77,31 @@ public class Timetable implements TimetableInterface {
     }
 
     // Allows the admin to create a timetable (and book relevant rooms) for the school
-    public void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Session se) {
+    public void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Room room) {
+        Time time = new Time();
+        List<Time> temp = new ArrayList<>();
+        Session se = HibernateUtil.getSessionFactory().openSession();
 
-        String hql = "FROM Time T WHERE T.day = '" + day + "' AND T.timetableName = '" + timetableName + "' AND T.moduleID = '" + moduleID + "'";
-        List<Time> time = se.createQuery(hql).list();
+        se.beginTransaction();
+        time.setDay(day);
+        time.setTimetableName(timetableName);
+        time.setTimeStart(timeStart);
+        time.setTimeEnd(timeEnd);
+        time.setModuleID(moduleID);
+        r.bookRooms(room, time);
 
-        UI.timetableFormat(time, "Your current timetable creation");
-
-        /*System.out.print("\nEnter a Room Number: "); // 0.365
-        String roomNumber = ic.get_double_input();*/
-
-        //Get Table with a day and roomNumber that are taken
-        /*
-        String hql = "FROM Time T WHERE T.day LIKE '" + day + "' AND T.roomNumber LIKE " + roomNumber;
-        List<Time> freeTime = se.createQuery(hql).list();*/
-
-
-        /*
-        boolean empty = true;
-        //If Timetable is empty, don't show anything
-        if (freeTime.size() != 0)
-            empty = false;
-
-        System.out.println("\nReserved Time:");
-        if (!empty) {
-            String printTimeFormat = "| %-3s | %-14s | %-9s | %-11s | %-8s | %-11s |%n";
-            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
-            System.out.println("| Row | Timetable Name | Day       | Time        | ModuleID | Room Number |");
-            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
-            for (int i = 0; i < freeTime.size(); i++) {
-                System.out.format(printTimeFormat, i + 1, freeTime.get(i).getTimetableName(), freeTime.get(i).getDay(),
-                        freeTime.get(i).getTimeStart() + "-" + freeTime.get(i).getTimeEnd(), freeTime.get(i).getModuleID(),
-                        freeTime.get(i).getRoomNumber());
-            }
-            System.out.println("+-----+----------------+-----------+-------------+----------+-------------+");
-            se.getTransaction().commit();
-        } else {
-            System.out.println("\nThere are NO booked rooms!");
+        String hql = "FROM Time";
+        List<Time> times = se.createQuery(hql).list();
+        if (time.getId() > times.size()) {
+            time.setId(times.size() + 1);
         }
 
-        */
+        se.save(time);
+        se.getTransaction().commit();
 
+        temp.add(time);
 
-        /*
-        while (true) {
-            boolean end = true;
-            System.out.println("\nEnter Module Start Time:");
-            timeStart = ic.get_time_input();
-            int sHour = Integer.parseInt(timeStart.substring(0,2));
-            int sMinute = Integer.parseInt(timeStart.substring(3));
-            boolean validTime = false;
-
-            while (!validTime) {
-                System.out.println("\nEnter Module End Time:");
-                timeEnd = ic.get_time_input();
-                int eHour = Integer.parseInt(timeEnd.substring(0,2));
-                int eMinute = Integer.parseInt(timeEnd.substring(3));
-
-                if (sHour > eHour || (sHour == eHour && sMinute > eMinute)) {
-                    validTime = true;
-                } else {
-                    System.out.println("\nIt cannot end before it started.\n");
-                }
-            }
-
-            if (!empty) {
-                for (int i = 0; i < freeTime.size(); i++)
-                    if (timeOverlap(timeStart, timeEnd, freeTime.get(i).getTimeStart(), freeTime.get(i).getTimeStart()))
-                        end = false;
-
-                if (end || freeTime.size() == 0) {
-                    break;
-                } else {
-                    System.out.println("Try again. This Time period is taken!");
-                }
-            }*/
+        UI.timetableFormat(temp, "Your current timetable creation");
         se.close();
     }
 

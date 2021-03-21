@@ -1,6 +1,7 @@
 package csc1035.project2.interfaces;
 
 import csc1035.project2.Room;
+import csc1035.project2.Time;
 
 import java.util.*;
 
@@ -12,7 +13,7 @@ public interface RoomBookingInterface {
 
     void listOfRooms();
 
-    void bookRooms();
+    void bookRooms(Room room, Time time);
 
     void cancelRooms();
 

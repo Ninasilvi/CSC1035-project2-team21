@@ -1,8 +1,6 @@
 package csc1035.project2.interfaces;
 
-import csc1035.project2.Staff;
-import csc1035.project2.Student;
-import csc1035.project2.Time;
+import csc1035.project2.*;
 import org.hibernate.Session;
 
 import java.util.*;
@@ -15,7 +13,7 @@ public interface TimetableInterface {
 
     void listOfModuleReq();
 
-    void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Session se);
+    void allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd, Room room);
 
     void producingStudentTimetable(int choice, Session se, List<Student> students);
 

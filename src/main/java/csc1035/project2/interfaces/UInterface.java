@@ -25,7 +25,7 @@ public interface UInterface {
 
     void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements);
 
-    String moduleOptions(Session se);
+    String moduleOptions();
 
     void listOfRooms();
 
@@ -33,7 +33,7 @@ public interface UInterface {
 
     void roomBookingConfirmation(Room room);
 
-    void roomBookingNext();
+    //void roomBookingNext();
 
     void bookedRoomsList();
 
@@ -78,4 +78,8 @@ public interface UInterface {
     void changeRoomSocDistCapacityChoice(Room room);
 
     void changeRoomResult(Room room);
+
+    void timetableVariables();
+
+    Room timetableAvailableRooms(String timeStart, String timeEnd, String day);
 }

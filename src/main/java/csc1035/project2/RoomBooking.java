@@ -26,18 +26,8 @@ public class RoomBooking implements RoomBookingInterface {
         se.close();
     }
 
-    public void bookRooms() {
-
-
-
-        UI.bookRoomsText();
-        bookedRoomsCheck();
-
-        int choice = ic.get_int_input(1, availableRooms.size());
-        Room room = availableRooms.get(choice - 1);
-
-
-
+    public void bookRooms(Room room, Time time) {
+        time.setRoomNumber(room.getRoomNumber());
         UI.roomBookingConfirmation(room);
     }
 
