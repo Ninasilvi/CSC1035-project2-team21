@@ -15,6 +15,9 @@ public class UI implements UInterface {
     RoomBooking r = new RoomBooking();
     InputCheck ic = new InputCheck();
 
+    /**
+     * Main Run Menu
+     */
     public void runMenu() {
         while (true) {
             printMenu();
@@ -442,6 +445,11 @@ public class UI implements UInterface {
         timetableNext();
     }
 
+    /**
+     * Printing Timetable template
+     * @param time Information that needs to get printed
+     * @param info Information about the Timetable
+     */
     public void timetableFormat(List<Time> time, String info) {
         if (time.size() == 0) {
             System.out.println("\nThe timetable for " + info + " is empty.");
@@ -609,6 +617,14 @@ public class UI implements UInterface {
         }
     }
 
+    /**
+     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing
+     * @param timeStart Module start time for the Room
+     * @param timeEnd Module End time for the Room
+     * @param day Module Day for the Room
+     * @param timetableName Module Timetable name for the Room
+     * @param moduleID ModuleID for the Room
+     */
     public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
         System.out.println("\nWould you like to book a room with social distancing conditions or without?");
         System.out.println("[1] - With social distancing conditions");
@@ -655,6 +671,13 @@ public class UI implements UInterface {
         return room;
     }
 
+    /**
+     * Available rooms under Social Distancing requirements
+     * @param timeStart Module Start Time
+     * @param timeEnd Module End Time
+     * @param day Module Day
+     * @return User selected room
+     */
     public Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day) {
         System.out.println("\nHow many people are going to be in the room?");
         int people = ic.get_int_input(1, 500);
@@ -678,6 +701,9 @@ public class UI implements UInterface {
         return room;
     }
 
+    /**
+     * Present User with Option to try again, if no Rooms are available for the specific requirements
+     */
     public void availableRoomTryAgain() {
         System.out.println("\nWould you like to try again?");
         System.out.println("[1] - Yes");
@@ -691,6 +717,12 @@ public class UI implements UInterface {
         }
     }
 
+    /**
+     * Producing Timetable for a Specific module and sorts it by Date and Time
+     * @param modules Module information to get ModuleID for all classes
+     * @param se Session passed from calling method
+     * @return Timetable with sorted Time
+     */
     public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
         List<Time> time = new ArrayList<>();
 
