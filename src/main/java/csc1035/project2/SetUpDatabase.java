@@ -29,7 +29,7 @@ public class SetUpDatabase {
         while (sc.hasNextLine()) {
 
             String[] line = sc.nextLine().split(",");
-            rooms.add(new Room(Float.parseFloat(line[0]), line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3])));
+            rooms.add(new Room(Float.parseFloat(line[0]), line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]), null));
         }
 
         try {
