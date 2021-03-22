@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This is a class for representing module details in University
+ */
 @Entity(name = "Module")
 public class Module {
 

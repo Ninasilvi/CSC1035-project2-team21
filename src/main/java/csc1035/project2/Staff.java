@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This is a class for representing all Staff Members in University
+ */
 @Entity(name = "Staff")
 public class Staff {
 

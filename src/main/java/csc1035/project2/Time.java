@@ -2,6 +2,9 @@ package csc1035.project2;
 
 import javax.persistence.*;
 
+/**
+ * This is a class for representing all Booked Times and Rooms in University
+ */
 @Entity(name = "Time")
 public class Time {
 

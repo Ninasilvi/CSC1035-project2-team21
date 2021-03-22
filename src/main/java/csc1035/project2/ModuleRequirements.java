@@ -3,6 +3,9 @@ package csc1035.project2;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * This is a class for representing all Module Requirements in University
+ */
 @Entity(name = "ModuleRequirements")
 public class ModuleRequirements {
 

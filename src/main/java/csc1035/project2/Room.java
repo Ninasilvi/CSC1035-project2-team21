@@ -3,6 +3,9 @@ package csc1035.project2;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This is a class for representing all Rooms in University
+ */
 @Entity(name = "Rooms")
 public class Room {
 

@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * This is a class for representing all Students in University
+ */
+
 @Entity(name = "Student")
 public class Student {
 
