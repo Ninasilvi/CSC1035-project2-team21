@@ -20,17 +20,20 @@ public class Timetable implements TimetableInterface {
         List<Student> result = new ArrayList<>();
 
         String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
-        List<Module> ModuleName = se.createQuery(hql).list();
+        List<Module> moduleName = se.createQuery(hql).list();
         List<Student> students = se.createQuery("FROM Student").list();
 
         //Creates a list of Students taking a Module
-        System.out.println('\n' + "Students taking '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
         for (Student student : students) {
             List<Module> temp = new ArrayList<>(student.getModules());
             for (Module module : temp)
                 if (module.getModuleID().equals(moduleID)) {
                     result.add(student);
                 }
+        }
+        if (result.size() != 0) {
+            System.out.println("\nStudents taking '" + moduleName.get(0) + "' (" + moduleID + ") Module:\n");
+
         }
         se.getTransaction().commit();
         se.close();
@@ -48,11 +51,10 @@ public class Timetable implements TimetableInterface {
         List<Staff> result = new ArrayList<>();
 
         String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
-        List<Module> ModuleName = se.createQuery(hql).list();
+        List<Module> moduleName = se.createQuery(hql).list();
         List<Staff> staff = se.createQuery("FROM Staff").list();
 
         //Creates a list of Staff Members taking a Module
-        System.out.println('\n' + "Staff members teaching '" + ModuleName.get(0) + "' (" + moduleID + ") Module");
         for (Staff staffMember : staff) {
             List<Module> temp = new ArrayList<>(staffMember.getModules());
             for (Module module :temp)
@@ -60,7 +62,9 @@ public class Timetable implements TimetableInterface {
                     result.add(staffMember);
                 }
         }
-
+        if (result.size() != 0) {
+            System.out.println("\nStaff members teaching '" + moduleName.get(0) + "' (" + moduleID + ") Module:\n");
+        }
         se.getTransaction().commit();
         se.close();
         UI.listOfStaffResult(result);

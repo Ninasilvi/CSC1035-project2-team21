@@ -95,7 +95,7 @@ public class UI implements UInterface {
      */
     public void listOfStudentsResult(List<Student> students) {
         if (students.size() == 0) {
-            System.out.println("\nNo Students were found in this Module");
+            System.out.println("\nNo students were found for this module.");
         } else {
             String printPeopleFormat = "| %-3s | %-10s | %-20s | %-25s |%n";
             System.out.println("+-----+------------+----------------------+---------------------------+");
@@ -126,7 +126,7 @@ public class UI implements UInterface {
      */
     public void listOfStaffResult(List<Staff> staff) {
         if (staff.size() == 0) {
-            System.out.println("\nNo Staff were found in this Module");
+            System.out.println("\nNo staff were found for this module.");
         } else {
             String printPeopleFormat = "| %-3s | %-10s | %-20s | %-25s |%n";
             System.out.println("+-----+------------+----------------------+---------------------------+");
@@ -146,10 +146,10 @@ public class UI implements UInterface {
      */
     public void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
         if (moduleRequirements.size() == 0) {
-            System.out.println("\nNo ModuleRequirements were found in this Module");
+            System.out.println("\nNo module requirements were found for this module.\n");
         } else {
             String printPeopleFormat = "| %-3s | %-10s | %-15s | %-13s | %-14s | %-17s | %-16s | %n";
-            System.out.println("Module Requirements");
+            System.out.println("\nModule Requirements:\n");
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
             System.out.println("| Row | ModuleID   | Week Commencing | Lectures/week | Lecture Length | Practicals / week | Practical Length |");
             System.out.println("+-----+------------+-----------------+---------------+----------------+-------------------+------------------+");
@@ -176,7 +176,7 @@ public class UI implements UInterface {
         List<Module> modules = se.createQuery("FROM Module").list();
         se.getTransaction().commit();
 
-        System.out.println("Please select a module:\n");
+        System.out.println("\nPlease select a module:\n");
 
         for (int i = 0; i < modules.size(); i++) {
             System.out.println(i + 1 + " - " + modules.get(i));
@@ -193,9 +193,14 @@ public class UI implements UInterface {
     public void listOfRooms() {
        r.listOfRooms();
 
-        for (int i = 0; i < r.rooms.size(); i++) {
-            System.out.println(i + 1 + " - " + r.rooms.get(i));
-        }
+       if (r.rooms.size() == 0) {
+           System.out.println("\nThere are no rooms currently recorded.\n");
+       } else {
+           System.out.println("\nAll rooms currently recorded:\n");
+           for (int i = 0; i < r.rooms.size(); i++) {
+               System.out.println(i + 1 + " - " + r.rooms.get(i));
+           }
+       }
     }
 
     /**
@@ -228,7 +233,7 @@ public class UI implements UInterface {
     public void bookedRoomsList() {
         List<Time> times = r.bookedRoomsCheck();
         if (times.size() == 0) {
-            System.out.println("There are no booked rooms.");
+            System.out.println("\nThere are no booked rooms.");
         } else {
             System.out.println("\nBooked Rooms:\n");
             timetableFormat(times, "booked rooms");
@@ -645,7 +650,7 @@ public class UI implements UInterface {
      * @param day Timetable entry's day
      */
     public Room timetableRoomChoiceText(String timeStart, String timeEnd, String day) {
-        System.out.println("\nWould you like to book a room with social distancing conditions or without?");
+        System.out.println("\nWould you like to book a room with or without social distancing conditions?");
         System.out.println("[1] - With social distancing conditions");
         System.out.println("[2] - Without social distancing conditions");
 
@@ -669,6 +674,10 @@ public class UI implements UInterface {
      */
     public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
+
+        if (room == null) {
+            room = availableRoomTryAgain(timeStart, timeEnd, day, null);
+        }
         Time time = t.createTimetable(day, timetableName, moduleID, timeStart, timeEnd);
 
         r.bookRooms(room.getRoomNumber(), time);
@@ -698,7 +707,6 @@ public class UI implements UInterface {
             room = r.availableRooms.get(choice - 1);
         } else {
             System.out.println("\nThere are no available rooms from " + timeStart + " to " + timeEnd + " on " + day + ":\n");
-            availableRoomTryAgain();
         }
         return room;
     }
@@ -730,26 +738,34 @@ public class UI implements UInterface {
         } else {
             System.out.println("\nThere are no rooms available from " + timeStart + " to " + timeEnd + " on " + day +
                     " that can fit " + people + " people under social distancing conditions.");
-            availableRoomTryAgain();
         }
         return room;
     }
 
     /**
-     * Asks the user whether they would like to try creating a timetable again if
-     * there were no available rooms to be booked.
+     * Asks the user whether they would like to try choosing a room again if
+     * there were no available rooms to be booked and room assigned for room booking was null.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
+     * @param room Null room
+     * @return Chosen room once it's not null
      */
-    public void availableRoomTryAgain() {
-        System.out.println("\nWould you like to try again?");
-        System.out.println("[1] - Yes");
-        System.out.println("[2] - No");
+    public Room availableRoomTryAgain(String timeStart, String timeEnd, String day, Room room) {
+        while (room == null) {
+            System.out.println("\nWould you like to try again?");
+            System.out.println("[1] - Yes");
+            System.out.println("[2] - No");
 
-        int choice = ic.get_int_input(1, 2);
+            int choice = ic.get_int_input(1, 2);
 
-        switch (choice) {
-            case 1 -> timetableVariables();
-            case 2 -> runMenu();
+            if (choice == 1) {
+                room = timetableRoomChoiceText(timeStart, timeEnd, day);
+            } else if (choice == 2) {
+                runMenu();
+            }
         }
+        return room;
     }
 
     /**
@@ -780,6 +796,11 @@ public class UI implements UInterface {
      */
     public void timetableBookRoomChoice(String timeStart, String timeEnd, String day, Time time) {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
+
+        if (room == null) {
+            room = availableRoomTryAgain(timeStart, timeEnd, day, null);
+        }
+
         List<Time> temp = new ArrayList<>();
 
         r.bookRooms(room.getRoomNumber(), time);

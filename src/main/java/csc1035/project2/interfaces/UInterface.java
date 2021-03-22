@@ -1,6 +1,7 @@
 package csc1035.project2.interfaces;
 
 import csc1035.project2.*;
+import csc1035.project2.Module;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public interface UInterface {
 
     Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day);
 
-    void availableRoomTryAgain();
+    Room availableRoomTryAgain(String timeStart, String timeEnd, String day, Room room);
 
     void bookRoom();
 
