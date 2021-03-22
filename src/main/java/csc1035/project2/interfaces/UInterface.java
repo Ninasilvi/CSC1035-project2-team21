@@ -34,7 +34,7 @@ public interface UInterface {
 
     void roomCancel();
 
-    void roomCancelConfirmation(Room room);
+    void roomCancelConfirmation(Room room, List<Time> times);
 
     void roomCancelNext();
 

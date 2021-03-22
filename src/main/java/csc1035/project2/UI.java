@@ -30,7 +30,7 @@ public class UI implements UInterface {
                 case 3 -> timetableChoice();
                 case 4 -> changeRoomMenu();
                 case 5 -> bookRoom();
-                //case 6 -> //cancel rooms
+                case 6 -> roomCancel();
                 case 7 -> {
                     System.out.println("\nQuitting...");
                     System.exit(420);
@@ -179,8 +179,7 @@ public class UI implements UInterface {
             time.addAll(temp);
         }
 
-        List<Time> sortedTime = t.sortByDateTime(time);
-        return sortedTime;
+        return t.sortByDateTime(time);
     }
 
     /**
@@ -224,13 +223,29 @@ public class UI implements UInterface {
         System.out.println("\n" + room + " has been successfully booked.");
     }
 
+    public void roomBookingNext() {
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("1 - Book another room");
+        System.out.println("2 - Return to main menu");
+        int choice = ic.get_int_input(1,2);
+
+        switch (choice) {
+            case 1 -> bookRoom();
+            case 2 -> runMenu();
+        }
+    }
+
     /**
      * Prints a list of rooms that are already booked
      */
     public void bookedRoomsList() {
         List<Time> times = r.bookedRoomsCheck();
-        System.out.println("\nBooked Rooms:\n");
-        timetableFormat(times, "booked rooms");
+        if (times.size() == 0) {
+            System.out.println("There are no booked rooms.");
+        } else {
+            System.out.println("\nBooked Rooms:\n");
+            timetableFormat(times, "booked rooms");
+        }
     }
 
     /**
@@ -238,22 +253,26 @@ public class UI implements UInterface {
      */
     public void roomCancel() {
         bookedRoomsList();
+        List<Time> times = r.bookedRoomsCheck();
 
-        if (r.bookedRooms.size() == 0) {
+        if (times.size() == 0) {
             System.out.println("\nYou cannot cancel room bookings without any rooms booked.");
             runMenu();
         } else {
             System.out.println("\nWhich room booking would you like to cancel?\n");
         }
-        r.cancelRooms();
+        int choice = ic.get_int_input(1, times.size());
+        Time time = times.get(choice - 1);
+        r.cancelRooms(time.getId());
     }
 
     /**
      * Informs the user that their room booking was cancelled.
      * @param room Room information
      */
-    public void roomCancelConfirmation(Room room) {
+    public void roomCancelConfirmation(Room room, List<Time> times) {
         System.out.println("\n" + room + " booking has been successfully cancelled");
+        timetableFormat(times, "Your room cancellation");
         roomCancelNext();
     }
 
@@ -770,6 +789,8 @@ public class UI implements UInterface {
 
         r.bookRooms(room.getRoomNumber(), time);
         temp.add(time);
-        timetableFormat(temp, "Your current timetable creation");
+        timetableFormat(temp, "Your room booking");
+
+        roomBookingNext();
     }
 }

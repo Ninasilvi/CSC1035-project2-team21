@@ -7,15 +7,11 @@ import java.util.*;
 
 public interface RoomBookingInterface {
 
-    List<Room> room = null;
-    List<Room> bookedRooms = new ArrayList<>();
-    List<Room> availableRooms = new ArrayList<>();
-
     void listOfRooms();
 
     void bookRooms(double roomNumber, Time time);
 
-    void cancelRooms();
+    void cancelRooms(int id);
 
     List<Time> bookedRoomsCheck();
 

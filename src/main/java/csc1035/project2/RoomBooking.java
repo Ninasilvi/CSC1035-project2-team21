@@ -57,18 +57,27 @@ public class RoomBooking implements RoomBookingInterface {
     /**
      * Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
      */
-    public void cancelRooms() {
-        int choice = ic.get_int_input(1, bookedRooms.size());
-        Room room = bookedRooms.get(choice - 1);
+    public void cancelRooms(int id) {
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
 
-        bookedRooms.remove(room);
-        availableRooms.add(room);
+        Time time = se.get(Time.class, id);
+        Room room = time.getRoom();
 
-        UI.roomCancelConfirmation(room);
+        room.getTimes().remove(time);
+        time.setRoom(null);
+        se.update(time);
+        se.update(room);
+        se.getTransaction().commit();
+        se.close();
+
+        List<Time> temp = new ArrayList<>();
+        temp.add(time);
+
+        UI.roomCancelConfirmation(room, temp);
     }
 
     public List<Time> bookedRoomsCheck() {
-        List<Time> emptyRoomTimes = t.timetableNoRoom();
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
 
@@ -168,7 +177,7 @@ public class RoomBooking implements RoomBookingInterface {
         double roomNumber = room.getRoomNumber();
 
         se.beginTransaction();
-        String hql = "FROM Time WHERE room LIKE '" + room.getRoomNumber() + "'";
+        String hql = "FROM Time WHERE room LIKE '" + roomNumber + "'";
         List<Time> timetables = se.createQuery(hql).list();
         se.close();
         UI.timetableRoomsResult(room, timetables);
