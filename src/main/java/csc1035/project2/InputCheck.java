@@ -11,10 +11,10 @@ public class InputCheck implements InputCheckInterface {
     Scanner s = new Scanner(System.in);
 
     /**
-     * Checks if 'integer' input is valid
+     * Checks if an integer input is valid and within a specified range.
      * @param min_val Minimum input value
      * @param max_val Maximum input value
-     * @return User input (Integer)
+     * @return User's integer input
      */
     public int get_int_input(int min_val, int max_val) {
         int input;
@@ -37,57 +37,8 @@ public class InputCheck implements InputCheckInterface {
     }
 
     /**
-     * Checks if 'Real Number' input is valid
-     * @return User Input (Real Number)
-     */
-    public double get_double_input() {
-        double input;
-
-        while (true) {
-            System.out.print("> ");
-            try {
-                input = s.nextDouble();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("\nTry again: Bad input!");
-                s.nextDouble();
-            }
-        }
-        return input;
-    }
-
-    /**
-     * Check if 'Double' input has 'Room Number' pattern
-     * @return User Input (Room Number |String|)
-     */
-    public double get_roomNum_input() {
-        double input;
-        String str;
-        Pattern p = Pattern.compile("[0-9].[0-9][0-9][0-9]");
-        while (true) {
-            System.out.print("> ");
-            try {
-                input = s.nextDouble();
-                str = String.valueOf(input);
-                Matcher m = p.matcher(str);
-                if(m.matches()) {
-                    break;
-                } else {
-                    System.out.println("Try again: input should have 3 numbers after decimal. (e.g. '0.365'");
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("\nTry again: Bad input!");
-                s.nextDouble();
-            }
-        }
-        return input;
-    }
-
-
-    /**
-     * Check if 'String' input is valid
-     * @return User input (String)
+     * Checks if a string input is not empty.
+     * @return User's string input
      */
     public String get_string_input() {
         String input;
@@ -105,8 +56,8 @@ public class InputCheck implements InputCheckInterface {
     }
 
     /**
-     * Check if 'String' is actual Time and is Valid
-     * @return User input (Time (HH-mm) |String|)
+     * Checks if user's input conforms to time format.
+     * @return User's time (HH-mm) input
      */
     public String get_time_input() {
         Scanner s = new Scanner(System.in);
@@ -141,9 +92,9 @@ public class InputCheck implements InputCheckInterface {
     }
 
     /**
-     * Check if 'String' is actual Time, is Valid and is after 'startTime'
-     * @param startTime compare endTime with startTime so it's not in wrong order
-     * @return User input (Time (HH-mm) |String|)
+     * Checks if user's input conforms to time format and occurs after the starting time.
+     * @param startTime Starting time of the time period for which the user's input is the ending time
+     * @return User's time (HH-mm) input
      */
     public String get_end_time_input(String startTime) {
         boolean validTime = false;
@@ -167,8 +118,8 @@ public class InputCheck implements InputCheckInterface {
     }
 
     /**
-     * Check if 'String' is Day of the Week.
-     * @return User input (Day of the Week with first letter being uppercase)
+     * Checks if a string input represents a day of the week.
+     * @return User's day input (day of the week with first letter capitalized)
      */
     public String get_day_input() {
         Scanner s = new Scanner(System.in);
