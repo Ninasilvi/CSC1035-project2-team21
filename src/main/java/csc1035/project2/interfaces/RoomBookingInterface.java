@@ -17,7 +17,7 @@ public interface RoomBookingInterface {
 
     void cancelRooms();
 
-    void bookedRoomsCheck();
+    List<Time> bookedRoomsCheck();
 
     void availableRooms();
 

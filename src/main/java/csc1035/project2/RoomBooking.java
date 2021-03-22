@@ -67,8 +67,16 @@ public class RoomBooking implements RoomBookingInterface {
         UI.roomCancelConfirmation(room);
     }
 
-    public void bookedRoomsCheck() {
-        // TODO: add a method that checks booked rooms based on timetable
+    public List<Time> bookedRoomsCheck() {
+        List<Time> emptyRoomTimes = t.timetableNoRoom();
+        Session se = HibernateUtil.getSessionFactory().openSession();
+        se.beginTransaction();
+
+        String hql = "FROM Time WHERE room != null";
+        List<Time> times = se.createQuery(hql).list();
+        se.close();
+
+        return times;
     }
 
     /**

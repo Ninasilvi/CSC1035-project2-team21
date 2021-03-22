@@ -8,10 +8,6 @@ import java.util.List;
 
 public interface UInterface {
 
-    Timetable t = new Timetable();
-    RoomBooking r = new RoomBooking();
-    InputCheck ic = new InputCheck();
-
     void runMenu();
 
     void printMenu();

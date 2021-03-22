@@ -218,7 +218,7 @@ public class UI implements UInterface {
 
     /**
      * Informs the user that the room has been booked successfully
-     * @param room Room information
+     * @param room Room that was booked
      */
     public void roomBookingConfirmation(Room room) {
         System.out.println("\n" + room + " has been successfully booked.");
@@ -228,20 +228,9 @@ public class UI implements UInterface {
      * Prints a list of rooms that are already booked
      */
     public void bookedRoomsList() {
-        r.listOfRooms();
-
-        if (r.bookedRooms.size() == 0) {
-            r.bookedRoomsCheck();
-        }
-        if (r.bookedRooms.size() == 0) {
-            System.out.println("\nThere are no rooms currently booked.");
-        } else {
-            System.out.println("\nBooked rooms:\n");
-
-            for (int i = 0; i < r.bookedRooms.size(); i++) {
-                System.out.println(i + 1 + " - " + r.bookedRooms.get(i));
-            }
-        }
+        List<Time> times = r.bookedRoomsCheck();
+        System.out.println("\nBooked Rooms:\n");
+        timetableFormat(times, "booked rooms");
     }
 
     /**
