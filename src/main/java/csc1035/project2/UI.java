@@ -16,7 +16,7 @@ public class UI implements UInterface {
     InputCheck ic = new InputCheck();
 
     /**
-     * Main Run Menu
+     * Runs main menu.
      */
     public void runMenu() {
         while (true) {
@@ -40,7 +40,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Show Menu options
+     * Prints out menu options.
      */
     public void printMenu() {
         System.out.println("\nPlease enter an option [1-5]:");
@@ -54,7 +54,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Show List options and User selects one
+     * Prints out a menu for viewing different lists.
      */
     public void listMenu() {
         System.out.println("\nPlease enter an option [1-7]:");
@@ -79,7 +79,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Gets User's input for a Module choice (moduleOptions) and get list of Students in timetable (listOfStudents)
+     * Gets user's input for a module choice (moduleOptions) and passes the
+     * chosen module to create a list of students taking it (listOfStudents).
      */
     public void listOfStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -89,8 +90,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Method for printing Students lists
-     * @param students List of Students that need to be printed
+     * Prints out a list of students taking a module.
+     * @param students List of students to be printed
      */
     public void listOfStudentsResult(List<Student> students) {
         if (students.size() == 0) {
@@ -109,7 +110,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Gets User's input for a Module choice (moduleOptions) and get list of Staff members in timetable (listOfStaff)
+     * Gets user's input for a module choice (moduleOptions) and passes the
+     * chosen module to create a list of staff teaching it (listOfStaff).
      */
     public void listOfStaffChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -119,8 +121,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints all Staff Members for a Module
-     * @param staff Staff List
+     * Prints out a list of staff members teaching a module.
+     * @param staff List of staff members to be printed
      */
     public void listOfStaffResult(List<Staff> staff) {
         if (staff.size() == 0) {
@@ -139,8 +141,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints all Module Requirements (from Database)
-     * @param moduleRequirements List of Module Requirements
+     * Prints out all module requirements.
+     * @param moduleRequirements List of module requirements
      */
     public void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements) {
         if (moduleRequirements.size() == 0) {
@@ -164,27 +166,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Producing Timetable for a Specific module and sorts it by Date and Time
-     * @param modules Module information to get ModuleID for all classes
-     * @param se Session passed from calling method
-     * @return Timetable with sorted Time
-     */
-    public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
-        List<Time> time = new ArrayList<>();
-
-        //Creates a Timetable for a specific ModuleID
-        for (Module module : modules) {
-            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
-            List<Time> temp = se.createQuery(hql).list();
-            time.addAll(temp);
-        }
-
-        return t.sortByDateTime(time);
-    }
-
-    /**
-     * Prints module options and takes User's Input
-     * @return Module ID
+     * Prints module options and takes user's input
+     * @return Module ID of user's chosen module
      */
     public String moduleOptions() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -205,7 +188,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints out a List of all Rooms
+     * Prints out a list of all rooms.
      */
     public void listOfRooms() {
        r.listOfRooms();
@@ -223,6 +206,10 @@ public class UI implements UInterface {
         System.out.println("\n" + room + " has been successfully booked.");
     }
 
+    /**
+     * Asks the user what would they like to do after booking a room and
+     * redirects them based on their choice.
+     */
     public void roomBookingNext() {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1 - Book another room");
@@ -236,7 +223,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints a list of rooms that are already booked
+     * Prints a list of booked rooms.
      */
     public void bookedRoomsList() {
         List<Time> times = r.bookedRoomsCheck();
@@ -249,7 +236,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Asks the User which room booking they would like to cancel
+     * Asks the user which room booking they would like to cancel.
      */
     public void roomCancel() {
         bookedRoomsList();
@@ -267,8 +254,9 @@ public class UI implements UInterface {
     }
 
     /**
-     * Informs the user that their room booking was cancelled.
-     * @param room Room information
+     * Informs the user that their room booking was successfully cancelled.
+     * @param room Room that was cancelled
+     * @param times A list containing 1 timetable entry which had the room that was cancelled
      */
     public void roomCancelConfirmation(Room room, List<Time> times) {
         System.out.println("\n" + room + " booking has been successfully cancelled");
@@ -277,7 +265,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Asks the User what they would like to do after cancelling a room
+     * Asks the user what they would like to do after cancelling a room.
      */
     public void roomCancelNext() {
         System.out.println("\nWhat would you like to do next?");
@@ -292,7 +280,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * A menu for viewing available rooms
+     * A menu for viewing available rooms.
      */
     public void availableRoomsListMenu() {
 
@@ -322,7 +310,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints a List of Rooms that have not been booked
+     * Prints a list of rooms that have not been booked.
      */
     public void availableRoomsList() {
         r.availableRooms();
@@ -336,7 +324,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints a list of rooms that are available for a certain day and time
+     * Prints a list of rooms that are available for a certain day and time.
      */
     public void availableRoomsDTList() {
         System.out.println("\nEnter Start Time: ");
@@ -352,6 +340,9 @@ public class UI implements UInterface {
         availableRoomsPrint();
     }
 
+    /**
+     * Prints a list of available rooms for availableRoomsList() and availableRoomsDTList().
+     */
     public void availableRoomsPrint() {
         for (int i = 0; i < r.availableRooms.size(); i++) {
             System.out.println(i + 1 + " - " + r.availableRooms.get(i));
@@ -359,7 +350,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints options, which Timetable User wants to see
+     * Prints options of which timetable the user wants to see, redirecting them based on their choice.
      */
     public void timetableChoice () {
         System.out.println("\nPlease enter an option [1-4]:");
@@ -379,7 +370,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * User options of which Student's timetable should be Printed out
+     * Prints a list of student options, asking the user to choose
+     * which student's timetable should be printed out.
      */
     public void timetableStudentsChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -395,18 +387,17 @@ public class UI implements UInterface {
 
         int choice = ic.get_int_input(1, students.size());
 
-        t.producingStudentTimetable(choice, se, students);
+        t.producingStudentTimetable(students.get(choice - 1), se);
     }
 
     /**
-     * Timetable for Students printed out
-     * @param students List of Students that needs to get printed out
-     * @param choice User's choice
-     * @param time List of Taken Rooms
+     * Prints a timetable for a student.
+     * @param student The student whose timetable is printed
+     * @param time The timetable
      */
-    public void timetableStudentsResult(List<Student> students, int choice, List<Time> time) {
-        String name = students.get(choice-1).getFirstName() + " " +
-                students.get(choice-1).getLastName() + " (ID: " + students.get(choice-1).getStudentID() + ")";
+    public void timetableStudentsResult(Student student, List<Time> time) {
+        String name = student.getFirstName() + " " +
+                student.getLastName() + " (ID: " + student.getStudentID() + ")";
 
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + name);
@@ -416,7 +407,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * User options of which Staff Members timetable should be Printed out
+     * Prints a list of staff member options, asking the user to choose
+     * which staff member's timetable should be printed out.
      */
     public void timetableStaffChoice() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -431,18 +423,17 @@ public class UI implements UInterface {
         }
         int choice = ic.get_int_input(1, staff.size());
 
-        t.producingStaffTimetable(choice, se, staff);
+        t.producingStaffTimetable(staff.get(choice - 1), se);
     }
 
     /**
-     * Timetable for Staff Members printed out
-     * @param staff List of Staff Members
-     * @param choice User choice of which Staff info should be printed out
-     * @param time List of Taken Rooms
+     * Prints a timetable for a staff member.
+     * @param staff The staff member whose timetable is printed
+     * @param time The timetable
      */
-    public void timetableStaffResult(List<Staff> staff, int choice, List<Time> time) {
-        String name = staff.get(choice-1).getFirstName() + " " +
-                staff.get(choice-1).getLastName() + " (ID: " + staff.get(choice-1).getStaffID() + ")";
+    public void timetableStaffResult(Staff staff, List<Time> time) {
+        String name = staff.getFirstName() + " " +
+                staff.getLastName() + " (ID: " + staff.getStaffID() + ")";
 
         if (!(time.size() == 0)) {
             System.out.println("\nTimetable for " + name);
@@ -452,7 +443,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * Takes user input for a room choice
+     * Takes user input for a room choice.
      */
     public void timetableRoomsChoice() {
         listOfRooms();
@@ -463,9 +454,9 @@ public class UI implements UInterface {
     }
 
     /**
-     * Prints out results of Timetable and allows User to view different Timetable or return to Menu
-     * @param room Room Information
-     * @param time List of Taken Rooms
+     * Prints a timetable for a room.
+     * @param room Room whose timetable is printed
+     * @param time The timetable
      */
     public void timetableRoomsResult(Room room, List<Time> time) {
         if (!(time.size() == 0)) {
@@ -476,9 +467,9 @@ public class UI implements UInterface {
     }
 
     /**
-     * Printing Timetable template
-     * @param time Information that needs to get printed
-     * @param info Information about the Timetable
+     * Produces a timetable printing format.
+     * @param time Timetable to be printed
+     * @param info Information about the timetable
      */
     public void timetableFormat(List<Time> time, String info) {
         if (time.size() == 0) {
@@ -500,7 +491,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * User decides what to do next (View another Timetable or return to Menu)
+     * Asks the user what they want to do after viewing a timetable, redirecting them based on their choice.
      */
     public void timetableNext() {
         System.out.println("\nWhat would you like to do next?");
@@ -516,7 +507,7 @@ public class UI implements UInterface {
     }
 
     /**
-     * User decides what has to be changed
+     * Asks the user what room detail they want to change.
      */
     public void changeRoomMenu() {
         System.out.println("\nWhich room detail would you like to change?");
@@ -538,8 +529,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Sends information to functions
-     * @param detail Details that has to be changed
+     * Asks the user which room's detail they want to change.
+     * @param detail Detail to be changed
      */
     public void changeRoomChoice(String detail) {
         listOfRooms();
@@ -557,8 +548,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Change Room Type
-     * @param room Room whose details have to be changed
+     * Asks the user for a new room type.
+     * @param room Room whose type is to be changed
      */
     public void changeRoomTypeChoice(Room room) {
         System.out.println("\nPlease enter a new Room Type for " + room.toString());
@@ -569,8 +560,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Change Room Capacity
-     * @param room Room whose details have to be changed
+     * Asks the user for a new maximum room capacity.
+     * @param room Room whose maximum capacity is to be changed
      */
     public void changeRoomCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Maximum Capacity for " + room.toString());
@@ -581,8 +572,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Change Room Social Distance Capacity
-     * @param room Room whose details have to be changed
+     * Asks the user for a new social distancing capacity.
+     * @param room Room whose social distancing capacity is to be changed
      */
     public void changeRoomSocDistCapacityChoice(Room room) {
         System.out.println("\nPlease enter a new Room Social Distancing Capacity for " + room.toString());
@@ -593,8 +584,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * After Room details have changed, gives User options what to do next
-     * @param room Room whose details have to be changed
+     * Asks the user what they want to do after changing room details, redirecting them based on their choice.
+     * @param room Room whose details have been changed
      */
     public void changeRoomResult(Room room) {
         System.out.println("\nSuccessfully changed. New room:\n" + room);
@@ -613,8 +604,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * User inputs for Day, Class name, ModuleID option, Start Time and End Time
-     * Sending inputs to 'allowCreateTimetable'
+     * Asks for user inputs of timetable creation details (day, class name, ModuleID option,
+     * start and end time), as well as whether they would like to book a room.
      */
     public void timetableVariables() {
         InputCheck ic = new InputCheck();
@@ -648,10 +639,10 @@ public class UI implements UInterface {
     }
 
     /**
-     * Presents User with options to Book a Room WITH or WITHOUT Social Distancing when booking a room
-     * @param timeStart Module start time for the Room
-     * @param timeEnd Module End time for the Room
-     * @param day Module Day for the Room
+     * Asks the user whether they would like to book a room with or without Social Distancing requirements.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
      */
     public Room timetableRoomChoiceText(String timeStart, String timeEnd, String day) {
         System.out.println("\nWould you like to book a room with social distancing conditions or without?");
@@ -669,12 +660,12 @@ public class UI implements UInterface {
     }
 
     /**
-     * Books a room when creating a timetable
-     * @param timeStart Module start time for the Room
-     * @param timeEnd Module End time for the Room
-     * @param day Module Day for the Room
-     * @param timetableName Module Timetable name for the Room
-     * @param moduleID ModuleID for the Room
+     * Books a room when creating a timetable.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
+     * @param timetableName Timetable entry's name
+     * @param moduleID ModuleID of the timetable entry
      */
     public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
@@ -687,10 +678,11 @@ public class UI implements UInterface {
     }
 
     /**
-     * Shows Available rooms for Timetable booking based on day and time information entered in timetableVariables()
-     * @param timeStart The chosen Time Start
-     * @param timeEnd The chosen Time End
-     * @param day The chosen day
+     * Shows available rooms to be booked based on the timetable entry's day and time
+     * and asks the user to choose a room they want to book.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
      * @return The room to be booked
      */
     public Room timetableAvailableRooms(String timeStart, String timeEnd, String day) {
@@ -712,11 +704,13 @@ public class UI implements UInterface {
     }
 
     /**
-     * Available rooms under Social Distancing requirements
-     * @param timeStart Module Start Time
-     * @param timeEnd Module End Time
-     * @param day Module Day
-     * @return User selected room
+     * Asks the user how many people are going to be in the room that is being booked,
+     * shows available rooms based on the timetable entry's day and time and social
+     * distancing conditions, and asks the user to choose a room to be booked.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
+     * @return The room to be booked
      */
     public Room timetableAvailableSocDistRooms(String timeStart, String timeEnd, String day) {
         System.out.println("\nHow many people are going to be in the room?");
@@ -742,7 +736,8 @@ public class UI implements UInterface {
     }
 
     /**
-     * Present User with Option to try again, if no Rooms are available for the specific requirements
+     * Asks the user whether they would like to try creating a timetable again if
+     * there were no available rooms to be booked.
      */
     public void availableRoomTryAgain() {
         System.out.println("\nWould you like to try again?");
@@ -758,16 +753,16 @@ public class UI implements UInterface {
     }
 
     /**
-     * Books room outside of timetable creation for a timetable with null room.
+     * Books a room for an existing timetable entry with a null room.
      */
     public void bookRoom() {
         List<Time> emptyTimes = t.timetableNoRoom();
 
         if (emptyTimes.size() == 0) {
-            System.out.println("There are no timetables without booked rooms.");
+            System.out.println("There are no timetable entries without booked rooms.");
             runMenu();
         } else {
-            System.out.println("\nWhich timetable would you like to book a room for?");
+            System.out.println("\nWhich timetable entry would you like to book a room for?");
             timetableFormat(emptyTimes, "empty timetables");
             int choice = ic.get_int_input(1, emptyTimes.size());
             Time time = emptyTimes.get(choice - 1);
@@ -777,11 +772,11 @@ public class UI implements UInterface {
     }
 
     /**
-     * Book a Room for an existing Timetable
-     * @param timeStart Module Start Time
-     * @param timeEnd Module End Time
-     * @param day Module Day
-     * @param time Information about Time that needs to be booked
+     * Books a room for an existing timetable entry.
+     * @param timeStart Timetable entry's starting time
+     * @param timeEnd Timetable entry's ending time
+     * @param day Timetable entry's day
+     * @param time The timetable entry
      */
     public void timetableBookRoomChoice(String timeStart, String timeEnd, String day, Time time) {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);

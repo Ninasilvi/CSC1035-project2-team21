@@ -112,34 +112,51 @@ public class Timetable implements TimetableInterface {
 
     /**
      * Getting Timetable of Students for a Module and sending Timetable to print out in "timetableStudentsResult"
-     * @param choice User choice from which Module get Students List
+     * @param student The student
      * @param se Session passed from calling method
-     * @param students List of Students for a Module
      */
-    public void producingStudentTimetable(int choice, Session se, List<Student> students) {
-        List<Module> modules = new ArrayList<>(students.get(choice-1).getModules());
+    public void producingStudentTimetable(Student student, Session se) {
+        List<Module> modules = new ArrayList<>(student.getModules());
 
         // Creating a Timetable for a Module and Sorting it by Day and Time
-        List<Time> time = UI.producingTimetableForModule(modules, se);
+        List<Time> time = producingTimetableForModule(modules, se);
 
         se.close();
-        UI.timetableStudentsResult(students, choice, time);
+        UI.timetableStudentsResult(student, time);
     }
 
     /**
      * Getting Timetable of Staff members for a Module and sending Timetable to print out in "timetableStaffResult"
-     * @param choice User choice from which Module get Students List
+     * @param staff The staff member
      * @param se Session passed from calling method
-     * @param staff List of Staff Members for a Module
      */
-    public void producingStaffTimetable(int choice, Session se, List<Staff> staff) {
-        List<Module> modules = new ArrayList<>(staff.get(choice-1).getModules());
+    public void producingStaffTimetable(Staff staff, Session se) {
+        List<Module> modules = new ArrayList<>(staff.getModules());
 
         // Creating a Timetable for a Module and Sorting it by Day and Time
-        List<Time> time = UI.producingTimetableForModule(modules, se);
+        List<Time> time = producingTimetableForModule(modules, se);
 
         se.close();
-        UI.timetableStaffResult(staff, choice, time);
+        UI.timetableStaffResult(staff, time);
+    }
+
+    /**
+     * Produces a timetable for a specific module and sorts it by day and time
+     * @param modules A list of modules to get ModuleID for all classes
+     * @param se Session passed from the calling method
+     * @return Timetable with sorted time
+     */
+    public List<Time> producingTimetableForModule(List<Module> modules, Session se) {
+        List<Time> time = new ArrayList<>();
+
+        //Creates a Timetable for a specific ModuleID
+        for (Module module : modules) {
+            String hql = "FROM Time t WHERE t.moduleID = '" + module.getModuleID() + "'";
+            List<Time> temp = se.createQuery(hql).list();
+            time.addAll(temp);
+        }
+
+        return sortByDateTime(time);
     }
 
     /**

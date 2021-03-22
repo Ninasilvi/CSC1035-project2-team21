@@ -1,8 +1,6 @@
 package csc1035.project2.interfaces;
 
 import csc1035.project2.*;
-import csc1035.project2.Module;
-import org.hibernate.Session;
 
 import java.util.List;
 
@@ -11,6 +9,8 @@ public interface UInterface {
     void runMenu();
 
     void printMenu();
+
+    void listMenu();
 
     void listOfStudentsChoice();
 
@@ -22,13 +22,13 @@ public interface UInterface {
 
     void listOfModuleReqResult(List<ModuleRequirements> moduleRequirements);
 
-    List<Time> producingTimetableForModule(List<Module> modules, Session se);
-
     String moduleOptions();
 
     void listOfRooms();
 
     void roomBookingConfirmation(Room room);
+
+    void roomBookingNext();
 
     void bookedRoomsList();
 
@@ -50,11 +50,11 @@ public interface UInterface {
 
     void timetableStudentsChoice();
 
-    void timetableStudentsResult(List<Student> students, int choice, List<Time> time);
+    void timetableStudentsResult(Student student, List<Time> time);
 
     void timetableStaffChoice();
 
-    void timetableStaffResult(List<Staff> staff, int choice, List<Time> time);
+    void timetableStaffResult(Staff staff, List<Time> time);
 
     void timetableRoomsChoice();
 
