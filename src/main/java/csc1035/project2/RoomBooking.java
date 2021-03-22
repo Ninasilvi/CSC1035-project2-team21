@@ -11,12 +11,11 @@ public class RoomBooking implements RoomBookingInterface {
 
     List<Room> rooms;
     List<Room> availableRooms = new ArrayList<>();
-    static InputCheck ic = new InputCheck();
     static UI UI = new UI();
     static Timetable t = new Timetable();
 
     /**
-     * List of All Rooms in Database
+     * Creates a list of all rooms.
      */
     public void listOfRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -29,9 +28,9 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Books a Room
-     * @param roomNumber Room number for the room to be booked
-     * @param time Timetable for which the room will be booked
+     * Books a room and saves it to the database.
+     * @param roomNumber Room number of the room to be booked
+     * @param time Timetable entry for which the room will be booked
      */
     public void bookRooms(double roomNumber, Time time) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -55,7 +54,8 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Distinguishes the room to cancel, removes it from bookedRooms and adds it to availableRooms
+     * Cancels a room booking for a timetable entry and updates the database.
+     * @param id The id of the timetable entry
      */
     public void cancelRooms(int id) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -77,6 +77,10 @@ public class RoomBooking implements RoomBookingInterface {
         UI.roomCancelConfirmation(room, temp);
     }
 
+    /**
+     * Creates a list of timetable entries with booked rooms.
+     * @return The list of timetable entries
+     */
     public List<Time> bookedRoomsCheck() {
         Session se = HibernateUtil.getSessionFactory().openSession();
         se.beginTransaction();
@@ -89,7 +93,7 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Determines rooms that have not been booked
+     * Determines rooms that have not been booked.
      */
     public void availableRooms() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -108,10 +112,10 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Determines available rooms for a specific date and time.
-     * @param timeStart Check with this Time Start
-     * @param timeEnd Check with this Time End
-     * @param day Check with this Day
+     * Determines available rooms for a specific time period (day and time).
+     * @param timeStart Starting time of the specific time period
+     * @param timeEnd Ending time of the specific time period
+     * @param day The day of the specific time period
      */
     public void availableRoomsDT(String timeStart, String timeEnd, String day) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -148,11 +152,12 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Shows available Rooms with Social Distancing
-     * @param timeStart Module Start time
-     * @param timeEnd Module End time
-     * @param day Module day
-     * @param people amount of people for the module
+     * Shows available rooms for a specific period of time that can maintain social distancing
+     * conditions with the amount of people who are going to be in the room.
+     * @param timeStart Starting time of the specific time period
+     * @param timeEnd Ending time of the specific time period
+     * @param day The day of the specific time period
+     * @param people Amount of people who are going to be in the room
      */
     public void availableRoomsSocDist(String timeStart, String timeEnd, String day, int people) {
         availableRoomsDT(timeStart, timeEnd, day);
@@ -168,8 +173,8 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Adds to timetable list the elements from Time entity for a particular room
-     * @param choice user's room choice
+     * Creates a timetable for a specific room.
+     * @param choice User's room choice
      */
     public void producingRoomTimetable(int choice) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -184,9 +189,9 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Changes the type of Room to type from user input
-     * @param room Room information that needs to be changed
-     * @param newType changed Room Type
+     * Changes the type of a room.
+     * @param room Room whose type will be changed
+     * @param newType New type for the room
      */
     public void changeRoomType(Room room, String newType) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -204,9 +209,9 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Changes the capacity of Room to capacity from user input
-     * @param room Room information that needs to be changed
-     * @param newCapacity Change to this Capacity
+     * Changes the maximum capacity of a room.
+     * @param room Room whose maximum capacity will be changed
+     * @param newCapacity New maximum capacity for the room
      */
     public void changeRoomCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -224,9 +229,9 @@ public class RoomBooking implements RoomBookingInterface {
     }
 
     /**
-     * Changes the socially distant capacity of Room to capacity from user input
-     * @param room Room information that needs to be changed
-     * @param newCapacity Change to this Capacity
+     * Changes the social distancing capacity of a room.
+     * @param room Room whose social distancing capacity will be changed
+     * @param newCapacity New social distancing capacity for the room
      */
     public void changeRoomSocDistCapacity(Room room, int newCapacity) {
         Session se = HibernateUtil.getSessionFactory().openSession();
