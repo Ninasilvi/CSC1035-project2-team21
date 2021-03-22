@@ -33,7 +33,7 @@ public class UI implements UInterface {
                 case 6 -> roomCancel();
                 case 7 -> {
                     System.out.println("\nQuitting...");
-                    System.exit(420);
+                    System.exit(0);
                 }
             }
         }
