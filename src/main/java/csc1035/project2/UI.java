@@ -631,7 +631,7 @@ public class UI implements UInterface {
         if (choice == 1) {
             timetableRoomChoice(timeStart, timeEnd, day, timetableName, moduleID);
         } else if (choice == 2) {
-                Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+                Time time = t.createTimetable(day, timetableName, moduleID, timeStart, timeEnd);
                 List<Time> temp = new ArrayList<>();
                 temp.add(time);
                 timetableFormat(temp, "Your current timetable creation");
@@ -669,7 +669,7 @@ public class UI implements UInterface {
      */
     public void timetableRoomChoice(String timeStart, String timeEnd, String day, String timetableName, String moduleID) {
         Room room = timetableRoomChoiceText(timeStart, timeEnd, day);
-        Time time = t.allowCreateTimetable(day, timetableName, moduleID, timeStart, timeEnd);
+        Time time = t.createTimetable(day, timetableName, moduleID, timeStart, timeEnd);
 
         r.bookRooms(room.getRoomNumber(), time);
         List<Time> temp = new ArrayList<>();

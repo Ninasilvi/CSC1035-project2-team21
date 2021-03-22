@@ -2,18 +2,16 @@ package csc1035.project2;
 
 import csc1035.project2.interfaces.TimetableInterface;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.util.*;
 
 public class Timetable implements TimetableInterface {
 
     static UI UI = new UI();
-    static RoomBooking r = new RoomBooking();
 
     /***
-     * Creates a List of Students that take a specific Module (determined by moduleID)
-     * @param moduleID Which Module Students should be printed
+     * Creates a list of students that take a specific module.
+     * @param moduleID The moduleID of the module the students are taking
      * @param se Session created in UI.listOfStudentsChoice
      */
     public void listOfStudents(String moduleID, Session se) {
@@ -40,13 +38,15 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Gets listOfStaff from Database (with specific moduleID) and sends it forward to print it out
-     * @param moduleID User chosen
-     * @param se Session passed from method to avoid unnecessary sessions
+     * Creates a list of staff members that teach a specific module.
+     * @param moduleID The moduleID of the module the staff members are teaching
+     * @param se Session created in UI.listOfStaffChoice
      */
     public void listOfStaff(String moduleID, Session se) {
         se.beginTransaction();
+
         List<Staff> result = new ArrayList<>();
+
         String hql = "SELECT moduleName FROM Module WHERE moduleID = '" + moduleID + "'";
         List<Module> ModuleName = se.createQuery(hql).list();
         List<Staff> staff = se.createQuery("FROM Staff").list();
@@ -67,8 +67,7 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Gets all ModuleRequirements from database,
-     * sends it to print function (listOfModuleReqResult)
+     * Creates a list of all module requirements.
      */
     public void listOfModuleReq() {
         Session se = HibernateUtil.getSessionFactory().openSession();
@@ -80,14 +79,15 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Allows Admin to create a Timetable (and book relevant rooms) for the Module
-     * @param day Day that User wants to book a room
-     * @param timetableName Class name that User wants to book a room
-     * @param moduleID Module ID that User wants to book a room
-     * @param timeStart Class Starting time that User wants to book a room
-     * @param timeEnd Class Ending time that User wants to book a room
+     * Creates a timetable entry and saves it to the database.
+     * @param day Day for the timetable entry
+     * @param timetableName Class name for the timetable entry
+     * @param moduleID Module ID for the timetable entry
+     * @param timeStart Class starting time for the timetable entry
+     * @param timeEnd Class ending time for the timetable entry
+     * @return The timetable entry
      */
-    public Time allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd) {
+    public Time createTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd) {
         Time time = new Time();
         Session se = HibernateUtil.getSessionFactory().openSession();
 
@@ -111,9 +111,9 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Getting Timetable of Students for a Module and sending Timetable to print out in "timetableStudentsResult"
+     * Creates a timetable for a student.
      * @param student The student
-     * @param se Session passed from calling method
+     * @param se Session passed from the calling method
      */
     public void producingStudentTimetable(Student student, Session se) {
         List<Module> modules = new ArrayList<>(student.getModules());
@@ -126,9 +126,9 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Getting Timetable of Staff members for a Module and sending Timetable to print out in "timetableStaffResult"
+     * Creates a timetable for a staff member.
      * @param staff The staff member
-     * @param se Session passed from calling method
+     * @param se Session passed from the calling method
      */
     public void producingStaffTimetable(Staff staff, Session se) {
         List<Module> modules = new ArrayList<>(staff.getModules());
@@ -141,7 +141,7 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Produces a timetable for a specific module and sorts it by day and time
+     * Produces a timetable for a specific module and sorts it by day and time.
      * @param modules A list of modules to get ModuleID for all classes
      * @param se Session passed from the calling method
      * @return Timetable with sorted time
@@ -160,9 +160,9 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Sorts Timetable by Day of the Week and Time
-     * @param time Time (Timetable) list that needs to get printed out
-     * @return Sorted Time (Timetable) list
+     * Sorts a timetable by day of the week and time.
+     * @param time Timetable that needs to be printed out
+     * @return Sorted timetable
      */
     public List<Time> sortByDateTime(List<Time> time){
         List<Time> sortedTime = new ArrayList<>();
@@ -178,22 +178,20 @@ public class Timetable implements TimetableInterface {
             }
             temp.sort(Comparator.comparing(Time::getTimeStart));
 
-            for (Time t: temp) {
-                sortedTime.add(t);
-            }
+            sortedTime.addAll(temp);
         }
         return sortedTime;
     }
 
     /**
-     * Checks if 2 given time periods are overlapping each other
-     * @param startTime1 Start Time of User input
-     * @param endTime1 End Time of User input
-     * @param startTime2 Start Time from Database
-     * @param endTime2 End Time from Database
-     * @param day1 Day of User input
-     * @param day2 Day from Database
-     * @return Boolean if overlapping
+     * Checks if 2 given time periods are overlapping with each other.
+     * @param startTime1 Start time of 1st time period
+     * @param endTime1 End time of 1st time period
+     * @param startTime2 Start time of 2nd time period
+     * @param endTime2 End time of 2nd time period
+     * @param day1 Day of 1st time period
+     * @param day2 Day of 2nd time period
+     * @return Boolean indicating whether the time periods overlap
      */
     public boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2, String day1, String day2) {
         boolean overlap = false;
@@ -227,8 +225,8 @@ public class Timetable implements TimetableInterface {
     }
 
     /**
-     * Determines timetables with null rooms
-     * @return List with timetables that don't have booked Rooms
+     * Determines timetable entries with null rooms.
+     * @return List of timetables that don't have booked rooms
      */
     public List<Time> timetableNoRoom() {
         Session se = HibernateUtil.getSessionFactory().openSession();

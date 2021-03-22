@@ -14,7 +14,7 @@ public interface TimetableInterface {
 
     void listOfModuleReq();
 
-    Time allowCreateTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd);
+    Time createTimetable(String day, String timetableName, String moduleID, String timeStart, String timeEnd);
 
     void producingStudentTimetable(Student student, Session se);
 
@@ -25,4 +25,6 @@ public interface TimetableInterface {
     List<Time> sortByDateTime(List<Time> time);
 
     boolean timeOverlap(String startTime1, String endTime1, String startTime2, String endTime2, String day1, String day2);
+
+    List<Time> timetableNoRoom();
 }
